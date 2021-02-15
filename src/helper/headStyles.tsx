@@ -19,18 +19,17 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
-	media: {
-		height: 140,
-	},
-	cards: {
-		display: 'flex',
-		height: 400,
+	
+	cardBody: {
+		height: 100,
 	},
 	paper: {
 		padding: theme.spacing(2),
 		textAlign: 'center',
-		color: theme.palette.text.secondary,
-		maxHeight: '500px',
+		// color: theme.palette.text.secondary,
+		// maxHeight: '500px',
+		background: 'linear-gradient(45deg, #19857b 10%, #9adcfb 30%)',
+		boxShadow: '0 3px 5px 2px rgba(33, 203, 243, .3)',
 	},
 	footer: {
 		top: 'auto',

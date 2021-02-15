@@ -2,6 +2,7 @@ import Layout from '../src/components/layout';
 import Link from 'next/link';
 import useStyles from '../src/helper/headStyles';
 import Pagination from '@material-ui/lab/Pagination';
+import { usePagination, Skeleton } from '@material-ui/lab';
 import {
 	Card,
 	CardActionArea,
@@ -12,9 +13,52 @@ import {
 	Grid,
 	Toolbar,
 } from '@material-ui/core';
+import { WebClient } from '../src/api/webclient';
+import { useState, useEffect } from 'react';
+import { TablePagination } from '@material-ui/core';
+
+function paginator(array, page_size, page_number) {
+	return array.slice((page_number - 1) * page_size, page_number * page_size);
+}
 
 export default function Home() {
+	const [pageItems, setPageitems] = useState([]);
+	const [page, setPage] = useState(1);
+	const [items, setItems] = useState([]);
+	const [limit, setLimit] = useState(3);
+	const [loader, setLoader] = useState(false);
+
 	const classes = useStyles();
+
+	useEffect(() => {
+		setLoader(true);
+		WebClient.get('/posts').then((res) => {
+			setItems(res.data);
+			setPageitems(paginator(res.data, limit, page));
+			setLoader(false);
+		});
+	}, []);
+
+	const handleChangePage = (
+		event: React.MouseEvent<HTMLButtonElement> | null,
+		newPage: number
+	) => {
+		setLoader(true);
+		setPage(newPage);
+		setPageitems(paginator(items, limit, page));
+		setLoader(false);
+	};
+
+	const handleChangeRowsPerPage = (
+		event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+	) => {
+		setLoader(true);
+		setLimit(parseInt(event.target.value, limit));
+
+		setPageitems(paginator(items, limit, page));
+		setLoader(false);
+	};
+
 	return (
 		<div>
 			<Layout title='Tsx NEXT blog'>
@@ -28,80 +72,56 @@ export default function Home() {
 				</Typography>
 				<hr />
 				<Grid container spacing={3}>
-					<Grid item xs>
-						<Paper className={classes.paper}>
-							<Card className={classes.cards}>
-								<Link href='/blogpage' passHref>
-									<CardActionArea>
-										<CardMedia
-											className={classes.media}
-											image='/static/images/cards/contemplative-reptile.jpg'
-											title='Contemplative Reptile'
-										/>
-										<CardContent>
-											<Typography gutterBottom variant='h5' component='h2'>
-												Lizard
-											</Typography>
-											<Typography
-												variant='body2'
-												color='textSecondary'
-												component='p'>
-												Lizards are a widespread group of squamate reptiles,
-												with over 6,000 species, ranging across all continents
-												except Antarctica
-											</Typography>
-										</CardContent>
-									</CardActionArea>
-								</Link>
-							</Card>
-						</Paper>
-					</Grid>
-					<Grid item xs>
-						<Paper className={classes.paper}>
-							<Card>
-								<CardContent>
-									<Typography gutterBottom variant='h5' component='h2'>
-										Kung Hei Fat Choy!!!
-									</Typography>
-									<Typography
-										variant='body2'
-										color='textSecondary'
-										component='p'>
-										Lorem ipsum dolor sit amet consectetur adipisicing elit.
-										Repellat, consequuntur optio molestias nihil voluptatem aut?
-										Nisi ducimus nam ipsa perspiciatis, officiis quia veritatis
-										iste dolore doloremque, esse deserunt quos itaque.
-									</Typography>
-								</CardContent>
-							</Card>
-						</Paper>
-					</Grid>
-					<Grid item xs>
-						<Paper className={classes.paper}>
-							<Card className={classes.cards}>
-								<CardContent>
-									<Typography component='h5' variant='h5'>
-										Live From Space
-									</Typography>
-									<Typography variant='body2' color='textSecondary'>
-										Mac Miller Lorem ipsum dolor, sit amet consectetur
-										adipisicing elit. Repudiandae velit fugit exercitationem
-										illum.
-									</Typography>
-								</CardContent>
-
-								<CardMedia
-									className={classes.media}
-									image='/static/images/cards/live-from-space.jpg'
-									title='Live from space album cover'
-								/>
-							</Card>
-						</Paper>
-					</Grid>
+					{loader === true ? (
+						<Skeleton variant='rect' height={400} />
+					) : (
+						pageItems.map((item) => {
+							return (
+								<Grid item lg={4} md={6} sm={12}>
+									<Paper className={classes.paper}>
+										<Card className={classes.cards}>
+											<Link href='/blogpage' passHref>
+												<CardActionArea>
+													<CardMedia
+														className={classes.media}
+														image='/static/images/cards/contemplative-reptile.jpg'
+														title='Contemplative Reptile'
+													/>
+													<CardContent>
+														<Typography
+															gutterBottom
+															variant='h5'
+															component='h2'>
+															{item.title}
+														</Typography>
+														<Typography
+															variant='body2'
+															color='textSecondary'
+															component='p'>
+															{item.body}
+														</Typography>
+													</CardContent>
+												</CardActionArea>
+											</Link>
+										</Card>
+									</Paper>
+								</Grid>
+							);
+						})
+					)}
 				</Grid>
 				<Toolbar />
 				<div className={classes.pagenator}>
-					<Pagination count={5} />
+					<TablePagination
+						defaultValue={3}
+						rowsPerPageOptions={[3, 5, 10, 25, 50, 75, 100]}
+						component='div'
+						count={items.length}
+						page={page}
+						onChangePage={handleChangePage}
+						rowsPerPage={limit}
+						onChangeRowsPerPage={handleChangeRowsPerPage}
+					/>
 				</div>
 			</Layout>
 		</div>

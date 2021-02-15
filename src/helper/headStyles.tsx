@@ -23,17 +23,18 @@ const useStyles = makeStyles((theme) => ({
 		height: 140,
 	},
 	cards: {
-		maxWidth: 345,
 		display: 'flex',
+		height: 400,
 	},
 	paper: {
 		padding: theme.spacing(2),
 		textAlign: 'center',
 		color: theme.palette.text.secondary,
+		maxHeight: '500px',
 	},
 	footer: {
 		top: 'auto',
-      	bottom: 0,
+		bottom: 0,
 	},
 }));
 

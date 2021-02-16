@@ -1,49 +1,27 @@
-import React from 'react';
-import Head from 'next/head';
-import 'fontsource-roboto';
-import {
-	AppBar,
-	Toolbar,
-	Typography,
-	Button,
-	Container,
-} from '@material-ui/core';
-import useStyles from '../helper/headStyles';
-import Link from 'next/link';
-import Footer from '../components/footer';
+import React from "react";
+import Head from "next/head";
+import "fontsource-roboto";
+import { Toolbar, Container } from "@material-ui/core";
+import useStyles from "../helper/headStyles";
 
-const defaultTitle = 'Next Blog';
+import Footer from "../components/footer";
+import Appbar from "../components/appbar";
+
+const defaultTitle = "Next Blog";
 
 export default function Layout(props) {
-	const classes = useStyles();
-	return (
-		<div>
-			<Head>
-				<title>{props.title === undefined ? defaultTitle : props.title}</title>
-				<link rel='icon' href='/favicon.ico' />
-			</Head>
-
-			<AppBar>
-				<Container maxWidth='md'>
-					<Toolbar>
-						<Typography variant='h6' className={classes.title}>
-							REYOMI
-						</Typography>
-						<Link href='/' passHref>
-							<Button color='inherit'>Home</Button>
-						</Link>
-
-						<Link href='/add' passHref>
-							<Button color='inherit'>+ADD</Button>
-						</Link>
-					</Toolbar>
-				</Container>
-			</AppBar>
-
-			<Toolbar />
-			<Container maxWidth='md'>{props.children}</Container>
-			<Toolbar />
-			<Footer />
-		</div>
-	);
+  const classes = useStyles();
+  return (
+    <div>
+      <Head>
+        <title>{props.title === undefined ? defaultTitle : props.title}</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <Appbar {...props}/>
+      <Toolbar />
+      <Container maxWidth="md">{props.children}</Container>
+      <Toolbar />
+      <Footer  fixed={props.fixed}/>
+    </div>
+  );
 }

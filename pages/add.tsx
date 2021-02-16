@@ -41,7 +41,7 @@ export default function Add() {
 
 	return (
 		<div>
-			<Layout title='Add BLOG'>
+			<Layout title='Add BLOG' fixed={true}>
 				<Typography variant='h3'>This is ADD page</Typography>
 				<Typography variant='body1'>
 					Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corrupti,

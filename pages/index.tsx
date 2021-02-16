@@ -38,7 +38,7 @@ export default function Home() {
     setTimeout(() => {
       WebClient.get("/posts").then((res) => {
         setItems(res.data);
-        setPageitems(paginator(items, limit, page));
+        setPageitems(paginator(res.data, limit, page));
         setLoader(false);
       });
     }, 1000);
@@ -74,7 +74,7 @@ export default function Home() {
         <Grid container spacing={3}>
           {loader === true ? (
             <Skeleton variant="rect" width="100%">
-              <div style={{ paddingTop: "57%" }} />
+              <div style={{ paddingTop: "57%", marginTop: '20px' }} />
             </Skeleton>
           ) : (
             pageItems.map((item, idx) => {
@@ -105,7 +105,7 @@ export default function Home() {
                           href={{ pathname: "/blogpage", query: item }}
                           passHref
                         >
-                          <Button target="_blank" component="a" size="small" color="primary">
+                          <Button target="_blank" component="a" size="small" color="primary" variant="contained">
                             Learn More
                           </Button>
                         </Link>
@@ -130,6 +130,7 @@ export default function Home() {
             showLastButton
           />
         </div>
+        <Toolbar />
       </Layout>
     </div>
   );

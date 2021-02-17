@@ -1,10 +1,12 @@
 import useStyles from "../src/helper/headStyles";
 import Layout from "../src/components/layout";
+import Link from "next/link";
 import {
   Typography,
   Avatar,
   Grid,
   TextField,
+  Toolbar,
   Button,
   Divider,
   List,
@@ -16,15 +18,21 @@ import {
 } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import SendIcon from "@material-ui/icons/Send";
+import IconButton from "@material-ui/core/IconButton";
 
 import { useRouter } from "next/router";
 
-import Link from "next/link";
 import { useEffect } from "react";
 const BlogPage = (props) => {
   const classes = useStyles();
   const router = useRouter();
   const { title, body, userId, id } = router.query;
+
+  const SearchButton = () => (
+    <IconButton type="submit" color="primary">
+      <SendIcon fontSize="large" />
+    </IconButton>
+  );
 
   return (
     <>
@@ -32,7 +40,7 @@ const BlogPage = (props) => {
         <Typography variant="h3">Blog PAGE</Typography>
         <hr />
         <Grid container spacing={2}>
-          <Grid item lg={4} md={6} sm={12}>
+          <Grid item lg={4} sm={6} xs={12}>
             <div className={classes.avatars}>
               <Avatar
                 alt="Reyomi"
@@ -44,14 +52,14 @@ const BlogPage = (props) => {
                 }}
               />
             </div>
-            {/* <Avatar alt="Reyomi" className={classes.square}/>
-            </div> */}
+
             <Typography variant="h4" className={classes.avatars}>
               User Id: {userId}
             </Typography>
           </Grid>
-          <Grid item lg={8} md={6} sm={6}>
-            <div className={classes.avatars}>
+        
+          <Grid item md={8} sm={6} xs={12}>
+          <div className={classes.editButton}>
               <Avatar
                 variant="rounded"
                 style={{
@@ -66,36 +74,51 @@ const BlogPage = (props) => {
             </div>
           </Grid>
         </Grid>
-
-        <Typography variant="h5" className={classes.blgtitle}>
-          {title}
-        </Typography>
-
-        <Typography variant="subtitle1">{body}</Typography>
-        <form noValidate autoComplete="on">
-          <Grid container spacing={2}>
-            <Grid item lg={10} sm={6}>
-              <TextField
-                id="outlined-full-width"
-                label="Comment"
-                fullWidth
-                margin="normal"
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item lg={2} sm={6}>
-              <div className={classes.buttonIcon}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className={classes.button}
-                  endIcon={<SendIcon />}
-                >
-                  Submit
-                </Button>
-              </div>
-            </Grid>
+        
+        <Grid container spacing={2}>
+          <Grid item md={6}>
+            <Typography variant="h5">{title}</Typography>
           </Grid>
+          <Grid item md={6}>
+            <div className={classes.editButton}>
+              <Link
+                href={{
+                  pathname: "/editblog",
+                  query: { userId, id, title, body },
+                }}
+                passHref
+              >
+                <Button
+                  // target="_blank"
+                  component="a"
+                  size="small"
+                  color="primary"
+                  variant="contained"
+                >
+                  Edit Post
+                </Button>
+              </Link>
+            </div>
+          </Grid>
+        </Grid>
+
+        <Divider />
+        <Typography variant="subtitle1">{body}</Typography>
+
+        <Toolbar />
+        <form>
+          {/* <Grid container>
+            <Grid item lg={12}> */}
+              <TextField
+                id="commentfield"
+                label="Comment:"
+                variant="outlined"
+                fullWidth
+                multiline
+                InputProps={{ endAdornment: <SearchButton /> }}
+              />
+            {/* </Grid>
+          </Grid> */}
         </form>
         <Paper>
           <List
@@ -110,7 +133,7 @@ const BlogPage = (props) => {
           >
             <ListItem button>
               <ListItemIcon>
-                <AccountCircleIcon />
+                <AccountCircleIcon fontSize="large" />
               </ListItemIcon>
               <ListItemText>
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit. Itaque
@@ -122,9 +145,21 @@ const BlogPage = (props) => {
             <Divider />
             <ListItem button>
               <ListItemIcon>
-                <AccountCircleIcon />
+                <AccountCircleIcon fontSize="large" />
               </ListItemIcon>
               <ListItemText>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Commodi, animi quos possimus distinctio officia facilis!
+                Expedita, non deserunt quasi asperiores est suscipit possimus
+                rem? Soluta quas doloremque praesentium iste ad. us distinctio
+                officia facilis! Expedita, non deserunt quasi asperiores est
+                suscipit possimus rem? Soluta quas doloremque praesentium iste
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Commodi, animi quos possimus distinctio officia facilis!
+                Expedita, non deserunt quasi asperiores est suscipit possimus
+                rem? Soluta quas doloremque praesentium iste ad. us distinctio
+                officia facilis! Expedita, non deserunt quasi asperiores est
+                suscipit possimus rem? Soluta quas doloremque praesentium iste
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Commodi, animi quos possimus distinctio officia facilis!
                 Expedita, non deserunt quasi asperiores est suscipit possimus
@@ -134,6 +169,7 @@ const BlogPage = (props) => {
                 ad.
               </ListItemText>
             </ListItem>
+            <Divider />
           </List>
         </Paper>
       </Layout>

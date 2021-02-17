@@ -14,6 +14,8 @@ import {
   Button,
   Grid,
   Toolbar,
+  Container,
+  Avatar,
 } from "@material-ui/core";
 import { WebClient } from "../src/api/webclient";
 import { useState, useEffect } from "react";
@@ -44,9 +46,6 @@ export default function Home() {
     }, 1000);
   }, []);
 
-  //   const [noOfPages] = useState(Math.ceil(items.length / limit));
-  // console.log(pageItems);
-
   const handleChange = (
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
@@ -61,6 +60,22 @@ export default function Home() {
 
   return (
     <div>
+      <Toolbar />
+      <Container maxWidth="lg">
+        <div className={classes.imagedex}>
+          <Avatar
+            variant="square"
+            style={{
+              width: "100%",
+              height: "25rem",
+              color: "#fff",
+              backgroundColor: "#eee",
+            }}
+          >
+            Sample IMAGE
+          </Avatar>
+        </div>
+      </Container>
       <Layout title="Tsx NEXT blog">
         <Typography variant="h3">Articles</Typography>
 
@@ -74,43 +89,52 @@ export default function Home() {
         <Grid container spacing={3}>
           {loader === true ? (
             <Skeleton variant="rect" width="100%">
-              <div style={{ paddingTop: "57%", marginTop: '20px' }} />
+              <div style={{ paddingTop: "57%", marginTop: "20px" }} />
             </Skeleton>
           ) : (
             pageItems.map((item, idx) => {
               return (
-                //  <Button target="_blank" component="a">{JSON.stringify(item)}</Button>
-
                 <Grid item lg={4} md={6} sm={12}>
                   <Paper className={classes.paper}>
                     <Card>
-                      <CardActionArea >
+                      <CardActionArea>
                         <CardContent>
-                          <Typography gutterBottom variant="button" component="h2">
+                          <Typography
+                            gutterBottom
+                            variant="button"
+                            component="h2"
+                          >
                             {item.title}
                           </Typography>
                           <Typography
                             variant="caption"
                             color="textSecondary"
                             component="p"
-							className={classes.cardBody}
+                            className={classes.cardBody}
                           >
                             {item.body}
                           </Typography>
                         </CardContent>
                       </CardActionArea>
-                      <CardActions>
-                        <Link
-                          key={idx}
-                          href={{ pathname: "/blogpage", query: item }}
-                          passHref
-                        >
-                          <Button target="_blank" component="a" size="small" color="primary" variant="contained">
-                            Learn More
-                          </Button>
-                        </Link>
-                      </CardActions>
+                      <CardActions></CardActions>
                     </Card>
+                    <div className={classes.linkButton}>
+                      <Link
+                        key={idx}
+                        href={{ pathname: "/blogpage", query: item }}
+                        passHref
+                      >
+                        <Button
+                          target="_blank"
+                          component="a"
+                          size="small"
+                          color="primary"
+                          variant="contained"
+                        >
+                          Learn More
+                        </Button>
+                      </Link>
+                    </div>
                   </Paper>
                 </Grid>
               );
@@ -126,8 +150,7 @@ export default function Home() {
             defaultPage={2}
             color="primary"
             size="large"
-            showFirstButton
-            showLastButton
+            
           />
         </div>
         <Toolbar />

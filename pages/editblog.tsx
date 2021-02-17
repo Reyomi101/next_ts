@@ -1,6 +1,7 @@
 import React from 'react';
 import Layout from '../src/components/layout';
 import useStyles from '../src/helper/headStyles';
+import { useState, useEffect } from "react";
 import {
 	TextField,
 	Button,
@@ -10,10 +11,30 @@ import {
 	Toolbar
 } from '@material-ui/core';
 
-export default function Add() {
+import { useRouter } from "next/router";
+
+export default function EditBlog() {
 	const classes = useStyles();
-	const [progress, setProgress] = React.useState(0);
-	const [buffer, setBuffer] = React.useState(10);
+	const [progress, setProgress] = useState(0);
+	const [buffer, setBuffer] = useState(10);
+
+    const router = useRouter();
+    const { title, body, userId, id } = router.query;
+
+    const [titles, setTitle] = useState(title);
+    const [bodys, setBody] = useState(body);
+
+    const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setTitle(event.target.value);
+     
+      };
+
+
+      const handleChangeBody = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setBody(event.target.value);
+     
+      };
+     
 
 	const progressRef = React.useRef(() => {});
 	React.useEffect(() => {
@@ -43,7 +64,7 @@ export default function Add() {
 	return (
 		<div>
 			<Layout title='Add BLOG' fixed={false}>
-				<Typography variant='h3'>This is ADD page</Typography>
+				<Typography variant='h3'>This is EDIT Blog</Typography>
 				<Typography variant='body1'>
 					Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corrupti,
 					culpa? A odit dolorem illo delectus fuga labore fugiat culpa libero et
@@ -63,8 +84,9 @@ export default function Add() {
 									style={{ margin: 8 }}
 									fullWidth
 									margin='normal'
-									error 
-									variant='filled'
+									value={titles}
+                                    onChange={handleChangeTitle}
+									variant='outlined'
 								/>
 							</Grid>
 							<Grid item xs={12}>
@@ -74,7 +96,9 @@ export default function Add() {
 									style={{ margin: 8 }}
 									fullWidth
 									multiline
-									variant='filled'
+                                    value={bodys}
+                                    onChange={handleChangeBody}
+									variant='outlined'
 								/>
 							</Grid>
 							<Grid item xs={3}>

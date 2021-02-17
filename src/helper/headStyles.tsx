@@ -26,10 +26,10 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(2),
     textAlign: "center",
-    // color: theme.palette.text.secondary,
+    color: theme.palette.text.secondary,
     // maxHeight: '500px',
-    background: "linear-gradient(45deg, #19857b 10%, #9adcfb 30%)",
-    boxShadow: "0 3px 5px 2px rgba(33, 203, 243, .3)",
+    // background: "linear-gradient(45deg, #19857b 10%, #9adcfb 30%)",
+    // boxShadow: "0 3px 5px 2px rgba(33, 203, 243, .3)",
   },
   footer: {
     top: "auto",
@@ -72,6 +72,19 @@ const useStyles = makeStyles((theme) => ({
 	display: "flex",
     justifyContent: "center",
 	margin: "1rem",
+  },
+  imagedex: {
+    display: "flex",
+    justifyContent: "center",
+  },
+  editButton: {
+    display: "flex",
+    justifyContent: "flex-end",
+  },
+  linkButton: {
+    display: "flex",
+    justifyContent: "flex-end",
+    marginTop: '15px',
   }
 }));
 

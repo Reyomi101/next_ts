@@ -9,6 +9,11 @@ const useStyles = makeStyles((theme) => ({
     },
     flexGrow: 1,
   },
+  indexItems: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   loader: {
     width: "90%",
     paddingTop: "1rem",
@@ -85,6 +90,14 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "flex-end",
     marginTop: '15px',
+  },
+  pageno: {
+    display: "flex",
+    justifyContent: "flex-start",
+    marginTop: '20px',
+  },
+  bottomcard: {
+    display: 'flex', justifyContent: 'space-between'
   }
 }));
 

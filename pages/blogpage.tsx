@@ -15,15 +15,18 @@ import {
   ListItemText,
   ListSubheader,
   Paper,
+  
 } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import SendIcon from "@material-ui/icons/Send";
 import IconButton from "@material-ui/core/IconButton";
-
+import { Formik } from "formik";
+import { BlogComment } from "../src/helper/validation/yup";
 import { useRouter } from "next/router";
-
+import CircularProgress from "@material-ui/core/CircularProgress";
 import { useEffect } from "react";
-const BlogPage = (props) => {
+
+function BlogPage(props) {
   const classes = useStyles();
   const router = useRouter();
   const { title, body, userId, id } = router.query;
@@ -53,13 +56,16 @@ const BlogPage = (props) => {
               />
             </div>
 
-            <Typography variant="h4" className={classes.avatars}>
-              User Id: {userId}
+            <Typography variant="h5" className={classes.avatars}>
+              User ID: {userId}
+            </Typography>
+            <Typography variant="h5" className={classes.avatars}>
+              Blog ID: {id}
             </Typography>
           </Grid>
-        
+
           <Grid item md={8} sm={6} xs={12}>
-          <div className={classes.editButton}>
+            <div className={classes.editButton}>
               <Avatar
                 variant="rounded"
                 style={{
@@ -74,7 +80,7 @@ const BlogPage = (props) => {
             </div>
           </Grid>
         </Grid>
-        
+
         <Grid container spacing={2}>
           <Grid item md={6}>
             <Typography variant="h5">{title}</Typography>
@@ -106,20 +112,52 @@ const BlogPage = (props) => {
         <Typography variant="subtitle1">{body}</Typography>
 
         <Toolbar />
-        <form>
-          {/* <Grid container>
-            <Grid item lg={12}> */}
+        <Formik
+          initialValues={{ comment: "" }}
+          validationSchema={BlogComment}
+          onSubmit={(values, { setSubmitting }) => {
+            setTimeout(() => {
+              alert(JSON.stringify(values, null, 2));
+              setSubmitting(false);
+            }, 400);
+          }}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            isSubmitting,
+          }) => (
+            <form onSubmit={handleSubmit}>
               <TextField
-                id="commentfield"
+                id="comment"
+                name="comment"
                 label="Comment:"
                 variant="outlined"
                 fullWidth
                 multiline
                 InputProps={{ endAdornment: <SearchButton /> }}
+                value={values.comment}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.comment && Boolean(errors.comment)}
+                helperText={Boolean(errors.comment) && touched.comment}
               />
-            {/* </Grid>
-          </Grid> */}
-        </form>
+              <Typography color="error">
+                {errors.comment && touched.comment && errors.comment}
+              </Typography>
+              <div className={classes.buttonIcon}>
+                {isSubmitting === false ? null : (
+                  <CircularProgress disableShrink />
+                )}
+              </div>
+            </form>
+          )}
+        </Formik>
+
         <Paper>
           <List
             component="nav"
@@ -175,6 +213,6 @@ const BlogPage = (props) => {
       </Layout>
     </>
   );
-};
+}
 
 export default BlogPage;

@@ -9,36 +9,13 @@ import {
 	Typography,
 	Toolbar
 } from '@material-ui/core';
+import AddBlogForm from '../src/forms/addblog/addblogform'
+
+
 
 export default function Add() {
 	const classes = useStyles();
-	const [progress, setProgress] = React.useState(0);
-	const [buffer, setBuffer] = React.useState(10);
-
-	const progressRef = React.useRef(() => {});
-	React.useEffect(() => {
-		progressRef.current = () => {
-			if (progress > 100) {
-				setProgress(0);
-				setBuffer(10);
-			} else {
-				const diff = Math.random() * 10;
-				const diff2 = Math.random() * 10;
-				setProgress(progress + diff);
-				setBuffer(progress + diff + diff2);
-			}
-		};
-	});
-
-	React.useEffect(() => {
-		const timer = setInterval(() => {
-			progressRef.current();
-		}, 500);
-
-		return () => {
-			clearInterval(timer);
-		};
-	}, []);
+	
 
 	return (
 		<div>
@@ -54,44 +31,7 @@ export default function Add() {
 				</Typography>
 				<hr />
 				<div className={classes.addform}>
-					<form noValidate autoComplete='off'>
-						<Grid container spacing={3}>
-							<Grid item xs={12}>
-								<TextField
-									id='outlined-full-width'
-									label='Subject Tilte'
-									style={{ margin: 8 }}
-									fullWidth
-									margin='normal'
-									error 
-									variant='filled'
-								/>
-							</Grid>
-							<Grid item xs={12}>
-								<TextField
-									id='outlined-multiline-static'
-									label='Descriptions'
-									style={{ margin: 8 }}
-									fullWidth
-									multiline
-									variant='filled'
-								/>
-							</Grid>
-							<Grid item xs={3}>
-								<Button type='submit' color='primary' variant='contained'>
-									Submit
-								</Button>
-							</Grid>
-							<Grid item className={classes.loader} xs={9}>
-								<LinearProgress
-									variant='buffer'
-									style={{ marginTop: '1rem' }}
-									value={progress}
-									valueBuffer={buffer}
-								/>
-							</Grid>
-						</Grid>
-					</form>
+					<AddBlogForm />
 				</div>
 				<Toolbar />
 				<Toolbar />

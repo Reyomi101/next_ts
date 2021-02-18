@@ -16,13 +16,16 @@ import {
   Toolbar,
   Container,
   Avatar,
+  Divider,
 } from "@material-ui/core";
 import { WebClient } from "../src/api/webclient";
 import { useState, useEffect } from "react";
 import { TablePagination } from "@material-ui/core";
+import { number } from "yup";
 
 function paginator(array, limit, page) {
   return array.slice((page - 1) * limit, page * limit);
+  // return array.slice(page * limit, (page * limit) + limit);
 }
 
 export default function Home() {
@@ -32,8 +35,24 @@ export default function Home() {
   const [loader, setLoader] = useState(true);
 
   const classes = useStyles();
-  const [limit, setLimit] = useState(9);
+  const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(1);
+
+  const ratetotal = items.length / limit;
+
+
+
+  const handleChange = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    // setLoader(true);
+    setTimeout(() => {
+      setPageitems(paginator(items, limit, page));
+      setPage(newPage);
+      // setLoader(false);
+    }, 500);
+  };
 
   useEffect(() => {
     setLoader(true);
@@ -43,20 +62,8 @@ export default function Home() {
         setPageitems(paginator(res.data, limit, page));
         setLoader(false);
       });
-    }, 1000);
+    }, 500);
   }, []);
-
-  const handleChange = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number
-  ) => {
-    setLoader(true);
-    setTimeout(() => {
-      setPage(newPage);
-      setPageitems(paginator(items, limit, page));
-      setLoader(false);
-    }, 1000);
-  };
 
   return (
     <div>
@@ -85,8 +92,16 @@ export default function Home() {
           architecto vitae natus neque veniam voluptatem enim. Explicabo
           accusamus consequatur voluptatibus quisquam fugiat!
         </Typography>
-        <hr />
-        <Grid container spacing={3}>
+        <Divider />
+        {/* <div className={classes.indexItems}> */}
+        <Grid
+          container
+          spacing={3}
+          direction="row"
+          justify="space-around"
+          alignItems="center"
+          // style={{ marginTop: "5px" }}
+        >
           {loader === true ? (
             <Skeleton variant="rect" width="100%">
               <div style={{ paddingTop: "57%", marginTop: "20px" }} />
@@ -106,9 +121,10 @@ export default function Home() {
                           >
                             {item.title}
                           </Typography>
+
                           <Typography
                             variant="caption"
-                            color="textSecondary"
+                            color="secondary"
                             component="p"
                             className={classes.cardBody}
                           >
@@ -118,22 +134,31 @@ export default function Home() {
                       </CardActionArea>
                       <CardActions></CardActions>
                     </Card>
-                    <div className={classes.linkButton}>
-                      <Link
-                        key={idx}
-                        href={{ pathname: "/blogpage", query: item }}
-                        passHref
+                    <div className={classes.bottomcard}>
+                      <Typography
+                        variant="caption"
+                        component="p"
+                        className={classes.pageno}
                       >
-                        <Button
-                          target="_blank"
-                          component="a"
-                          size="small"
-                          color="primary"
-                          variant="contained"
+                        {item.userId}, {item.id}
+                      </Typography>
+                      <div className={classes.linkButton}>
+                        <Link
+                          key={idx}
+                          href={{ pathname: "/blogpage", query: item }}
+                          passHref
                         >
-                          Learn More
-                        </Button>
-                      </Link>
+                          <Button
+                            target="_blank"
+                            component="a"
+                            size="small"
+                            color="primary"
+                            variant="contained"
+                          >
+                            Learn More
+                          </Button>
+                        </Link>
+                      </div>
                     </div>
                   </Paper>
                 </Grid>
@@ -141,16 +166,20 @@ export default function Home() {
             })
           )}
         </Grid>
+        {/* </div> */}
+
         <Toolbar />
         <div className={classes.pagenator}>
           <Pagination
-            count={items.length}
+            count={ratetotal}
             page={page}
             onChange={handleChange}
             defaultPage={2}
             color="primary"
             size="large"
-            
+            shape="rounded"
+            showFirstButton
+            showLastButton
           />
         </div>
         <Toolbar />

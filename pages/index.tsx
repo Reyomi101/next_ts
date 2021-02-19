@@ -35,12 +35,12 @@ export default function Home() {
   const [loader, setLoader] = useState(true);
 
   const classes = useStyles();
-  const [limit, setLimit] = useState(5);
+  const [limit, setLimit] = useState(6);
   const [page, setPage] = useState(1);
 
   const ratetotal = items.length / limit;
 
-
+  const total = Math.round(ratetotal);
 
   const handleChange = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -109,7 +109,7 @@ export default function Home() {
           ) : (
             pageItems.map((item, idx) => {
               return (
-                <Grid item lg={4} md={6} sm={12}>
+                <Grid item lg={4} md={6} sm={6}>
                   <Paper className={classes.paper}>
                     <Card>
                       <CardActionArea>
@@ -171,7 +171,7 @@ export default function Home() {
         <Toolbar />
         <div className={classes.pagenator}>
           <Pagination
-            count={ratetotal}
+            count={total}
             page={page}
             onChange={handleChange}
             defaultPage={2}

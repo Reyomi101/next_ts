@@ -9,9 +9,8 @@ import {
 import useStyles from "../../helper/headStyles";
 import { useState, useEffect, useRef } from "react";
 import { Formik } from "formik";
-import {BlogAdd} from '../../helper/validation/yup'
-
-
+import { BlogAdd } from "../../helper/validation/yup";
+import {Create_post} from "../../redux/actions/ActionRun";
 
 export default function AddBlogForm() {
   const classes = useStyles();
@@ -48,10 +47,11 @@ export default function AddBlogForm() {
         initialValues={{ subject: "", content: "" }}
         validationSchema={BlogAdd}
         onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-          }, 400);
+          Create_post(values)
+          // .then(res => {
+          //   setSubmitting(false);
+          // });
+ 
         }}
       >
         {({
@@ -62,14 +62,13 @@ export default function AddBlogForm() {
           handleBlur,
           handleSubmit,
           isSubmitting,
-         
         }) => (
           <form onSubmit={handleSubmit}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <TextField
                   id="subject"
-                  name='subject'
+                  name="subject"
                   label="Subject Tilte"
                   style={{ margin: 8 }}
                   fullWidth
@@ -78,12 +77,11 @@ export default function AddBlogForm() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   variant="filled"
-                  error={ touched.subject && Boolean(errors.subject)}
-                  helperText={Boolean(errors.subject) && touched.subject }
-
+                  error={touched.subject && Boolean(errors.subject)}
+                  helperText={Boolean(errors.subject) && touched.subject}
                 />
                 <Typography color="error">
-                {errors.subject && touched.subject && errors.subject}
+                  {errors.subject && touched.subject && errors.subject}
                 </Typography>
               </Grid>
               <Grid item xs={12}>
@@ -98,12 +96,11 @@ export default function AddBlogForm() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   variant="filled"
-                  error={ touched.content && Boolean(errors.content)}
-                  helperText={Boolean(errors.content) && touched.content }
-
+                  error={touched.content && Boolean(errors.content)}
+                  helperText={Boolean(errors.content) && touched.content}
                 />
                 <Typography color="error">
-                {errors.content && touched.content && errors.content}
+                  {errors.content && touched.content && errors.content}
                 </Typography>
               </Grid>
               <Grid item xs={3}>
@@ -117,13 +114,14 @@ export default function AddBlogForm() {
                 </Button>
               </Grid>
               <Grid item className={classes.loader} xs={9}>
-                  {isSubmitting === false ? null : <LinearProgress
-                  variant="buffer"
-                  style={{ marginTop: "1rem" }}
-                  value={progress}
-                  valueBuffer={buffer}
-                />}
-                
+                {isSubmitting === false ? null : (
+                  <LinearProgress
+                    variant="buffer"
+                    style={{ marginTop: "1rem" }}
+                    value={progress}
+                    valueBuffer={buffer}
+                  />
+                )}
               </Grid>
             </Grid>
           </form>

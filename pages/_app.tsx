@@ -6,6 +6,8 @@ import { CacheProvider } from '@emotion/react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import createCache from '@emotion/cache';
 import theme from '../src/components/theme';
+import { Provider } from 'react-redux'
+import MyStore from '../src/redux'
 import '../src/helper/style.css'
 
 export const cache = createCache({ key: 'css', prepend: true });
@@ -30,7 +32,10 @@ export default function MyApp(props: AppProps) {
 			<ThemeProvider theme={theme}>
 				{/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
 				<CssBaseline />
+				<Provider store={MyStore} >
 				<Component {...pageProps} />
+				</Provider>
+				
 			</ThemeProvider>
 		</CacheProvider>
 	);

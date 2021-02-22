@@ -69,7 +69,7 @@ export default function EditBlog() {
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
                 alert(JSON.stringify(values, null, 2));
-				console.log(values);
+				// console.log(values);
                 setSubmitting(false);
               }, 400);
             }}

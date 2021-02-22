@@ -56,12 +56,12 @@ function BlogPage(props) {
               />
             </div>
 
-            <Typography variant="h5" className={classes.avatars}>
+            {/* <Typography variant="h5" className={classes.avatars}>
               User ID: {userId}
             </Typography>
             <Typography variant="h5" className={classes.avatars}>
               Blog ID: {id}
-            </Typography>
+            </Typography> */}
           </Grid>
 
           <Grid item md={8} sm={6} xs={12}>

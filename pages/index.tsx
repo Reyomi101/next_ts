@@ -112,7 +112,7 @@ export default function Home() {
                 <Grid item lg={4} md={6} sm={6}>
                   <Paper className={classes.paper}>
                     <Card>
-                      <CardActionArea>
+                     
                         <CardContent>
                           <Typography
                             gutterBottom
@@ -131,7 +131,7 @@ export default function Home() {
                             {item.body}
                           </Typography>
                         </CardContent>
-                      </CardActionArea>
+                      
                       <CardActions></CardActions>
                     </Card>
                     <div className={classes.bottomcard}>
@@ -149,7 +149,7 @@ export default function Home() {
                           passHref
                         >
                           <Button
-                            target="_blank"
+                            // target="_blank"
                             component="a"
                             size="small"
                             color="primary"

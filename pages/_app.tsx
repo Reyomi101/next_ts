@@ -6,13 +6,15 @@ import { CacheProvider } from '@emotion/react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import createCache from '@emotion/cache';
 import theme from '../src/components/theme';
-import { Provider } from 'react-redux'
-import MyStore from '../src/redux'
+import { Provider } from 'react-redux';
+import createWrapper from 'next-redux-wrapper'
+import store from '../src/redux/store'
 import '../src/helper/style.css'
+import { Store } from '@material-ui/icons';
 
 export const cache = createCache({ key: 'css', prepend: true });
 
-export default function MyApp(props: AppProps) {
+function MyApp(props: AppProps) {
 	const { Component, pageProps } = props;
 
 	React.useEffect(() => {
@@ -32,7 +34,7 @@ export default function MyApp(props: AppProps) {
 			<ThemeProvider theme={theme}>
 				{/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
 				<CssBaseline />
-				<Provider store={MyStore} >
+				<Provider store={store} >
 				<Component {...pageProps} />
 				</Provider>
 				
@@ -40,3 +42,7 @@ export default function MyApp(props: AppProps) {
 		</CacheProvider>
 	);
 }
+
+const makeStore = () => store;
+
+export default createWrapper(makeStore)(MyApp);

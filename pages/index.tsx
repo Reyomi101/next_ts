@@ -22,6 +22,16 @@ import { WebClient } from "../src/api/webclient";
 import { useState, useEffect } from "react";
 import { TablePagination } from "@material-ui/core";
 import { number } from "yup";
+import { useSelector } from "react-redux";
+import { createSelector } from "reselect";
+import { Show_posts } from "../src/redux/actions/mainAction";
+
+
+
+const blogPost = createSelector(
+  (state: any) => state.main,
+  (newposts) =>newposts
+)
 
 function paginator(array, limit, page) {
   return array.slice((page - 1) * limit, page * limit);
@@ -31,6 +41,8 @@ function paginator(array, limit, page) {
 export default function Home() {
   const [pageItems, setPageitems] = useState([]);
   const [items, setItems] = useState([]);
+  const mainReducer = useSelector(blogPost)
+  const [newPost, setNewPost] = useState([])
 
   const [loader, setLoader] = useState(true);
 
@@ -41,6 +53,9 @@ export default function Home() {
   const ratetotal = items.length / limit;
 
   const total = Math.round(ratetotal);
+
+
+
 
   const handleChange = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -57,13 +72,26 @@ export default function Home() {
   useEffect(() => {
     setLoader(true);
     setTimeout(() => {
-      WebClient.get("/posts").then((res) => {
-        setItems(res.data);
-        setPageitems(paginator(res.data, limit, page));
+        Show_posts()
+        setNewPost(mainReducer.newposts)
+        setItems(mainReducer.newposts);
+
+        setPageitems(paginator(mainReducer.newposts, limit, page));
         setLoader(false);
-      });
+
+        // alert(JSON.stringify(mainReducer.newposts));
+      // WebClient.get("/posts").then((res) => {
+      //   setItems(res.data);
+      //   setPageitems(paginator(res.data, limit, page));
+      //   setLoader(false);
+      // });
     }, 500);
   }, []);
+
+
+  useEffect(()=> {
+
+  })
 
   return (
     <div>

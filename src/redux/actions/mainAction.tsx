@@ -1,9 +1,28 @@
 import * as t from '../types';
 import { WebClient } from '../../api/webclient'
+import store from '../store'
 
+export const Create_comment = (params) => {
+    store.dispatch({
+        type: t._Make_Comment,
+        payload: params
+    })
+}
 
-export const Create_post = (params) => ({
-    // WebClient.post('/posts', params)
-    type: t._Make_Post,
-    payload: params
-})
+export const Create_post = (params) => {
+    store.dispatch({
+        type: t._Make_Post,
+        payload: params
+       })
+}
+
+export const Show_posts = () => {
+    WebClient.get('/posts').then(res => {
+        // alert('im here')
+        store.dispatch({
+            type: t._Show_Post,
+            payload: res.data
+        })
+    })
+
+}

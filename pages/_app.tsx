@@ -7,14 +7,14 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import createCache from '@emotion/cache';
 import theme from '../src/components/theme';
 import { Provider } from 'react-redux';
-import createWrapper from 'next-redux-wrapper'
+// import createWrapper from 'next-redux-wrapper'
 import store from '../src/redux/store'
 import '../src/helper/style.css'
 import { Store } from '@material-ui/icons';
 
 export const cache = createCache({ key: 'css', prepend: true });
 
-function MyApp(props: AppProps) {
+export default function MyApp(props: AppProps) {
 	const { Component, pageProps } = props;
 
 	React.useEffect(() => {
@@ -43,6 +43,6 @@ function MyApp(props: AppProps) {
 	);
 }
 
-const makeStore = () => store;
+// const makeStore = () => store;
 
-export default createWrapper(makeStore)(MyApp);
+//  createWrapper(makeStore)(MyApp);

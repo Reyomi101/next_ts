@@ -15,7 +15,6 @@ import {
   ListItemText,
   ListSubheader,
   Paper,
-  
 } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import SendIcon from "@material-ui/icons/Send";
@@ -24,12 +23,27 @@ import { Formik } from "formik";
 import { BlogComment } from "../src/helper/validation/yup";
 import { useRouter } from "next/router";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { createSelector } from "reselect";
+import { createStore } from "redux";
+import { Create_comment } from "../src/redux/actions/mainAction";
+
+const ForComment = createSelector(
+  (state: any) => state.main,
+  (comments) => comments
+);
 
 function BlogPage(props) {
   const classes = useStyles();
   const router = useRouter();
   const { title, body, userId, id } = router.query;
+  const mainReducer = useSelector(ForComment);
+  const [comlist, setComlist] = useState([]);
+
+  useEffect(() => {
+    setComlist(mainReducer.comments);
+  });
 
   const SearchButton = () => (
     <IconButton type="submit" color="primary">
@@ -113,13 +127,13 @@ function BlogPage(props) {
 
         <Toolbar />
         <Formik
-          initialValues={{ comment: "" }}
+          initialValues={{ commentBody: "" }}
           validationSchema={BlogComment}
-          onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
-              setSubmitting(false);
-            }, 400);
+          onSubmit={(values, { setSubmitting, resetForm }) => {
+            Create_comment(values);
+            setComlist(mainReducer.comments);
+            setSubmitting(false);
+            resetForm();
           }}
         >
           {({
@@ -133,21 +147,23 @@ function BlogPage(props) {
           }) => (
             <form onSubmit={handleSubmit}>
               <TextField
-                id="comment"
-                name="comment"
+                id="commentBody"
+                name="commentBody"
                 label="Comment:"
                 variant="outlined"
                 fullWidth
                 multiline
                 InputProps={{ endAdornment: <SearchButton /> }}
-                value={values.comment}
+                value={values.commentBody}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                error={touched.comment && Boolean(errors.comment)}
-                helperText={Boolean(errors.comment) && touched.comment}
+                error={touched.commentBody && Boolean(errors.commentBody)}
+                helperText={Boolean(errors.commentBody) && touched.commentBody}
               />
               <Typography color="error">
-                {errors.comment && touched.comment && errors.comment}
+                {errors.commentBody &&
+                  touched.commentBody &&
+                  errors.commentBody}
               </Typography>
               <div className={classes.buttonIcon}>
                 {isSubmitting === false ? null : (
@@ -169,45 +185,20 @@ function BlogPage(props) {
             }
             className={classes.listItem}
           >
-            <ListItem button>
-              <ListItemIcon>
-                <AccountCircleIcon fontSize="large" />
-              </ListItemIcon>
-              <ListItemText>
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Itaque
-                ipsum cupiditate harum nulla nemo in perspiciatis, labore
-                laborum molestias tempore nihil odit voluptatum sint neque eos
-                ex debitis aliquid officiis.
-              </ListItemText>
-            </ListItem>
             <Divider />
-            <ListItem button>
-              <ListItemIcon>
-                <AccountCircleIcon fontSize="large" />
-              </ListItemIcon>
-              <ListItemText>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Commodi, animi quos possimus distinctio officia facilis!
-                Expedita, non deserunt quasi asperiores est suscipit possimus
-                rem? Soluta quas doloremque praesentium iste ad. us distinctio
-                officia facilis! Expedita, non deserunt quasi asperiores est
-                suscipit possimus rem? Soluta quas doloremque praesentium iste
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Commodi, animi quos possimus distinctio officia facilis!
-                Expedita, non deserunt quasi asperiores est suscipit possimus
-                rem? Soluta quas doloremque praesentium iste ad. us distinctio
-                officia facilis! Expedita, non deserunt quasi asperiores est
-                suscipit possimus rem? Soluta quas doloremque praesentium iste
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Commodi, animi quos possimus distinctio officia facilis!
-                Expedita, non deserunt quasi asperiores est suscipit possimus
-                rem? Soluta quas doloremque praesentium iste ad. us distinctio
-                officia facilis! Expedita, non deserunt quasi asperiores est
-                suscipit possimus rem? Soluta quas doloremque praesentium iste
-                ad.
-              </ListItemText>
-            </ListItem>
-            <Divider />
+            {comlist.map((coms) => {
+              return (
+                <>
+                  <ListItem>
+                    <ListItemIcon>
+                      <AccountCircleIcon fontSize="large" />
+                    </ListItemIcon>
+                    <ListItemText>{coms.commentBody}</ListItemText>
+                  </ListItem>
+                  <Divider />
+                </>
+              );
+            })}
           </List>
         </Paper>
       </Layout>

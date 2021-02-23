@@ -15,11 +15,20 @@ import { Formik } from "formik";
 import { BlogAdd } from "../src/helper/validation/yup";
 import { connect } from "react-redux";
 import { Create_post } from "../src/redux/actions/mainAction";
+import { useSelector } from "react-redux";
+import { createSelector } from "reselect";
+import mainReducer from "../src/redux/reducer/mainReducer";
 
-function Add() {
+export default function Add() {
   const classes = useStyles();
   const [progress, setProgress] = useState(0);
   const [buffer, setBuffer] = useState(10);
+  // const mainReducer = useSelector(blogPost)
+  const [postlist, setPostlist] = useState([]);
+
+  // useEffect( () => {
+  //   setPostlist(mainReducer.newposts)
+  // })
 
   const progressRef = useRef(() => {});
   useEffect(() => {
@@ -61,18 +70,21 @@ function Add() {
         <div className={classes.addform}>
           {/* <AddBlogForm /> */}
           <Formik
-            initialValues={{ subject: "", content: "" }}
+            initialValues={{ title: "", body: "", userId: 11, id: 101 }}
             validationSchema={BlogAdd}
-            onSubmit={(values, { setSubmitting }) => {
-              Create_post(values)
+            onSubmit={(values, { setSubmitting, resetForm }) => {
               // const postDatas = Create_post(values)
               // alert(JSON.stringify(values));
               // .then(res => {
               //   setSubmitting(false);
               // });
               setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
+                Create_post(values);
+                // alert(JSON.stringify(values));
+                // setPostlist(mainReducer.newposts);
                 setSubmitting(false);
+
+                resetForm();
               }, 400);
             }}
           >
@@ -89,40 +101,40 @@ function Add() {
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
                     <TextField
-                      id="subject"
-                      name="subject"
+                      id="title"
+                      name="title"
                       label="Subject Tilte"
                       style={{ margin: 8 }}
                       fullWidth
                       margin="normal"
-                      value={values.subject}
+                      value={values.title}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       variant="filled"
-                      error={touched.subject && Boolean(errors.subject)}
-                      helperText={Boolean(errors.subject) && touched.subject}
+                      error={touched.title && Boolean(errors.title)}
+                      helperText={Boolean(errors.title) && touched.title}
                     />
                     <Typography color="error">
-                      {errors.subject && touched.subject && errors.subject}
+                      {errors.title && touched.title && errors.title}
                     </Typography>
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
-                      id="content"
-                      name="content"
+                      id="body"
+                      name="body"
                       label="Descriptions"
                       style={{ margin: 8 }}
                       fullWidth
                       multiline
-                      value={values.content}
+                      value={values.body}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       variant="filled"
-                      error={touched.content && Boolean(errors.content)}
-                      helperText={Boolean(errors.content) && touched.content}
+                      error={touched.body && Boolean(errors.body)}
+                      helperText={Boolean(errors.body) && touched.body}
                     />
                     <Typography color="error">
-                      {errors.content && touched.content && errors.content}
+                      {errors.body && touched.body && errors.body}
                     </Typography>
                   </Grid>
                   <Grid item xs={3}>
@@ -160,15 +172,3 @@ function Add() {
     </div>
   );
 }
-
-const mapSateToProps = value => ({
-	Create_post : value
-  })
-  
-  const mapDispatchToProps = {
-	Create_post: Create_post
-  }
-  
-  
-  export default connect(mapSateToProps, mapDispatchToProps)(Add)
-  

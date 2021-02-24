@@ -3,11 +3,15 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+  Grids: {
+    paddingTop: '1rem',
+  },
   addform: {
-    "& .MuiTextField-root": {
-      margin: theme.spacing(2),
-    },
+    marginTop: '1rem',
     flexGrow: 1,
+    padding: '1.3rem',
+    background: 'rgba(225,230,230, 0.1)',
+    borderRadius: '5px'
   },
   indexItems: {
     display: 'flex',
@@ -30,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     padding: theme.spacing(2),
-    textAlign: "center",
+    textAlign: "left",
     color: theme.palette.text.secondary,
     // maxHeight: '500px',
     // background: "linear-gradient(45deg, #19857b 10%, #9adcfb 30%)",

@@ -10,13 +10,13 @@ export default function Footer(props) {
         color="secondary"
         className={classes.footer}
       >
-        {/* <Container maxWidth="lg"> */}
+        <Container maxWidth="lg">
           <Toolbar>
             <Typography variant="body1" color="inherit">
               <div className="buttonIcon">© 2021 REYOMI</div>
             </Typography>
           </Toolbar>
-        {/* </Container> */}
+        </Container>
       </AppBar>
     </div>
   );

@@ -58,7 +58,7 @@ export default function Add() {
     <div>
       <Layout title="Add BLOG" fixed={false}>
         <Typography variant="h3">This is ADD page</Typography>
-        <Typography variant="body1">
+        <Typography variant="body1" style={{margin: '1rem'}}>
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corrupti,
           culpa? A odit dolorem illo delectus fuga labore fugiat culpa libero et
           recusandae officia accusantium laborum numquam sit necessitatibus
@@ -66,7 +66,7 @@ export default function Add() {
           earum aliquam dolorem veniam dicta, minima excepturi officia
           repudiandae culpa ea explicabo dolores sunt.
         </Typography>
-        <hr />
+    
         <div className={classes.addform}>
           {/* <AddBlogForm /> */}
           <Formik
@@ -104,13 +104,13 @@ export default function Add() {
                       id="title"
                       name="title"
                       label="Subject Tilte"
-                      style={{ margin: 8 }}
+                      // style={{ margin: 8 }}
                       fullWidth
                       margin="normal"
                       value={values.title}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      variant="filled"
+                      variant="outlined"
                       error={touched.title && Boolean(errors.title)}
                       helperText={Boolean(errors.title) && touched.title}
                     />
@@ -123,13 +123,13 @@ export default function Add() {
                       id="body"
                       name="body"
                       label="Descriptions"
-                      style={{ margin: 8 }}
+                      // style={{ margin: 8 }}
                       fullWidth
                       multiline
                       value={values.body}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      variant="filled"
+                      variant="outlined"
                       error={touched.body && Boolean(errors.body)}
                       helperText={Boolean(errors.body) && touched.body}
                     />

@@ -70,12 +70,14 @@ export default function Home() {
   };
 
   useEffect(() => {
+    Show_posts()
     setLoader(true);
+    
     setTimeout(() => {
-        Show_posts()
+        
         setNewPost(mainReducer.newposts)
+        Show_posts()
         setItems(mainReducer.newposts);
-
         setPageitems(paginator(mainReducer.newposts, limit, page));
         setLoader(false);
 
@@ -114,13 +116,13 @@ export default function Home() {
       <Layout title="Tsx NEXT blog">
         <Typography variant="h3">Articles</Typography>
 
-        <Typography variant="subtitle2">
+        <Typography variant="body2">
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magni
           voluptatem illum sapiente nisi ab! Eligendi consequuntur sapiente
           architecto vitae natus neque veniam voluptatem enim. Explicabo
           accusamus consequatur voluptatibus quisquam fugiat!
         </Typography>
-        <Divider />
+        
         {/* <div className={classes.indexItems}> */}
         <Grid
           container
@@ -128,6 +130,7 @@ export default function Home() {
           direction="row"
           justify="space-around"
           alignItems="center"
+          className={classes.Grids}
           // style={{ marginTop: "5px" }}
         >
           {loader === true ? (
@@ -135,7 +138,7 @@ export default function Home() {
               <div style={{ paddingTop: "57%", marginTop: "20px" }} />
             </Skeleton>
           ) : (
-            pageItems.map((item, idx) => {
+            pageItems.map((item, idx ) => {
               return (
                 <Grid item lg={4} md={6} sm={6}>
                   <Paper className={classes.paper}>

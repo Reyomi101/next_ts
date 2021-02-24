@@ -128,7 +128,7 @@ export default function EditBlog() {
                   </Grid>
                   <Grid item xs={3}>
                     <Button type="submit" color="primary" variant="contained" disabled={isSubmitting} >
-                      Submit 
+                      Update 
 					 
                     </Button>
                   </Grid>

@@ -28,6 +28,7 @@ import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
 import { createStore } from "redux";
 import { Create_comment } from "../src/redux/actions/mainAction";
+import { CommentSharp } from "@material-ui/icons";
 
 const ForComment = createSelector(
   (state: any) => state.main,
@@ -35,15 +36,20 @@ const ForComment = createSelector(
 );
 
 function BlogPage(props) {
+
   const classes = useStyles();
   const router = useRouter();
   const { title, body, userId, id } = router.query;
+
+
+
   const mainReducer = useSelector(ForComment);
   const [comlist, setComlist] = useState([]);
 
   useEffect(() => {
-    setComlist(mainReducer.comments);
-  });
+    setComlist(mainReducer.comments.filter(comment => comment.id === id ));
+  },[]);
+
 
   const SearchButton = () => (
     <IconButton type="submit" color="primary">
@@ -95,11 +101,11 @@ function BlogPage(props) {
           </Grid>
         </Grid>
 
-        <Grid container spacing={2}>
-          <Grid item md={6}>
-            <Typography variant="h5">{title}</Typography>
+        <Grid container spacing={2} className={classes.Grids}>
+          <Grid item md={9}>
+            <Typography variant="h4">{title}</Typography>
           </Grid>
-          <Grid item md={6}>
+          <Grid item md={3}>
             <div className={classes.editButton}>
               <Link
                 href={{
@@ -122,7 +128,7 @@ function BlogPage(props) {
           </Grid>
         </Grid>
 
-        <Divider />
+        
         <Typography variant="subtitle1">{body}</Typography>
 
         <Toolbar />
@@ -130,10 +136,16 @@ function BlogPage(props) {
           initialValues={{ commentBody: "" }}
           validationSchema={BlogComment}
           onSubmit={(values, { setSubmitting, resetForm }) => {
-            Create_comment(values);
-            setComlist(mainReducer.comments);
-            setSubmitting(false);
-            resetForm();
+            setTimeout(() => {
+              Create_comment({
+                commentBody: values.commentBody,
+                id: id
+              });
+              setComlist(mainReducer.comments.filter(comment => comment.id === id ));
+              setSubmitting(false);
+              resetForm();
+            }, 100);
+          
           }}
         >
           {({
@@ -198,7 +210,7 @@ function BlogPage(props) {
                   <Divider />
                 </>
               );
-            })}
+            }).reverse()}
           </List>
         </Paper>
       </Layout>

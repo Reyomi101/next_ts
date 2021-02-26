@@ -95,6 +95,19 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-end",
     marginTop: '15px',
   },
+  delButton: {
+    display: "flex",
+    justifyContent: "flex-end",
+    margin: '-15px -15px -8px -15px',
+    // margin: '0 -18px -23px -15px',
+    color: 'rgba(225,200,200, 0.3)',
+  },
+  delButton2: {
+    display: "flex",
+    justifyContent: "flex-end",
+    
+    color: 'rgba(225,200,200, 0.3)',
+  },
   pageno: {
     display: "flex",
     justifyContent: "flex-start",
@@ -102,6 +115,17 @@ const useStyles = makeStyles((theme) => ({
   },
   bottomcard: {
     display: 'flex', justifyContent: 'space-between'
+  },
+  delicon: {
+    "& :visited": { color: "red" },
+    "& :hover": { color: "red" },
+    "& :active": { color: "red" },
+  },
+  delicon2: {
+    "& :visited": { color: "red" },
+    "& :hover": { color: "red" },
+    "& :active": { color: "red" },
+
   }
 }));
 

@@ -15,9 +15,11 @@ import {
   ListItemText,
   ListSubheader,
   Paper,
+  Tooltip,
 } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import SendIcon from "@material-ui/icons/Send";
+import DeleteForeverOutlinedIcon from "@material-ui/icons/DeleteForeverOutlined";
 import IconButton from "@material-ui/core/IconButton";
 import { Formik } from "formik";
 import { BlogComment } from "../src/helper/validation/yup";
@@ -27,7 +29,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
 import { createStore } from "redux";
-import { Create_comment } from "../src/redux/actions/mainAction";
+import { Create_comment, Remove_Comment } from "../src/redux/actions/mainAction";
 import { CommentSharp } from "@material-ui/icons";
 
 const ForComment = createSelector(
@@ -35,21 +37,30 @@ const ForComment = createSelector(
   (comments) => comments
 );
 
-function BlogPage(props) {
+const ToRemoveComment = createSelector(
+  (state: any) => state.main,
+  comments => comments
+)
 
+function BlogPage(props) {
   const classes = useStyles();
   const router = useRouter();
   const { title, body, userId, id } = router.query;
 
-
-
   const mainReducer = useSelector(ForComment);
+  const removeThis = useSelector(ToRemoveComment);
   const [comlist, setComlist] = useState([]);
 
   useEffect(() => {
-    setComlist(mainReducer.comments.filter(comment => comment.id === id ));
-  },[]);
+    setComlist(mainReducer.comments.filter((comment) => comment.id === id));
+    
+  }, []);
 
+  const ForRemove = (props) => {
+    Remove_Comment(props)
+    setComlist(removeThis.comments.filter((comment) => comment.id === id));
+  }
+  
 
   const SearchButton = () => (
     <IconButton type="submit" color="primary">
@@ -128,8 +139,7 @@ function BlogPage(props) {
           </Grid>
         </Grid>
 
-        
-        <Typography variant="subtitle1">{body}</Typography>
+        <Typography variant="body1">{body}</Typography>
 
         <Toolbar />
         <Formik
@@ -139,13 +149,15 @@ function BlogPage(props) {
             setTimeout(() => {
               Create_comment({
                 commentBody: values.commentBody,
-                id: id
+                id: id,
               });
-              setComlist(mainReducer.comments.filter(comment => comment.id === id ));
+              setComlist(
+                mainReducer.comments.filter((comment) => comment.id === id)
+              );
+              
               setSubmitting(false);
               resetForm();
             }, 100);
-          
           }}
         >
           {({
@@ -197,20 +209,42 @@ function BlogPage(props) {
             }
             className={classes.listItem}
           >
+          
             <Divider />
-            {comlist.map((coms) => {
-              return (
-                <>
-                  <ListItem>
-                    <ListItemIcon>
-                      <AccountCircleIcon fontSize="large" />
-                    </ListItemIcon>
-                    <ListItemText>{coms.commentBody}</ListItemText>
-                  </ListItem>
-                  <Divider />
-                </>
-              );
-            }).reverse()}
+            {comlist
+              .map((coms) => {
+                return (
+                  <>
+                    <ListItem style={{ whiteSpace: "normal" }}>
+                      <ListItemIcon>
+                        <AccountCircleIcon fontSize="large" color="secondary" />
+                      </ListItemIcon>
+                      <ListItemText>{coms.commentBody}</ListItemText>
+                      <div
+                        className={classes.delButton2}
+                        style={{ marginRight: "-20px" }}
+                      >
+                        <ListItemIcon>
+                          <Tooltip title="Uncomment" placement="right" arrow>
+                            <IconButton
+                              aria-label="delete"
+                              size="small"
+                              className={classes.delicon}
+                              color="secondary"
+                              onClick={()=> {ForRemove(coms)}}
+                            >
+                              <DeleteForeverOutlinedIcon />
+                            </IconButton>
+                          </Tooltip>
+                          {/* <DeleteForeverOutlinedIcon fontSize="small"  /> */}
+                        </ListItemIcon>
+                      </div>
+                    </ListItem>
+                    <Divider />
+                  </>
+                );
+              })
+              .reverse()}
           </List>
         </Paper>
       </Layout>

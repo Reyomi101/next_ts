@@ -9,7 +9,7 @@ import theme from '../src/components/theme';
 import { Provider } from 'react-redux';
 // import createWrapper from 'next-redux-wrapper'
 import store from '../src/redux/store'
-import '../src/helper/style.css'
+import '../src/helper/style.module.scss'
 import { Store } from '@material-ui/icons';
 
 export const cache = createCache({ key: 'css', prepend: true });

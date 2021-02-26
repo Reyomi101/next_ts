@@ -2,7 +2,7 @@ import React from "react";
 import Layout from "../src/components/layout";
 import useStyles from "../src/helper/headStyles";
 import { useState, useEffect } from "react";
-import {BlogEdit} from '../src/helper/validation/yup'
+import { BlogEdit } from "../src/helper/validation/yup";
 import {
   TextField,
   Button,
@@ -22,7 +22,6 @@ export default function EditBlog() {
 
   const router = useRouter();
   const { title, body, userId, id } = router.query;
-
 
   const progressRef = React.useRef(() => {});
   React.useEffect(() => {
@@ -64,12 +63,12 @@ export default function EditBlog() {
         <hr />
         <div className={classes.addform}>
           <Formik
-            initialValues={{ subject:  title , content:  body }}
-			validationSchema={BlogEdit}
+            initialValues={{ subject: title, content: body }}
+            validationSchema={BlogEdit}
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
                 alert(JSON.stringify(values, null, 2));
-				// console.log(values);
+                // console.log(values);
                 setSubmitting(false);
               }, 400);
             }}
@@ -82,63 +81,64 @@ export default function EditBlog() {
               handleBlur,
               handleSubmit,
               isSubmitting,
-              
             }) => (
               <form onSubmit={handleSubmit}>
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
                     <TextField
                       id="subject"
-					  name='subject'
+                      name="subject"
                       label="Subject Tilte"
-                      style={{ margin: 8 }}
                       fullWidth
                       margin="normal"
                       value={values.subject}
                       onChange={handleChange}
-					  onBlur={handleBlur}
+                      onBlur={handleBlur}
                       variant="outlined"
-					  error={ touched.subject && Boolean(errors.subject)}
-					  helperText={Boolean(errors.subject) && touched.subject }
-
+                      error={touched.subject && Boolean(errors.subject)}
+                      helperText={Boolean(errors.subject) && touched.subject}
                     />
-					<Typography color="error">
-					{errors.subject && touched.subject && errors.subject}
-					</Typography>
-					
+                    <Typography color="error">
+                      {errors.subject && touched.subject && errors.subject}
+                    </Typography>
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
                       id="content"
-					  name='content'
+                      name="content"
                       label="Descriptions"
-                      style={{ margin: 8 }}
                       fullWidth
                       multiline
                       value={values.content}
                       onChange={handleChange}
-					  onBlur={handleBlur}
+                      onBlur={handleBlur}
                       variant="outlined"
-					  error={ touched.content && Boolean(errors.content)}
-					  helperText={Boolean(errors.content) && touched.content }
+                      error={touched.content && Boolean(errors.content)}
+                      helperText={Boolean(errors.content) && touched.content}
                     />
-					<Typography color="error">
-					{errors.content && touched.content && errors.content}
-					</Typography>
+                    <Typography color="error">
+                      {errors.content && touched.content && errors.content}
+                    </Typography>
                   </Grid>
                   <Grid item xs={3}>
-                    <Button type="submit" color="primary" variant="contained" disabled={isSubmitting} >
-                      Update 
-					 
+                    <Button
+                      type="submit"
+                      color="primary"
+                      variant="contained"
+                      disabled={isSubmitting}
+                    >
+                      Update
                     </Button>
                   </Grid>
-                  <Grid item className={classes.loader} xs={9} >
-				  	{isSubmitting=== false ? null : <LinearProgress
-                      variant="buffer"
-                      style={{ marginTop: "1rem" }}
-                      value={progress}
-                      valueBuffer={buffer}
-                    />}
+                  <Grid item className={classes.loader} xs={9}>
+                    {isSubmitting === false ? null : (
+                      <LinearProgress
+                        variant="buffer"
+                        style={{ marginTop: "1rem" }}
+                        value={progress}
+                        valueBuffer={buffer}
+                      />
+                    )}
                   </Grid>
                 </Grid>
               </form>

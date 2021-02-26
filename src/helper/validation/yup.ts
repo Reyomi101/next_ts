@@ -8,7 +8,7 @@ export const BlogAdd = yup.object().shape({
 
 export const BlogComment = yup.object().shape({
     // commentId: yup.string().required(),
-    commentBody: yup.string().required(),
+    commentBody: yup.string().required('This field is Required!'),
 })
 
 export const BlogEdit = yup.object().shape({

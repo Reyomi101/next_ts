@@ -9,11 +9,32 @@ export const Create_comment = (params) => {
     })
 }
 
+export const Remove_Comment = (params) => {
+    store.dispatch({
+        type: t._Remove_Comment,
+        payload: params
+    })
+}
+
 export const Create_post = (params) => {
     store.dispatch({
         type: t._Make_Post,
         payload: params
        })
+}
+
+export const Update_post = (params) => {
+    store.dispatch({
+        type: t._Update_Post,
+        payload: params
+    })
+}
+
+export const Remove_Post = (params) => {
+    store.dispatch({
+        type: t._Remove_Post,
+        payload: params
+    })
 }
 
 export const Show_posts = () => {
@@ -24,5 +45,5 @@ export const Show_posts = () => {
             payload: res.data
         })
     })
-
 }
+

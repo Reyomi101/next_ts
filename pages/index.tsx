@@ -17,20 +17,28 @@ import {
   Container,
   Avatar,
   Divider,
+  IconButton ,
+  Tooltip,
+  Fade ,
 } from "@material-ui/core";
 import { WebClient } from "../src/api/webclient";
 import { useState, useEffect } from "react";
 import { TablePagination } from "@material-ui/core";
 import { number } from "yup";
+import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
+import DeleteForeverOutlinedIcon from "@material-ui/icons/DeleteForeverOutlined";
 import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
-import { Show_posts } from "../src/redux/actions/mainAction";
-
-
+import { Show_posts, Remove_Post } from "../src/redux/actions/mainAction";
 
 const blogPost = createSelector(
   (state: any) => state.main,
-  (newposts) =>newposts
+  (newposts) => newposts
+);
+
+const ToRemovePost = createSelector(
+  (state: any) => state.main,
+  newposts => newposts
 )
 
 function paginator(array, limit, page) {
@@ -41,21 +49,15 @@ function paginator(array, limit, page) {
 export default function Home() {
   const [pageItems, setPageitems] = useState([]);
   const [items, setItems] = useState([]);
-  const mainReducer = useSelector(blogPost)
-  const [newPost, setNewPost] = useState([])
-
+  const mainReducer = useSelector(blogPost);
+  const [newPost, setNewPost] = useState([]);
   const [loader, setLoader] = useState(true);
-
   const classes = useStyles();
   const [limit, setLimit] = useState(6);
   const [page, setPage] = useState(1);
-
   const ratetotal = items.length / limit;
-
   const total = Math.round(ratetotal);
-
-
-
+  const removeThis = useSelector(ToRemovePost);
 
   const handleChange = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -69,31 +71,29 @@ export default function Home() {
     }, 500);
   };
 
-  useEffect(() => {
-    Show_posts()
-    setLoader(true);
-    
-    setTimeout(() => {
-        
-        setNewPost(mainReducer.newposts)
-        Show_posts()
-        setItems(mainReducer.newposts);
-        setPageitems(paginator(mainReducer.newposts, limit, page));
-        setLoader(false);
+  const ForRemove = (props) => {
+    Remove_Post(props)
+    setPageitems(paginator(removeThis.newposts, limit, page));
+  }
 
-        // alert(JSON.stringify(mainReducer.newposts));
+  useEffect(() => {
+    Show_posts();
+    setLoader(true);
+
+    setTimeout(() => {
+      Show_posts();
+      setNewPost(mainReducer.newposts);
+      setItems(mainReducer.newposts);
+      setPageitems(paginator(mainReducer.newposts, limit, page));
+      setLoader(false);
+
       // WebClient.get("/posts").then((res) => {
       //   setItems(res.data);
       //   setPageitems(paginator(res.data, limit, page));
-      //   setLoader(false);
+      //   // setLoader(false);
       // });
     }, 500);
   }, []);
-
-
-  useEffect(()=> {
-
-  })
 
   return (
     <div>
@@ -122,7 +122,7 @@ export default function Home() {
           architecto vitae natus neque veniam voluptatem enim. Explicabo
           accusamus consequatur voluptatibus quisquam fugiat!
         </Typography>
-        
+
         {/* <div className={classes.indexItems}> */}
         <Grid
           container
@@ -138,31 +138,46 @@ export default function Home() {
               <div style={{ paddingTop: "57%", marginTop: "20px" }} />
             </Skeleton>
           ) : (
-            pageItems.map((item, idx ) => {
+            pageItems.map((item, idx) => {
               return (
                 <Grid item lg={4} md={6} sm={6}>
                   <Paper className={classes.paper}>
-                    <Card>
-                     
-                        <CardContent>
-                          <Typography
-                            gutterBottom
-                            variant="button"
-                            component="h2"
-                          >
-                            {item.title}
-                          </Typography>
+                    {/* <DeleteOutlinedIcon /> */}
+                   
 
-                          <Typography
-                            variant="caption"
-                            color="secondary"
-                            component="p"
-                            className={classes.cardBody}
-                          >
-                            {item.body}
-                          </Typography>
-                        </CardContent>
-                      
+                    <Card>
+                      <CardContent>
+                     
+                      <div className={classes.delButton}>
+                      <Tooltip title="Remove" placement="top" TransitionComponent={Fade} TransitionProps={{ timeout: 600 }}  arrow>
+                      <IconButton
+                        aria-label="delete" size="small" 
+                        className={classes.delicon}
+                        color='secondary'
+                        onClick={()=> {ForRemove(item)}}
+                      >
+                        <DeleteForeverOutlinedIcon fontSize="inherit" />
+                      </IconButton>
+                      </Tooltip>
+                    </div>
+                        <Typography
+                          gutterBottom
+                          variant="button"
+                          component="h2"
+                        >
+                          {item.title}
+                        </Typography>
+
+                        <Typography
+                          variant="caption"
+                  
+                          component="p"
+                          className={classes.cardBody}
+                        >
+                          {item.body}
+                        </Typography>
+                      </CardContent>
+
                       <CardActions></CardActions>
                     </Card>
                     <div className={classes.bottomcard}>

@@ -13,6 +13,9 @@ const theme = createMuiTheme({
 		error: {
 			main: red.A400,
 		},
+		warning: {
+			main: '#ff0011',
+		},
 		background: {
 			// default: 'linear-gradient(to top, #e0f7fa, #4fc3f7)',
 			default: '#fff',

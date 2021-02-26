@@ -23,6 +23,7 @@ export default function Add() {
   const classes = useStyles();
   const [progress, setProgress] = useState(0);
   const [buffer, setBuffer] = useState(10);
+
   // const mainReducer = useSelector(blogPost)
   const [postlist, setPostlist] = useState([]);
 

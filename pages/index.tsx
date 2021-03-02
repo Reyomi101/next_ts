@@ -101,8 +101,8 @@ export default function Home() {
 
 	useEffect(() => {
 		setLoader(true);
-		// Show_posts();
-		ShowPost();
+		Show_posts();
+		// ShowPost();
 		setTimeout(() => {
 			// ShowPost();
 			setNewPost(mainReducer.newposts);

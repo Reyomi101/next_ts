@@ -11,18 +11,29 @@ import {
 	Typography,
 	Toolbar,
 } from '@material-ui/core';
-import { Formik } from 'formik';
+import { Formik, useFormik } from 'formik';
 import { useRouter } from 'next/router';
+import Router from 'next/router';
 import { useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
 import { Update_post } from '../src/redux/actions/mainAction';
+import { useHistory } from 'react-router-dom';
 
 const ForUpdate = createSelector(
 	(state: any) => state.main,
 	(newposts) => newposts
 );
 
-export default function EditBlog() {
+// const afterSubmit = () => {
+// 	useEffect(() => {
+// 		const { pathname } = Router;
+// 		if (pathname == '/editblog') {
+// 			Router.push('/blogpage');
+// 		}
+// 	});
+// };
+
+export default function EditBlog(props) {
 	const classes = useStyles();
 	const [progress, setProgress] = useState(0);
 	const [buffer, setBuffer] = useState(10);
@@ -30,8 +41,9 @@ export default function EditBlog() {
 	const { title, body, userId, id } = router.query;
 	const forUpdatePost = useSelector(ForUpdate);
 	const progressRef = React.useRef(() => {});
+	let history = useHistory();
 
-	const ForUpdatePost = (props) => {};
+	// const ForUpdatePost = (props) => {};
 
 	React.useEffect(() => {
 		progressRef.current = () => {
@@ -74,7 +86,7 @@ export default function EditBlog() {
 					<Formik
 						initialValues={{ subject: title, content: body }}
 						validationSchema={BlogEdit}
-						onSubmit={(values, { setSubmitting }) => {
+						onSubmit={(values, { setSubmitting, resetForm }) => {
 							setTimeout(() => {
 								Update_post({
 									subject: values.subject,
@@ -83,10 +95,10 @@ export default function EditBlog() {
 								});
 								// alert(JSON.stringify(values));
 								// console.log(values);
+								// afterSubmit();
+								resetForm({ values: null });
 								setSubmitting(false);
-
-								// history.push('/blogpage');
-							}, 100);
+							}, 50);
 						}}>
 						{({
 							values,

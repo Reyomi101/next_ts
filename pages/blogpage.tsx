@@ -32,6 +32,7 @@ import { createStore } from 'redux';
 import {
 	Create_comment,
 	Remove_Comment,
+	Update_post,
 } from '../src/redux/actions/mainAction';
 import { CommentSharp } from '@material-ui/icons';
 
@@ -45,6 +46,11 @@ const ToRemoveComment = createSelector(
 	(comments) => comments
 );
 
+const UpdatedPost = createSelector(
+	(state: any) => state.main,
+	(newposts) => newposts
+);
+
 export default function BlogPage(props) {
 	const classes = useStyles();
 	const router = useRouter();
@@ -52,7 +58,9 @@ export default function BlogPage(props) {
 
 	const mainReducer = useSelector(ForComment);
 	const removeThis = useSelector(ToRemoveComment);
+	const updatePost = useSelector(UpdatedPost);
 	const [comlist, setComlist] = useState([]);
+	const [updated, setUpdated] = useState([]);
 
 	useEffect(() => {
 		setComlist(mainReducer.comments.filter((comment) => comment.id === id));
@@ -63,12 +71,26 @@ export default function BlogPage(props) {
 		setComlist(removeThis.comments.filter((comment) => comment.id === id));
 	};
 
+	useEffect(() => {
+		const Updated_Posts = (props) => {
+			Update_post(props);
+			alert(JSON.stringify(props));
+			setUpdated(updatePost.newpost.felter((postId) => postId.id === id));
+		};
+	});
+
 	const SearchButton = () => (
+		// <div className={classes.buttonIcon}>
 		<IconButton type='submit' color='primary'>
 			<Tooltip title='Tab + Enter' placement='right' arrow>
+				{/* {isSubmitting  ? ( */}
 				<SendIcon fontSize='large' />
+				{/* ) : (
+					<CircularProgress disableShrink />
+				)} */}
 			</Tooltip>
 		</IconButton>
+		// </div>
 	);
 
 	return (
@@ -142,6 +164,8 @@ export default function BlogPage(props) {
 				<Typography variant='body1'>{body}</Typography>
 
 				<Toolbar />
+				<Typography variant='body2'>hello </Typography>
+				<Toolbar />
 				<Formik
 					initialValues={{ commentBody: '' }}
 					validationSchema={BlogComment}
@@ -177,7 +201,18 @@ export default function BlogPage(props) {
 								fullWidth
 								multiline
 								InputProps={{
-									endAdornment: <SearchButton />,
+									// endAdornment: <SearchButton />,
+									endAdornment: (
+										<IconButton type='submit' color='primary'>
+											<Tooltip title='Tab + Enter' placement='right' arrow>
+												{isSubmitting ? (
+													<CircularProgress disableShrink />
+												) : (
+													<SendIcon fontSize='large' />
+												)}
+											</Tooltip>
+										</IconButton>
+									),
 								}}
 								value={values.commentBody}
 								onChange={handleChange}
@@ -190,11 +225,11 @@ export default function BlogPage(props) {
 									touched.commentBody &&
 									errors.commentBody}
 							</Typography>
-							<div className={classes.buttonIcon}>
+							{/* <div className={classes.buttonIcon}>
 								{isSubmitting === false ? null : (
 									<CircularProgress disableShrink />
 								)}
-							</div>
+							</div> */}
 						</form>
 					)}
 				</Formik>
@@ -232,7 +267,13 @@ export default function BlogPage(props) {
 															onClick={() => {
 																ForRemove(coms);
 															}}>
-															<DeleteForeverOutlinedIcon />
+															{onclick ? (
+																setTimeout(() => {
+																	<CircularProgress disableShrink />;
+																}, 5000)
+															) : (
+																<DeleteForeverOutlinedIcon />
+															)}
 														</IconButton>
 													</Tooltip>
 													{/* <DeleteForeverOutlinedIcon fontSize="small"  /> */}

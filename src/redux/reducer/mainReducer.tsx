@@ -61,9 +61,9 @@ const mainReducer = (state = initialState, action) => {
 			var index = tempDetails.indexOf(action.payload);
 			// tempDetails.splice(1, 0, index);
 			// update tempDetails[index];
-			tempDetails.push(index, tempDetails);
+			tempDetails.push(index);
 			copyState.newposts = tempDetails;
-			// alert(JSON.stringify(copyState.comments));
+			// alert(JSON.stringify(newposts));
 			return copyState;
 
 		default:

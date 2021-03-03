@@ -55,7 +55,6 @@ export default function BlogPage(props) {
 	const classes = useStyles();
 	const router = useRouter();
 	const { title, body, userId, id } = router.query;
-
 	const mainReducer = useSelector(ForComment);
 	const removeThis = useSelector(ToRemoveComment);
 	const updatePost = useSelector(UpdatedPost);
@@ -164,7 +163,7 @@ export default function BlogPage(props) {
 				<Typography variant='body1'>{body}</Typography>
 
 				<Toolbar />
-				<Typography variant='body2'>hello </Typography>
+				<Typography variant='body2'>hello {JSON.stringify(updated)}</Typography>
 				<Toolbar />
 				<Formik
 					initialValues={{ commentBody: '' }}

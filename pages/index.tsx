@@ -29,7 +29,8 @@ import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
 import { useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
-import { Show_posts, Remove_Post } from '../src/redux/actions/mainAction';
+import { Remove_Post } from '../src/redux/actions/mainAction';
+import { Show_posts } from '../src/redux/actions/mainAction';
 
 const blogPost = createSelector(
 	(state: any) => state.main,
@@ -43,7 +44,7 @@ const ToRemovePost = createSelector(
 
 const ForShowPost = createSelector(
 	(state: any) => state.main,
-	(newposts) => newposts
+	(postItems) => postItems
 );
 
 // const ToShow = (props: Boolean) => {
@@ -91,23 +92,43 @@ export default function Home() {
 	const ForRemove = (props) => {
 		Remove_Post(props);
 		setPageitems(paginator(removeThis.newposts, limit, page));
+		setPageitems(paginator(removeThis.postItems, limit, page));
 	};
 
-	const ShowPost = () => {
-		Show_posts();
-		// alert(JSON.stringify(showPosts.postItems));
-		setPageitems(paginator(showPosts.newposts, limit, page));
-	};
+	// const ShowPost = () => {
+	// 	Show_posts();
+	// 	// alert(JSON.stringify(showPosts.postItems));
+	// 	setPageitems(paginator(showPosts.postItems, limit, page));
+	// };
+
+	const mainNewPost = mainReducer.newposts;
+
+	// const useMountEffect = (fun) => useEffect(fun, []);
+	// trying to make it on conditiona statement
+	// useMountEffect(() => {
+	// 	WebClient.get('/posts').then((res) => {
+	// 		setLoader(true);
+
+	// 		setTimeout(() => {
+	// 			setItems(res.data);
+	// 			// setNewPost(mainReducer.newposts);
+	// 			setItems(mainReducer.newposts);
+	// 			// Show_posts(showPosts.postItems);
+	// 			setPageitems(paginator(showPosts.postItems, limit, page));
+	// 			setLoader(false);
+	// 		}, 50);
+	// 	});
+	// },);
 
 	useEffect(() => {
 		setLoader(true);
-		Show_posts();
+		// Show_posts();
 		// ShowPost();
 		setTimeout(() => {
-			// ShowPost();
+			Show_posts(showPosts.postItems);
 			setNewPost(mainReducer.newposts);
 			setItems(mainReducer.newposts);
-			setPageitems(paginator(mainReducer.newposts, limit, page));
+			setPageitems(paginator(mainNewPost, limit, page));
 			setLoader(false);
 		}, 50);
 	}, []);
@@ -137,6 +158,7 @@ export default function Home() {
 					voluptatem illum sapiente nisi ab! Eligendi consequuntur sapiente
 					architecto vitae natus neque veniam voluptatem enim. Explicabo
 					accusamus consequatur voluptatibus quisquam fugiat!
+					{/* {JSON.stringify(showPosts.postItems)} */}
 				</Typography>
 
 				{/* <div className={classes.indexItems}> */}

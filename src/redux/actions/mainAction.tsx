@@ -24,7 +24,7 @@ export const Create_post = (params) => {
 };
 
 export const Update_post = (params) => {
-	alert(JSON.stringify(params));
+	// alert(JSON.stringify(params));
 	store.dispatch({
 		type: t._Update_Post,
 		payload: params,
@@ -38,7 +38,7 @@ export const Remove_Post = (params) => {
 	});
 };
 
-export const Show_posts = () => {
+export const Show_posts = (props) => {
 	WebClient.get('/posts').then((res) => {
 		// alert(JSON.stringify(res.data));
 		store.dispatch({
@@ -48,3 +48,17 @@ export const Show_posts = () => {
 		return Promise.resolve(200);
 	});
 };
+
+// export const Show_posts = () => (dispatch) => {
+// 	WebClient.get('/posts')
+// 		// fetch('https://jsonplaceholder.typicode.com/posts')
+// 		// 	.then((res) => res.json())
+
+// 		.then((res) => {
+// 			alert(JSON.stringify(res));
+// 			store.dispatch({
+// 				type: t._Show_Post,
+// 				payload: res,
+// 			});
+// 		});
+// };

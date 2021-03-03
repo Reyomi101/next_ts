@@ -4,6 +4,7 @@ const initialState = {
 	comments: [],
 	newposts: [],
 	postItems: [],
+	holdPost: [],
 	//   {
 	//   commentId: '1',
 	//   commentBody: 'Hello this is my first comment!'
@@ -14,12 +15,18 @@ const initialState = {
 const mainReducer = (state = initialState, action) => {
 	let copyState = Object.assign({}, state);
 	switch (action.type) {
+		// case t._Show_Post:
+		// 	// alert(JSON.stringify(action.payload));
+		// 	// let thisPost = copyState.newposts;
+		// 	// thisPost.push(action.payload);
+		// 	// copyState.newposts = thisPost;
+		// 	// copyState.postItems = action.payload;
+		// 	copyState.holdPost = action.payload;
+		// 	copyState.newposts = action.payload;
+		// 	return copyState;
+
 		case t._Show_Post:
-			// alert(JSON.stringify(action.payload));
-			// let thisPost = copyState.newposts;
-			// thisPost.push(action.payload);
-			// copyState.newposts = thisPost;
-			// copyState.postItems = action.payload;
+			copyState.postItems = action.payload;
 			copyState.newposts = action.payload;
 			return copyState;
 
@@ -57,13 +64,14 @@ const mainReducer = (state = initialState, action) => {
 			return copyState;
 
 		case t._Update_Post:
-			let tempDetails = copyState.newposts;
-			var index = tempDetails.indexOf(action.payload);
+			// let tempDetails = copyState.newposts;
+			// var index = tempDetails.indexOf(action.payload);
 			// tempDetails.splice(1, 0, index);
 			// update tempDetails[index];
-			tempDetails.push(index);
-			copyState.newposts = tempDetails;
-			// alert(JSON.stringify(newposts));
+			// tempDetails.push(index);
+			// copyState.newposts = tempDetails;
+			copyState.newposts = action.payload;
+			// alert(JSON.stringify(action.payload));
 			return copyState;
 
 		default:

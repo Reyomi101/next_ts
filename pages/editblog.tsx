@@ -24,15 +24,6 @@ const ForUpdate = createSelector(
 	(newposts) => newposts
 );
 
-// const afterSubmit = () => {
-// 	useEffect(() => {
-// 		const { pathname } = Router;
-// 		if (pathname == '/editblog') {
-// 			Router.push('/blogpage');
-// 		}
-// 	});
-// };
-
 export default function EditBlog(props) {
 	const classes = useStyles();
 	const [progress, setProgress] = useState(0);
@@ -63,11 +54,34 @@ export default function EditBlog(props) {
 		const timer = setInterval(() => {
 			progressRef.current();
 		}, 50);
-
 		return () => {
 			clearInterval(timer);
 		};
 	}, []);
+
+	const afterSubmit = () => {
+		useEffect(() => {
+			const { pathname } = Router;
+
+			const pathToWhere = {
+				pathname: '/editblog',
+				query: { userId, id, title, body },
+			};
+
+			const pathToGo = {
+				pathname: '/blogpage',
+				query: { userId, id, title, body },
+			};
+
+			// if (pathname == pathToWhere) {
+			// 	Router.push(pathToGo);
+			// } else {
+			// 	Router.push(pathToGo);
+			// }
+
+			//trying to make it on conditional
+		});
+	};
 
 	return (
 		<div>
@@ -86,7 +100,7 @@ export default function EditBlog(props) {
 					<Formik
 						initialValues={{ subject: title, content: body }}
 						validationSchema={BlogEdit}
-						onSubmit={(values, { setSubmitting, resetForm }) => {
+						onSubmit={(values, { setSubmitting }) => {
 							setTimeout(() => {
 								Update_post({
 									subject: values.subject,
@@ -95,8 +109,8 @@ export default function EditBlog(props) {
 								});
 								// alert(JSON.stringify(values));
 								// console.log(values);
-								// afterSubmit();
-								resetForm({ values: null });
+								afterSubmit();
+								// resetForm({ values: null });
 								setSubmitting(false);
 							}, 50);
 						}}>

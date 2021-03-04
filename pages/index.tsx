@@ -20,6 +20,7 @@ import {
 	IconButton,
 	Tooltip,
 	Fade,
+	CircularProgress,
 } from '@material-ui/core';
 import { WebClient } from '../src/api/webclient';
 import { useState, useEffect } from 'react';
@@ -47,35 +48,26 @@ const ForShowPost = createSelector(
 	(postItems) => postItems
 );
 
-// const ToShow = (props: Boolean) => {
-// 	WebClient.get('/posts').then((res) => {
-// 		setItems(res.data);
-// 		// setNewPost(mainReducer.newposts);
-// 		// setItems(mainReducer.newposts);
-// 		setPageitems(paginator(res.data, limit, page));
-// 		// setLoader(false);
-// 	});
-// };
-
 function paginator(array, limit, page) {
 	return array.slice((page - 1) * limit, page * limit);
-	// return array.slice(page * limit, (page * limit) + limit);
 }
 
 export default function Home() {
+	const classes = useStyles();
 	const [pageItems, setPageitems] = useState([]);
 	const [items, setItems] = useState([]);
-	const mainReducer = useSelector(blogPost);
 	const [newPost, setNewPost] = useState([]);
 	const [loader, setLoader] = useState(true);
-	const classes = useStyles();
 	const [limit, setLimit] = useState(6);
 	const [page, setPage] = useState(1);
-	const ratetotal = items.length / limit;
-	const total = Math.round(ratetotal);
+	const mainReducer = useSelector(blogPost);
 	const removeThis = useSelector(ToRemovePost);
 	const showPosts = useSelector(ForShowPost);
-	// const [ForShow, setForShow] = useState(ToShow(true));
+
+	const ratetotal = items.length / limit;
+	const total = Math.round(ratetotal);
+
+	// console.log(mainReducer);
 
 	const handleChange = (
 		event: React.MouseEvent<HTMLButtonElement> | null,
@@ -83,10 +75,11 @@ export default function Home() {
 	) => {
 		// setLoader(true);
 		setTimeout(() => {
-			setPageitems(paginator(items, limit, page));
+			Show_posts();
 			setPage(newPage);
+			setPageitems(paginator(items, limit, page));
 			// setLoader(false);
-		}, 500);
+		}, 3000);
 	};
 
 	const ForRemove = (props) => {
@@ -95,42 +88,16 @@ export default function Home() {
 		setPageitems(paginator(removeThis.postItems, limit, page));
 	};
 
-	// const ShowPost = () => {
-	// 	Show_posts();
-	// 	// alert(JSON.stringify(showPosts.postItems));
-	// 	setPageitems(paginator(showPosts.postItems, limit, page));
-	// };
-
-	const mainNewPost = mainReducer.newposts;
-
-	// const useMountEffect = (fun) => useEffect(fun, []);
-	// trying to make it on conditiona statement
-	// useMountEffect(() => {
-	// 	WebClient.get('/posts').then((res) => {
-	// 		setLoader(true);
-
-	// 		setTimeout(() => {
-	// 			setItems(res.data);
-	// 			// setNewPost(mainReducer.newposts);
-	// 			setItems(mainReducer.newposts);
-	// 			// Show_posts(showPosts.postItems);
-	// 			setPageitems(paginator(showPosts.postItems, limit, page));
-	// 			setLoader(false);
-	// 		}, 50);
-	// 	});
-	// },);
-
 	useEffect(() => {
-		setLoader(true);
-		// Show_posts();
-		// ShowPost();
+		// setLoader(true);
+
 		setTimeout(() => {
-			Show_posts(showPosts.postItems);
+			Show_posts();
 			setNewPost(mainReducer.newposts);
 			setItems(mainReducer.newposts);
-			setPageitems(paginator(mainNewPost, limit, page));
-			setLoader(false);
-		}, 50);
+			setPageitems(paginator(showPosts.postItems, limit, page));
+			// setLoader(false);
+		}, 3000);
 	}, []);
 
 	return (
@@ -158,98 +125,99 @@ export default function Home() {
 					voluptatem illum sapiente nisi ab! Eligendi consequuntur sapiente
 					architecto vitae natus neque veniam voluptatem enim. Explicabo
 					accusamus consequatur voluptatibus quisquam fugiat!
+					{/* {JSON.stringify(mainReducer.newposts)} */}
 					{/* {JSON.stringify(showPosts.postItems)} */}
 				</Typography>
 
-				{/* <div className={classes.indexItems}> */}
 				<Grid
 					container
 					spacing={3}
 					direction='row'
 					justify='space-around'
 					alignItems='center'
-					className={classes.Grids}
-					// style={{ marginTop: "5px" }}
-				>
-					{loader === true ? (
+					className={classes.Grids}>
+					{/* {loader === true ? (
 						<Skeleton variant='rect' width='100%'>
 							<div style={{ paddingTop: '57%', marginTop: '20px' }} />
 						</Skeleton>
-					) : (
-						pageItems.map((item, idx) => {
-							return (
-								<Grid item lg={4} md={6} sm={6}>
-									<Paper className={classes.paper}>
-										{/* <DeleteOutlinedIcon /> */}
+					) : ( */}
 
-										<Card>
-											<CardContent>
-												<div className={classes.delButton}>
-													<Tooltip
-														title='Remove'
-														placement='top'
-														TransitionComponent={Fade}
-														TransitionProps={{ timeout: 600 }}
-														arrow>
-														<IconButton
-															aria-label='delete'
-															size='small'
-															className={classes.delicon}
-															color='secondary'
-															onClick={() => {
-																ForRemove(item);
-															}}>
-															<DeleteForeverOutlinedIcon fontSize='inherit' />
-														</IconButton>
-													</Tooltip>
-												</div>
-												<Typography
-													gutterBottom
-													variant='button'
-													component='h2'>
-													{item.title}
-												</Typography>
+					{pageItems.map((item, idx) => {
+						return (
+							<Grid item lg={4} md={6} sm={6}>
+								<Paper className={classes.paper}>
+									<Card>
+										<CardContent>
+											<div className={classes.delButton}>
+												<Tooltip
+													title='Remove'
+													placement='top'
+													TransitionComponent={Fade}
+													TransitionProps={{ timeout: 600 }}
+													arrow>
+													<IconButton
+														aria-label='delete'
+														size='small'
+														className={classes.delicon}
+														color='secondary'
+														onClick={() => {
+															ForRemove(item);
+														}}>
+														<DeleteForeverOutlinedIcon fontSize='inherit' />
+													</IconButton>
+												</Tooltip>
+											</div>
+											<Typography gutterBottom variant='button' component='h2'>
+												{item.title === undefined
+													? showPosts.postItems.title
+													: item.title}
+											</Typography>
 
-												<Typography
-													variant='caption'
-													component='p'
-													className={classes.cardBody}>
-													{item.body}
-												</Typography>
-											</CardContent>
-
-											<CardActions></CardActions>
-										</Card>
-										<div className={classes.bottomcard}>
 											<Typography
 												variant='caption'
 												component='p'
-												className={classes.pageno}>
-												{item.userId}, {item.id}
+												className={classes.cardBody}>
+												{item.body === undefined
+													? showPosts.postItems.body
+													: item.body}
 											</Typography>
-											<div className={classes.linkButton}>
-												<Link
-													key={idx}
-													href={{ pathname: '/blogpage', query: item }}
-													passHref>
-													<Button
-														// target="_blank"
-														component='a'
-														size='small'
-														color='primary'
-														variant='contained'>
-														Learn More
-													</Button>
-												</Link>
-											</div>
+										</CardContent>
+
+										<CardActions></CardActions>
+									</Card>
+									<div className={classes.bottomcard}>
+										<Typography
+											variant='caption'
+											component='p'
+											className={classes.pageno}>
+											{item.userId === undefined
+												? showPosts.postItems.userId
+												: item.userId}
+											,
+											{item.id === undefined ? showPosts.postItems.id : item.id}
+										</Typography>
+										<div className={classes.linkButton}>
+											<Link
+												key={idx}
+												href={{ pathname: '/blogpage', query: item }}
+												passHref>
+												<Button
+													component='a'
+													size='small'
+													color='primary'
+													variant='contained'>
+													Learn More
+												</Button>
+											</Link>
 										</div>
-									</Paper>
-								</Grid>
-							);
-						})
-					)}
+									</div>
+								</Paper>
+							</Grid>
+						);
+					})}
+
+					{/* )} */}
 				</Grid>
-				{/* </div> */}
 
 				<Toolbar />
 				<div className={classes.pagenator}>

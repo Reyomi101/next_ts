@@ -38,9 +38,10 @@ export const Remove_Post = (params) => {
 	});
 };
 
-export const Show_posts = (props) => {
+export const Show_posts = () => {
 	WebClient.get('/posts').then((res) => {
 		// alert(JSON.stringify(res.data));
+		// console.log('here at action!');
 		store.dispatch({
 			type: t._Show_Post,
 			payload: res.data,
@@ -48,17 +49,3 @@ export const Show_posts = (props) => {
 		return Promise.resolve(200);
 	});
 };
-
-// export const Show_posts = () => (dispatch) => {
-// 	WebClient.get('/posts')
-// 		// fetch('https://jsonplaceholder.typicode.com/posts')
-// 		// 	.then((res) => res.json())
-
-// 		.then((res) => {
-// 			alert(JSON.stringify(res));
-// 			store.dispatch({
-// 				type: t._Show_Post,
-// 				payload: res,
-// 			});
-// 		});
-// };

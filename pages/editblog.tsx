@@ -11,7 +11,7 @@ import {
 	Typography,
 	Toolbar,
 } from '@material-ui/core';
-import { Formik, useFormik } from 'formik';
+import { Formik } from 'formik';
 import { useRouter } from 'next/router';
 import Router from 'next/router';
 import { useSelector } from 'react-redux';
@@ -21,7 +21,7 @@ import { useHistory } from 'react-router-dom';
 
 const ForUpdate = createSelector(
 	(state: any) => state.main,
-	(newposts) => newposts
+	(editPost) => editPost
 );
 
 export default function EditBlog(props) {
@@ -32,9 +32,6 @@ export default function EditBlog(props) {
 	const { title, body, userId, id } = router.query;
 	const forUpdatePost = useSelector(ForUpdate);
 	const progressRef = React.useRef(() => {});
-	let history = useHistory();
-
-	// const ForUpdatePost = (props) => {};
 
 	React.useEffect(() => {
 		progressRef.current = () => {
@@ -58,30 +55,6 @@ export default function EditBlog(props) {
 			clearInterval(timer);
 		};
 	}, []);
-
-	const afterSubmit = () => {
-		useEffect(() => {
-			const { pathname } = Router;
-
-			const pathToWhere = {
-				pathname: '/editblog',
-				query: { userId, id, title, body },
-			};
-
-			const pathToGo = {
-				pathname: '/blogpage',
-				query: { userId, id, title, body },
-			};
-
-			// if (pathname == pathToWhere) {
-			// 	Router.push(pathToGo);
-			// } else {
-			// 	Router.push(pathToGo);
-			// }
-
-			//trying to make it on conditional
-		});
-	};
 
 	return (
 		<div>
@@ -107,10 +80,15 @@ export default function EditBlog(props) {
 									content: values.content,
 									id: id,
 								});
-								// alert(JSON.stringify(values));
-								// console.log(values);
-								afterSubmit();
-								// resetForm({ values: null });
+
+								Router.push({
+									pathname: '/blogpage',
+									query: {
+										subject: values.subject,
+										content: values.content,
+										id: id,
+									},
+								});
 								setSubmitting(false);
 							}, 50);
 						}}>
@@ -185,6 +163,10 @@ export default function EditBlog(props) {
 						)}
 					</Formik>
 				</div>
+				{/* <Typography>
+					for testing area = {JSON.stringify(forUpdatePost.editPost)}
+				</Typography> */}
+
 				<Toolbar />
 				<Toolbar />
 				<Toolbar />

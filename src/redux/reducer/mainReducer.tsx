@@ -4,7 +4,7 @@ const initialState = {
 	comments: [],
 	newposts: [],
 	postItems: [],
-	holdPost: [],
+	editPost: [],
 	//   {
 	//   commentId: '1',
 	//   commentBody: 'Hello this is my first comment!'
@@ -15,19 +15,11 @@ const initialState = {
 const mainReducer = (state = initialState, action) => {
 	let copyState = Object.assign({}, state);
 	switch (action.type) {
-		// case t._Show_Post:
-		// 	// alert(JSON.stringify(action.payload));
-		// 	// let thisPost = copyState.newposts;
-		// 	// thisPost.push(action.payload);
-		// 	// copyState.newposts = thisPost;
-		// 	// copyState.postItems = action.payload;
-		// 	copyState.holdPost = action.payload;
-		// 	copyState.newposts = action.payload;
-		// 	return copyState;
-
 		case t._Show_Post:
 			copyState.postItems = action.payload;
 			copyState.newposts = action.payload;
+			// alert(JSON.stringify(copyState.postItems));
+			// console.log('here at reducer!')
 			return copyState;
 
 		case t._Make_Post:
@@ -44,34 +36,24 @@ const mainReducer = (state = initialState, action) => {
 			return copyState;
 
 		case t._Remove_Comment:
-			//  alert(JSON.stringify(action.payload));
 			let tempList = copyState.comments;
 			var index = tempList.indexOf(action.payload);
 			delete tempList[index];
-			// tempList.splice(0,1,action.payload);
 			copyState.comments = tempList;
 			// alert(JSON.stringify(copyState.comments));
 			return copyState;
 
 		case t._Remove_Post:
-			//  alert(JSON.stringify(action.payload));
 			let tempData = copyState.newposts;
 			var index = tempData.indexOf(action.payload);
 			delete tempData[index];
-			// tempData.splice(0,1,index);
+
 			copyState.newposts = tempData;
 			// alert(JSON.stringify(copyState.comments));
 			return copyState;
 
 		case t._Update_Post:
-			// let tempDetails = copyState.newposts;
-			// var index = tempDetails.indexOf(action.payload);
-			// tempDetails.splice(1, 0, index);
-			// update tempDetails[index];
-			// tempDetails.push(index);
-			// copyState.newposts = tempDetails;
-			copyState.newposts = action.payload;
-			// alert(JSON.stringify(action.payload));
+			copyState.editPost = action.payload;
 			return copyState;
 
 		default:

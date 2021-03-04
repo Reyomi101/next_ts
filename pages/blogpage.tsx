@@ -28,13 +28,12 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
-import { createStore } from 'redux';
+
 import {
 	Create_comment,
 	Remove_Comment,
 	Update_post,
 } from '../src/redux/actions/mainAction';
-import { CommentSharp } from '@material-ui/icons';
 
 const ForComment = createSelector(
 	(state: any) => state.main,
@@ -48,7 +47,7 @@ const ToRemoveComment = createSelector(
 
 const UpdatedPost = createSelector(
 	(state: any) => state.main,
-	(newposts) => newposts
+	(editPost) => editPost
 );
 
 export default function BlogPage(props) {
@@ -59,7 +58,6 @@ export default function BlogPage(props) {
 	const removeThis = useSelector(ToRemoveComment);
 	const updatePost = useSelector(UpdatedPost);
 	const [comlist, setComlist] = useState([]);
-	const [updated, setUpdated] = useState([]);
 
 	useEffect(() => {
 		setComlist(mainReducer.comments.filter((comment) => comment.id === id));
@@ -69,28 +67,6 @@ export default function BlogPage(props) {
 		Remove_Comment(props);
 		setComlist(removeThis.comments.filter((comment) => comment.id === id));
 	};
-
-	useEffect(() => {
-		const Updated_Posts = (props) => {
-			Update_post(props);
-			alert(JSON.stringify(props));
-			setUpdated(updatePost.newpost.felter((postId) => postId.id === id));
-		};
-	});
-
-	const SearchButton = () => (
-		// <div className={classes.buttonIcon}>
-		<IconButton type='submit' color='primary'>
-			<Tooltip title='Tab + Enter' placement='right' arrow>
-				{/* {isSubmitting  ? ( */}
-				<SendIcon fontSize='large' />
-				{/* ) : (
-					<CircularProgress disableShrink />
-				)} */}
-			</Tooltip>
-		</IconButton>
-		// </div>
-	);
 
 	return (
 		<>
@@ -110,13 +86,6 @@ export default function BlogPage(props) {
 								}}
 							/>
 						</div>
-
-						{/* <Typography variant="h5" className={classes.avatars}>
-              User ID: {userId}
-            </Typography>
-            <Typography variant="h5" className={classes.avatars}>
-              Blog ID: {id}
-            </Typography> */}
 					</Grid>
 
 					<Grid item md={8} sm={6} xs={12}>
@@ -137,7 +106,9 @@ export default function BlogPage(props) {
 
 				<Grid container spacing={2} className={classes.Grids}>
 					<Grid item md={9}>
-						<Typography variant='h4'>{title}</Typography>
+						<Typography variant='h4'>
+							{title === undefined ? updatePost.editPost.subject : title}
+						</Typography>
 					</Grid>
 					<Grid item md={3}>
 						<div className={classes.editButton}>
@@ -148,7 +119,6 @@ export default function BlogPage(props) {
 								}}
 								passHref>
 								<Button
-									// target="_blank"
 									component='a'
 									size='small'
 									color='primary'
@@ -160,10 +130,14 @@ export default function BlogPage(props) {
 					</Grid>
 				</Grid>
 
-				<Typography variant='body1'>{body}</Typography>
+				<Typography variant='body1'>
+					{body === undefined ? updatePost.editPost.content : body}
+				</Typography>
 
 				<Toolbar />
-				<Typography variant='body2'>hello {JSON.stringify(updated)}</Typography>
+				<Typography variant='body2'>
+					test area {JSON.stringify(updatePost.editPost)}
+				</Typography>
 				<Toolbar />
 				<Formik
 					initialValues={{ commentBody: '' }}
@@ -200,7 +174,6 @@ export default function BlogPage(props) {
 								fullWidth
 								multiline
 								InputProps={{
-									// endAdornment: <SearchButton />,
 									endAdornment: (
 										<IconButton type='submit' color='primary'>
 											<Tooltip title='Tab + Enter' placement='right' arrow>
@@ -224,11 +197,6 @@ export default function BlogPage(props) {
 									touched.commentBody &&
 									errors.commentBody}
 							</Typography>
-							{/* <div className={classes.buttonIcon}>
-								{isSubmitting === false ? null : (
-									<CircularProgress disableShrink />
-								)}
-							</div> */}
 						</form>
 					)}
 				</Formik>
@@ -275,7 +243,6 @@ export default function BlogPage(props) {
 															)}
 														</IconButton>
 													</Tooltip>
-													{/* <DeleteForeverOutlinedIcon fontSize="small"  /> */}
 												</ListItemIcon>
 											</div>
 										</ListItem>

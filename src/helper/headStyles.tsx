@@ -132,6 +132,12 @@ const useStyles = makeStyles((theme) => ({
 		margin: 4,
 		color: '#ffffff',
 	},
+	indexLoader: {
+		margin: '1rem',
+		display: 'block',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
 }));
 
 export default useStyles;

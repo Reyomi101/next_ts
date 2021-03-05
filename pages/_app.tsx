@@ -8,7 +8,8 @@ import createCache from '@emotion/cache';
 import theme from '../src/components/theme';
 import { Provider } from 'react-redux';
 import store from '../src/redux/store';
-import '../src/helper/style.module.scss';
+// import { wrapper } from '../src/redux/store';
+// import '../src/helper/style.module.scss';
 import { Store } from '@material-ui/icons';
 
 export const cache = createCache({ key: 'css', prepend: true });
@@ -40,3 +41,5 @@ export default function MyApp(props: AppProps) {
 		</CacheProvider>
 	);
 }
+
+// export default wrapper.withRedux(MyApp);

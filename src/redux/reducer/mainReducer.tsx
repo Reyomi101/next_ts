@@ -18,8 +18,8 @@ const mainReducer = (state = initialState, action) => {
 		case t._Show_Post:
 			copyState.postItems = action.payload;
 			copyState.newposts = action.payload;
-			// alert(JSON.stringify(copyState.postItems));
-			// console.log('here at reducer!')
+			alert(JSON.stringify(copyState.postItems));
+			console.log('here at reducer!');
 			return copyState;
 
 		case t._Make_Post:

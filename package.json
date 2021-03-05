@@ -25,6 +25,7 @@
     "fontsource-roboto": "^4.0.0",
     "formik": "^2.2.6",
     "next": "latest",
+    "next-redux-observable": "^1.0.0",
     "next-redux-wrapper": "^6.0.2",
     "node-sass": "^5.0.0",
     "react": "latest",
@@ -34,9 +35,13 @@
     "react-router-dom": "^5.2.0",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
+    "redux-logger": "3.0.6",
+    "redux-observable": "^1.2.0",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
+    "rxjs": "^6.5.4",
     "styled-jsx": "^3.3.2",
+    "universal-rxjs-ajax": "2.0.4",
     "yup": "^0.32.8"
   },
   "devDependencies": {

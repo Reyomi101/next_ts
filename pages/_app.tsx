@@ -7,7 +7,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import createCache from '@emotion/cache';
 import theme from '../src/components/theme';
 import { Provider } from 'react-redux';
-import store from '../src/redux/store';
+// import store from '../src/redux/store';
+import { useStore } from '../src/redux/store';
 // import { wrapper } from '../src/redux/store';
 // import '../src/helper/style.module.scss';
 import { Store } from '@material-ui/icons';
@@ -16,6 +17,7 @@ export const cache = createCache({ key: 'css', prepend: true });
 
 export default function MyApp(props: AppProps) {
 	const { Component, pageProps } = props;
+	const store = useStore(pageProps.initialReduxState);
 
 	React.useEffect(() => {
 		// Remove the server-side injected CSS.

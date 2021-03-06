@@ -14,7 +14,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Formik } from 'formik';
 import { BlogAdd } from '../src/helper/validation/yup';
 import { connect } from 'react-redux';
-import { Create_post } from '../src/redux/actions/mainAction';
+// import { Create_post } from '../src/redux/actions/mainAction';
 import { useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
 import mainReducer from '../src/redux/reducer/mainReducer';
@@ -69,7 +69,7 @@ export default function Add() {
 						validationSchema={BlogAdd}
 						onSubmit={(values, { setSubmitting, resetForm }) => {
 							setTimeout(() => {
-								Create_post(values);
+								// Create_post(values);
 								setSubmitting(false);
 								resetForm();
 							}, 400);

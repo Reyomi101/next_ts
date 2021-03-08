@@ -1,18 +1,11 @@
 import Layout from '../src/components/layout';
 import useStyles from '../src/helper/headStyles';
 import { Typography, Toolbar, Container, Avatar } from '@material-ui/core';
-import Posts from '../src/components/indexItems/Posts';
-import {startFetchingPosts} from '../src/redux/actions/mainAction'
+import MainPosts from '../src/components/indexItems/Posts';
+// import {startFetchingPosts} from '../src/redux/actions/mainAction'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-const displayThis = () => {
-	const dispatch = useDispatch()
-
-	useEffect(()=> {
-		dispatch(startFetchingPosts)
-	}, [dispatch])
-}
 
 
 export default function Home() {
@@ -43,7 +36,11 @@ export default function Home() {
 					architecto vitae natus neque veniam voluptatem enim. Explicabo
 					accusamus consequatur voluptatibus quisquam fugiat!
 				</Typography>
-				<Posts /> {/* ALL POSTS ARE HERE */}
+
+						
+				<MainPosts /> {/* ALL POSTS ARE HERE */}
+
+
 			</Layout>
 		</div>
 	);

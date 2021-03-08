@@ -29,51 +29,51 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import {
-	Create_comment,
-	Remove_Comment,
-	Update_post,
-} from '../src/redux/actions/mainAction';
+// import {
+// 	Create_comment,
+// 	Remove_Comment,
+// 	Update_post,
+// } from '../src/redux/actions/mainAction';
 
-const ForComment = createSelector(
-	(state: any) => state.main,
-	(comments) => comments
-);
+// const ForComment = createSelector(
+// 	(state: any) => state.main,
+// 	(comments) => comments
+// );
 
-const ToRemoveComment = createSelector(
-	(state: any) => state.main,
-	(comments) => comments
-);
+// const ToRemoveComment = createSelector(
+// 	(state: any) => state.main,
+// 	(comments) => comments
+// );
 
-const UpdatedPost = createSelector(
-	(state: any) => state.main,
-	(editPost) => editPost
-);
+// const UpdatedPost = createSelector(
+// 	(state: any) => state.main,
+// 	(editPost) => editPost
+// );
 
 export default function BlogPage(props) {
 	const classes = useStyles();
 	const router = useRouter();
 	const { title, body, userId, id } = router.query;
-	const mainReducer = useSelector(ForComment);
-	const removeThis = useSelector(ToRemoveComment);
-	const updatePost = useSelector(UpdatedPost);
-	const [comlist, setComlist] = useState([]);
+	// const mainReducer = useSelector(ForComment);
+	// const removeThis = useSelector(ToRemoveComment);
+	// const updatePost = useSelector(UpdatedPost);
+	// const [comlist, setComlist] = useState([]);
 
-	useEffect(() => {
-		setComlist(mainReducer.comments.filter((comment) => comment.id === id));
-	}, []);
+	// useEffect(() => {
+	// 	setComlist(mainReducer.comments.filter((comment) => comment.id === id));
+	// }, []);
 
-	const ForRemove = (props) => {
-		Remove_Comment(props);
-		setComlist(removeThis.comments.filter((comment) => comment.id === id));
-	};
+	// const ForRemove = (props) => {
+	// 	// Remove_Comment(props);
+	// 	setComlist(removeThis.comments.filter((comment) => comment.id === id));
+	// };
 
 	return (
 		<>
 			<Layout title='Blog PAGE' fixed={false}>
 				<Typography variant='h3'>Blog PAGE</Typography>
 
-				<Grid container spacing={2}>
+				{/* <Grid container spacing={2}>
 					<Grid item lg={4} sm={6} xs={12}>
 						<div className={classes.avatars}>
 							<Avatar
@@ -102,15 +102,15 @@ export default function BlogPage(props) {
 							</Avatar>
 						</div>
 					</Grid>
-				</Grid>
+				</Grid> */}
 
 				<Grid container spacing={2} className={classes.Grids}>
 					<Grid item md={9}>
 						<Typography variant='h4'>
-							{title === undefined ? updatePost.editPost.subject : title}
+							{/* {title === undefined ? updatePost.editPost.subject : title} */}
 						</Typography>
 					</Grid>
-					<Grid item md={3}>
+					{/* <Grid item md={3}>
 						<div className={classes.editButton}>
 							<Link
 								href={{
@@ -127,30 +127,30 @@ export default function BlogPage(props) {
 								</Button>
 							</Link>
 						</div>
-					</Grid>
+					</Grid> */}
 				</Grid>
 
 				<Typography variant='body1'>
-					{body === undefined ? updatePost.editPost.content : body}
+					{/* {body === undefined ? updatePost.editPost.content : body} */}
 				</Typography>
 
 				<Toolbar />
 				<Typography variant='body2'>
-					test area {JSON.stringify(updatePost.editPost)}
+					{/* test area {JSON.stringify(updatePost.editPost)} */}
 				</Typography>
 				<Toolbar />
-				<Formik
+				{/* <Formik
 					initialValues={{ commentBody: '' }}
 					validationSchema={BlogComment}
 					onSubmit={(values, { setSubmitting, resetForm }) => {
 						setTimeout(() => {
-							Create_comment({
-								commentBody: values.commentBody,
-								id: id,
-							});
-							setComlist(
-								mainReducer.comments.filter((comment) => comment.id === id)
-							);
+							// Create_comment({
+							// 	commentBody: values.commentBody,
+							// 	id: id,
+							// });
+							// setComlist(
+							// 	mainReducer.comments.filter((comment) => comment.id === id)
+							// );
 
 							setSubmitting(false);
 							resetForm();
@@ -199,7 +199,7 @@ export default function BlogPage(props) {
 							</Typography>
 						</form>
 					)}
-				</Formik>
+				</Formik> */}
 
 				<Paper>
 					<List
@@ -212,7 +212,7 @@ export default function BlogPage(props) {
 						}
 						className={classes.listItem}>
 						<Divider />
-						{comlist
+						{/* {comlist
 							.map((coms) => {
 								return (
 									<>
@@ -250,7 +250,7 @@ export default function BlogPage(props) {
 									</>
 								);
 							})
-							.reverse()}
+							.reverse()} */}
 					</List>
 				</Paper>
 			</Layout>

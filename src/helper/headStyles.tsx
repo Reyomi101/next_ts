@@ -5,6 +5,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 	Grids: {
 		paddingTop: '1rem',
+		display: 'flex',
+		justifyContent: 'left',
+	
 	},
 	addform: {
 		marginTop: '1rem',
@@ -33,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 		height: 100,
 	},
 	paper: {
-		padding: theme.spacing(2),
+		padding: theme.spacing(1.5),
 		textAlign: 'left',
 		color: theme.palette.text.secondary,
 		// maxHeight: '500px',

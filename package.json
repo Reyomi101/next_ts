@@ -47,6 +47,9 @@
   "devDependencies": {
     "@types/node": "latest",
     "@types/react": "latest",
+    "@types/react-redux": "^7.1.16",
+    "@types/redux": "^3.6.0",
+    "@types/redux-thunk": "^2.1.0",
     "typescript": "latest"
   }
 }

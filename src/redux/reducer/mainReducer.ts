@@ -1,4 +1,33 @@
-// import * as t from '../types';
+import { GET_POSTS , GetPostsStateType, PostActionTypes } from '../interFaces/types'
+
+
+const initialStateGetPosts: GetPostsStateType = {
+	posts: []
+}
+
+export const getPostsReducer = (
+	state = initialStateGetPosts,
+	action: PostActionTypes
+) : GetPostsStateType => {
+	switch (action.type) {
+		case GET_POSTS: 
+			return {
+				...state,
+				posts: action.payload
+			};
+
+		default: 
+			return state;
+
+	}
+}
+
+
+
+
+
+
+// import * as types from '../interFaces/types';
 
 // const initialState = {
 // 	comments: [],
@@ -62,34 +91,3 @@
 
 // export default mainReducer;
 
-import * as types from '../types';
-
-const INITIAL_STATE = {
-	PostsItems: {},
-	isFetchedOnServer: false,
-	error: null,
-};
-
-function reducer(state = INITIAL_STATE, { type, payload }) {
-	switch (type) {
-		case types.FETCH_POSTS_SUCCESS:
-			alert(JSON.stringify(payload.isServer));
-			return {
-				...state,
-				PostItems: payload.response,
-				isFetchedOnServer: payload.isServer,
-			};
-
-		case type.FETCH_POSTS_FAILURE:
-			return {
-				...state,
-				error: payload.error,
-				isFetchedOnServer: payload.isSever,
-			};
-
-		default:
-			return state;
-	}
-}
-
-export default reducer;

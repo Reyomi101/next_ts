@@ -16,7 +16,7 @@ import { useRouter } from 'next/router';
 import Router from 'next/router';
 import { useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
-import { Update_post } from '../src/redux/actions/mainAction';
+// import { Update_post } from '../src/redux/actions/mainAction';
 import { useHistory } from 'react-router-dom';
 
 const ForUpdate = createSelector(
@@ -69,17 +69,17 @@ export default function EditBlog(props) {
 					repudiandae culpa ea explicabo dolores sunt.
 				</Typography>
 
-				<div className={classes.addform}>
+				{/* <div className={classes.addform}>
 					<Formik
 						initialValues={{ subject: title, content: body }}
 						validationSchema={BlogEdit}
 						onSubmit={(values, { setSubmitting }) => {
 							setTimeout(() => {
-								Update_post({
-									subject: values.subject,
-									content: values.content,
-									id: id,
-								});
+								// Update_post({
+								// 	subject: values.subject,
+								// 	content: values.content,
+								// 	id: id,
+								// });
 
 								Router.push({
 									pathname: '/blogpage',
@@ -162,7 +162,7 @@ export default function EditBlog(props) {
 							</form>
 						)}
 					</Formik>
-				</div>
+				</div> */}
 				{/* <Typography>
 					for testing area = {JSON.stringify(forUpdatePost.editPost)}
 				</Typography> */}

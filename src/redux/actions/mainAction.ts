@@ -1,31 +1,52 @@
-import {GET_POSTS, PostActionTypes} from '../interFaces/types'
-import { Posts } from '../interFaces/interface'
+import {
+  GET_POSTS,
+  PostActionTypes,
+  GET_COMMENTS,
+
+} from '../interFaces/types';
+import { Posts, Comments } from '../interFaces/interface';
 import { Dispatch } from 'redux';
+import { WebClient } from '../../api/webclient';
 
+//For get post START here!
 export const getPostAction = (posts: Posts[]): PostActionTypes => {
-    return {
-        type: GET_POSTS,
-        payload: posts
-    }
-}
-
+  return {
+    type: GET_POSTS,
+    payload: posts,
+  };
+};
 
 export const getPosts = () => {
-    return function (dispatch: Dispatch<PostActionTypes>) {
-        const POST_URL = 'https://jsonplaceholder.typicode.com/posts';
-        fetch(POST_URL, {
-            method: 'GET'
-        })
-        .then(res => res.json())
-        .then(data => {
-            dispatch(getPostAction(data));
-            return data;
-        })
-    }
-}
+  return function (dispatch: Dispatch<PostActionTypes>) {
+    const POST_URL = 'https://jsonplaceholder.typicode.com/posts';
+    fetch(POST_URL, {
+      method: 'GET',
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch(getPostAction(data));
+        return data;
+      });
+  };
+};
+//For get post END here!
 
+//For get comments START here!
+export const getCommentAction = (comments: Posts[]): PostActionTypes => {
+  return {
+    type: GET_COMMENTS,
+    payload: comments,
+  };
+};
 
-
+export const getComments = () => {
+  return function (dispatch: Dispatch<PostActionTypes>) {
+    WebClient.get('/comments').then((res) => {
+      dispatch(getCommentAction(res.data));
+      return res.data;
+    });
+  };
+};
 
 // // export const Create_comment = (params) => {
 // // 	store.dispatch({

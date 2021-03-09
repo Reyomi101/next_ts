@@ -1,31 +1,60 @@
-import { GET_POSTS , GetPostsStateType, PostActionTypes } from '../interFaces/types'
+import {
+  GET_POSTS,
+  GetPostsStateType,
+  PostActionTypes,
+  GET_COMMENTS,
+} from '../interFaces/types';
 
-
+//for POSTS area START here!
 const initialStateGetPosts: GetPostsStateType = {
-	posts: []
-}
+  posts: [],
+//   comments: [],
+};
 
 export const getPostsReducer = (
-	state = initialStateGetPosts,
-	action: PostActionTypes
-) : GetPostsStateType => {
-	switch (action.type) {
-		case GET_POSTS: 
-			return {
-				...state,
-				posts: action.payload
-			};
+  state = initialStateGetPosts,
+  action: PostActionTypes
+): GetPostsStateType => {
+  switch (action.type) {
+    case GET_POSTS:
+      return {
+        ...state,
+        posts: action.payload,
+      };
 
-		default: 
-			return state;
+	case GET_COMMENTS:
+		return {
+			...state,
+		posts: action.payload
+		}  
 
-	}
-}
+    default:
+      return state;
+  }
+};
+//for POSTS area END here!
 
+//for COMMENTS area START here!
+// const initialStateGetComments: GetCommentStateType = {
+//   comments: [],
+// };
 
+// export const getCommentsReducer = (
+//   state = initialStateGetComments,
+//   action: CommentActionTypes
+// ): GetCommentStateType => {
+//   switch (action.type) {
+//     case GET_COMMENTS:
+//       return {
+//         ...state,
+//         comments: action.payload,
+//       };
 
-
-
+//     default:
+//       return state;
+//   }
+// };
+//for COMMENTS area END here!
 
 // import * as types from '../interFaces/types';
 
@@ -90,4 +119,3 @@ export const getPostsReducer = (
 // };
 
 // export default mainReducer;
-

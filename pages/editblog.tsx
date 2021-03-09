@@ -69,7 +69,7 @@ export default function EditBlog(props) {
 					repudiandae culpa ea explicabo dolores sunt.
 				</Typography>
 
-				{/* <div className={classes.addform}>
+				<div className={classes.addform}>
 					<Formik
 						initialValues={{ subject: title, content: body }}
 						validationSchema={BlogEdit}
@@ -162,7 +162,7 @@ export default function EditBlog(props) {
 							</form>
 						)}
 					</Formik>
-				</div> */}
+				</div>
 				{/* <Typography>
 					for testing area = {JSON.stringify(forUpdatePost.editPost)}
 				</Typography> */}

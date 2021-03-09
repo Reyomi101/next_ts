@@ -16,6 +16,9 @@ const useStyles = makeStyles((theme) => ({
 		background: 'rgba(225,230,230, 0.1)',
 		borderRadius: '5px',
 	},
+	comBodybg:{
+		background: 'rgba(225,230,230, 0.2)',
+	},
 	indexItems: {
 		display: 'flex',
 		justifyContent: 'center',
@@ -108,13 +111,14 @@ const useStyles = makeStyles((theme) => ({
 	delButton2: {
 		display: 'flex',
 		justifyContent: 'flex-end',
-
+		marginTop: '5px',
 		color: 'rgba(225,200,200, 0.3)',
 	},
 	pageno: {
 		display: 'flex',
 		justifyContent: 'flex-start',
 		marginTop: '20px',
+		fontSize:'12px',
 	},
 	bottomcard: {
 		display: 'flex',
@@ -140,6 +144,10 @@ const useStyles = makeStyles((theme) => ({
 		display: 'block',
 		justifyContent: 'center',
 		alignItems: 'center',
+	},
+	smallAvatar: {
+		width: theme.spacing(2),
+		height: theme.spacing(2),
 	},
 }));
 

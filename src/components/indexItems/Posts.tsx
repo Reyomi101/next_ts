@@ -51,54 +51,148 @@ import GridBase from '@material-ui/core/Grid';
 // 	(postItems) => postItems
 // );
 
-// function paginator(array, limit, page) {
-// 	return array.slice((page - 1) * limit, page * limit);
-// }
+function paginator(array, limit, page) {
+  return array.slice((page - 1) * limit, page * limit);
+}
 
 export default function MainPosts() {
+  //for styles
   const classes = useStyles();
+
+  //post to dispatch
   const router = useRouter();
-  const { id, userId, title, body} = router.query
+  const { id, userId, title, body } = router.query;
   const dispatch = useDispatch();
+  const GetPost = getPosts();
+
+  //for loader
+  const [loader, setLoader] = useState(true);
+
+  // for pagination
+  const [newPost, setNewPost] = useState([]);
+  const [pageItems, setPageItems] = useState([]);
+  const [items, setItems] = useState([]);
+  const [limit, setLimit] = useState(6);
+  const [page, setPage] = useState(1);
+  const rateTotal = items.length / limit;
+  const total = Math.round(rateTotal);
+
+  console.log(pageItems);
+
+  const handleChange = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    setTimeout(() => {
+      // Show_posts();
+      setPage(newPage);
+      setPageItems(paginator(items, limit, page));
+      // setLoader(false);
+    }, 3000);
+  };
 
   useEffect(() => {
-    dispatch(getPosts());
+    setLoader(true);
+    setTimeout(() => {
+      dispatch(GetPost);
+      // setItems(GetPost);
+      setPageItems(paginator(items, limit, page));
+      setLoader(false);
+    }, 2500);
   }, [dispatch]);
 
+
+
+  //data from API to state
   const posts = useSelector((state: AppState) => state.posts);
   const postItems = posts.posts.map((post: Posts, idx) => {
     return (
-      <Grid item lg={4}>
+      <Grid item lg={4} md={6} xs={12}>
         <Paper className={classes.paper}>
-          <Typography variant='h5'>{post.title}</Typography>
-          <Typography variant='body1'>{post.body}</Typography>
-          <Typography variant='body1'>
-            {post.userId} , {post.id}
-          </Typography>
-          <div className={classes.linkButton}>
-            <Link
-              key={idx}
-              href={{ pathname: '/blogpage',
-			   query: {
-				   	// title: post.title,
-					// body: post.body,
-					id: post.id,
-					// userId: post.userId,
-			  }, }}
-              passHref>
-              <Button
-                component='a'
-                size='small'
-                color='primary'
-                variant='contained'>
-                Learn More
-              </Button>
-            </Link>
+          <Card>
+            <CardContent>
+              <Typography variant='h5'>{post.title}</Typography>
+              <Typography variant='body1'>{post.body}</Typography>
+            </CardContent>
+          </Card>
+          <div className={classes.bottomcard}>
+            <Typography variant='body1' className={classes.pageno}>
+              {post.userId} , {post.id}
+            </Typography>
+            <div className={classes.linkButton}>
+              <Link
+                key={idx}
+                href={{
+                  pathname: '/blogpage',
+                  query: {
+                    title: post.title,
+                    body: post.body,
+                    id: post.id,
+                    userId: post.userId,
+                  },
+                }}
+                passHref>
+                <Button
+                  component='a'
+                  size='small'
+                  color='primary'
+                  variant='contained'>
+                  Learn More
+                </Button>
+              </Link>
+            </div>
           </div>
         </Paper>
       </Grid>
     );
   });
+
+
+  //For pagination
+  
+  const pagenatorItems = pageItems.map((post: Posts, idx) => {
+    return (
+      <Grid item lg={4}>
+        <Paper className={classes.paper}>
+          <Card>
+            <CardContent>
+              <Typography variant='h5'>{post.title}</Typography>
+              <Typography variant='body1'>{post.body}</Typography>
+            </CardContent>
+          </Card>
+          <div className={classes.bottomcard}>
+            <Typography className={classes.pageno}>
+              {post.userId} , {post.id}
+            </Typography>
+            <div className={classes.linkButton}>
+              <Link
+                key={idx}
+                href={{
+                  pathname: '/blogpage',
+                  query: {
+                    title: post.title,
+                    body: post.body,
+                    id: post.id,
+                    userId: post.userId,
+                  },
+                }}
+                passHref>
+                <Button
+                  component='a'
+                  size='small'
+                  color='primary'
+                  variant='contained'>
+                  Learn More
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </Paper>
+      </Grid>
+    );
+  });
+
+
 
   return (
     <div style={{ marginTop: '1rem' }}>
@@ -108,8 +202,32 @@ export default function MainPosts() {
         justify='space-around'
         alignItems='center'
         spacing={2}>
-        {postItems}
+        {loader === true ? (
+          <Skeleton variant='rect' width='100%'>
+            <div style={{ paddingTop: '57%', marginTop: '20px' }} />
+          </Skeleton>
+        ) : (
+          // postItems !== undefined ? postItems : pagenatorItems
+          postItems
+        )}
+
       </Grid>
+
+      <Toolbar />
+        <div className={classes.pagenator}>
+          <Pagination
+            count={total}
+            page={page}
+            onChange={handleChange}
+            defaultPage={2}
+            color='primary'
+            size='large'
+            shape='rounded'
+            showFirstButton
+            showLastButton
+          />
+        </div>
+        <Toolbar />
     </div>
   );
 

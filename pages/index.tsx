@@ -2,9 +2,7 @@ import Layout from '../src/components/layout';
 import useStyles from '../src/helper/headStyles';
 import { Typography, Toolbar, Container, Avatar } from '@material-ui/core';
 import MainPosts from '../src/components/indexItems/Posts';
-// import {startFetchingPosts} from '../src/redux/actions/mainAction'
-import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import Image from 'next/image'
 
 
 
@@ -14,7 +12,7 @@ export default function Home() {
 	return (
 		<div>
 			<Toolbar />
-			<Container maxWidth='lg'>
+			<Container maxWidth='md'>
 				<div className={classes.imagedex}>
 					<Avatar
 						variant='square'
@@ -25,7 +23,13 @@ export default function Home() {
 							backgroundColor: '#eee',
 						}}>
 						Sample IMAGE
+						{/* <Image  src="/image/next.jpg"  alt="wallpaper" /> */}
+					
 					</Avatar>
+					
+							 
+							
+						
 				</div>
 			</Container>
 			<Layout title='Tsx NEXT blog'>

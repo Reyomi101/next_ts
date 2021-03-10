@@ -1,33 +1,20 @@
-import {
-  GET_POSTS,
-  GetPostsStateType,
-  PostActionTypes,
-  GET_COMMENTS,
-} from '../interFaces/types';
+import {  GET_POSTS } from '../interFaces/types';
+
 
 //for POSTS area START here!
-const initialStateGetPosts: GetPostsStateType = {
+const initialProps = {
   posts: [],
-//   comments: [],
 };
 
-export const getPostsReducer = (
-  state = initialStateGetPosts,
-  action: PostActionTypes
-): GetPostsStateType => {
+export const getPostsReducer = (  state = initialProps, action )=> {
   switch (action.type) {
     case GET_POSTS:
+      // alert(JSON.stringify(action.payload))
       return {
         ...state,
-        posts: action.payload,
+        posts: action.payload, 
       };
-
-	case GET_COMMENTS:
-		return {
-			...state,
-		posts: action.payload
-		}  
-
+ 
     default:
       return state;
   }

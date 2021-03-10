@@ -40,7 +40,7 @@ export default function Appbar(props: Props) {
 			<CssBaseline />
 			<HideOnScroll {...props}>
 				<AppBar>
-					<Container maxWidth='lg'>
+					<Container maxWidth='md'>
 						<Toolbar>
 							<Typography variant='h6' className={classes.title}>
 								REYOMI

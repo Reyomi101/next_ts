@@ -1,19 +1,49 @@
-import {  GET_POSTS } from '../interFaces/types';
+import * as types from '../interFaces/types';
 
+
+// interface Posts {
+//   id: number;
+//   userId: number;
+//   title: string;
+//   body: string;
+// }
+
+// type NewList = {
+//   items: Posts[]
+// }
 
 //for POSTS area START here!
 const initialProps = {
   posts: [],
+  newPosts: [],
+  
 };
 
+// console.log(initialProps);
+
 export const getPostsReducer = (  state = initialProps, action )=> {
+  let copyState = Object.assign({}, state);
   switch (action.type) {
-    case GET_POSTS:
+    case types.GET_POSTS:
       // alert(JSON.stringify(action.payload))
       return {
         ...state,
         posts: action.payload, 
       };
+
+    case types.ADD_POSTS:
+      let tempPost = copyState.newPosts;
+      tempPost.push(action.payload)
+      copyState.newPosts = tempPost;
+      alert(JSON.stringify(action.payload));
+      console.log(action.payload)
+      return copyState;
+
+      // return {
+      //   ...state,
+      //   newPosts: action.payload,
+      // }
+    
  
     default:
       return state;

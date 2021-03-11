@@ -16,17 +16,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { createSelector } from 'reselect';
 import { useRouter } from 'next/router';
 import { getPosts } from '../../redux/actions/mainAction';
-
-
+// import ImageGrid from '../skeleton'
+import ContentLoader from 'react-content-loader'
 
 const PostsItems = createSelector(
   (state: any) => state.posts,
   (posts) => posts
 );
 
-// function paginator(array, limit, page) {
-//   return array.slice((page - 1) * limit, page * limit);
-// }
 
 export default function MainPosts(props) {
   //for styles
@@ -40,18 +37,18 @@ export default function MainPosts(props) {
   postList.current = getPostItems.posts;
   const listPosts = postList.current;
 
-  //post to dispatch
+  //post to dispatch & routes
   const router = useRouter();
   const { id, userId, title, body } = router.query;
   const dispatch = useDispatch();
   const GetPost = getPosts();
+  
 
   //for loader
   const [loader, setLoader] = useState(true);
 
   // pagination
   const limit = 6;
-  const [pageItems, setPageItems] = useState();
   const [page, setPage] = useState(1);
   const rateTotal = listPosts.length / limit;
   const total = Math.round(rateTotal);
@@ -63,7 +60,6 @@ export default function MainPosts(props) {
     setLoader(true);
     setTimeout(() => {
       setPage(newPage);
-      // setPageItems(paginator(listPosts, limit, page));
       setLoader(false);
     }, 2500);
   };
@@ -122,7 +118,7 @@ export default function MainPosts(props) {
       </Grid>
     ));
 
-  // data from pagination
+  
 
   return (
     <div style={{ marginTop: '1rem' }}>
@@ -133,9 +129,27 @@ export default function MainPosts(props) {
         alignItems='center'
         spacing={2}>
         {loader === true ? (
-          <Skeleton variant='rect' width='100%'>
-            <div style={{ paddingTop: '57%', marginTop: '20px' }} />
-          </Skeleton>
+          <ContentLoader
+          width={900}
+          height={700}
+          // viewBox="0 0 800 575"
+          viewBox="0 0 900 700"
+          backgroundColor="#f3f3f3"
+          foregroundColor="#ecebeb"
+          
+          {...props}
+        >
+         
+          <rect x="0" y="38" rx="5" ry="5" width="300" height="328"  />
+          <rect x="315" y="37" rx="3" ry="5" width="280" height="328" />
+          <rect x="612" y="36" rx="3" ry="5" width="280" height="328" />
+
+          <rect x="0" y="383" rx="5" ry="5" width="300" height="320" />
+          <rect x="315" y="381" rx="5" ry="5" width="280" height="320" />
+          <rect x="611" y="379" rx="5" ry="5" width="280" height="320" />
+
+        
+        </ContentLoader>
         ) : (
           // NewPostItems === undefined ?  StatePostItems : NewPostItems
           StatePostItems

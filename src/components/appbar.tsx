@@ -40,17 +40,17 @@ export default function Appbar(props: Props) {
 			<CssBaseline />
 			<HideOnScroll {...props}>
 				<AppBar>
-					<Container maxWidth='md'>
+					<Container maxWidth='md' style={{ padding: 0 }}>
 						<Toolbar>
 							<Typography variant='h6' className={classes.title}>
 								REYOMI
 							</Typography>
 							<Link href='/' passHref>
-								<Button color='inherit'>Home</Button>
+								<Button color='inherit' className={classes.appBarBut} >Home</Button>
 							</Link>
 							<Divider className={classes.divider} orientation='vertical' />
 							<Link href='/add' passHref>
-								<Button color='inherit'>+ADD</Button>
+								<Button color='inherit' className={classes.appBarBut}>+ADD</Button>
 							</Link>
 						</Toolbar>
 					</Container>

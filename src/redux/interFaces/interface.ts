@@ -7,6 +7,9 @@ export  interface Posts {
     body: string;
 }
 
+// export  interface newPosts {
+//     newPosts: Posts[]
+// }
 
 
 // export interface Comments {

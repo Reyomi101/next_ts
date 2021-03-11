@@ -14,10 +14,19 @@ import { useState, useEffect, useRef } from 'react';
 import { Formik } from 'formik';
 import { BlogAdd } from '../src/helper/validation/yup';
 import { connect } from 'react-redux';
-// import { Create_post } from '../src/redux/actions/mainAction';
-import { useSelector } from 'react-redux';
+import {
+  // addPostAction,
+   addPosts,
+  addNewPosts,
+} from '../src/redux/actions/mainAction';
+import { useSelector, useDispatch } from 'react-redux';
 import { createSelector } from 'reselect';
+// import  {newPosts} from '../src/redux/interFaces/interface';
 
+const GetNewPost = createSelector(
+  (state: any) => state.newPosts,
+  (newPosts) => newPosts
+);
 
 export default function Add() {
   const classes = useStyles();
@@ -25,6 +34,9 @@ export default function Add() {
   const [buffer, setBuffer] = useState(10);
 
   const [postlist, setPostlist] = useState([]);
+
+  const getNewPostList = useSelector(GetNewPost);
+  const dispatch = useDispatch();
 
   const progressRef = useRef(() => {});
   useEffect(() => {
@@ -42,13 +54,17 @@ export default function Add() {
   });
 
   useEffect(() => {
+    // dispatch(addPosts);
     const timer = setInterval(() => {
       progressRef.current();
     }, 500);
     return () => {
       clearInterval(timer);
     };
-  }, []);
+  }, [dispatch]);
+
+  const postId = Math.random() * 110 + 100;
+  const postID = Math.round(postId);
 
   return (
     <div>
@@ -65,13 +81,16 @@ export default function Add() {
 
         <div className={classes.addform}>
           <Formik
-            initialValues={{ title: '', body: '', userId: 11, id: 101 }}
+            initialValues={{ title: '', body: '', userId: 11, id: postID }}
             validationSchema={BlogAdd}
-            onSubmit={(values, { setSubmitting, resetForm }) => {
+            onSubmit={(values, { setSubmitting, }) => {
               setTimeout(() => {
-                // Create_post(values);
+                // alert(JSON.stringify(values))
+                // addPostAction(values);
+                addPosts(values);
+                addNewPosts(values);
                 setSubmitting(false);
-                resetForm();
+                // resetForm();
               }, 400);
             }}>
             {({
@@ -145,6 +164,9 @@ export default function Add() {
             )}
           </Formik>
         </div>
+        <Typography>for testing area =
+        {/* {JSON.stringify(addPosts)}*/}
+        </Typography> 
         <Toolbar />
         <Toolbar />
         <Toolbar />

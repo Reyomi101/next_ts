@@ -9,6 +9,13 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'left',
 	
 	},
+	appBarBut: {
+		'& :visited': { background: '#42A5F5' },
+		'&:hover': {
+            backgroundColor: '#42A5F5',
+            color: '#FFF'},
+		'& :active': { background: '#42A5F5' },
+	},
 	addform: {
 		marginTop: '1rem',
 		flexGrow: 1,
@@ -49,6 +56,8 @@ const useStyles = makeStyles((theme) => ({
 	footer: {
 		top: 'auto',
 		bottom: 0,
+		padding: '0!important',
+		margin: '0!important',
 	},
 	blgtitle: {
 		display: 'flex',

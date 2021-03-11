@@ -9,10 +9,11 @@ export default function Footer(props) {
       <AppBar
         position={props.fixed === true ? 'fixed' : 'static'}
         color='secondary'
+        
         className={classes.footer}>
-        <Container maxWidth='md'>
-          <Toolbar>
-            <Typography variant='body1' color='inherit'>
+        <Container maxWidth='md' style={{ padding: 0 }}>
+          <Toolbar >
+            <Typography variant='body1' color='inherit' >
               <Link href='/' passHref>
                 <Button color='inherit' size="large">© 2021 REYOMI</Button>
               </Link>

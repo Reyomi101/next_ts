@@ -1,54 +1,67 @@
 import * as types from '../interFaces/types';
+import { combineReducers } from 'redux'
+import * as actions from '../actions/mainAction';
+import { type } from 'os';
 
 
-// interface Posts {
-//   id: number;
-//   userId: number;
-//   title: string;
-//   body: string;
-// }
-
-// type NewList = {
-//   items: Posts[]
-// }
-
-//for POSTS area START here!
 const initialProps = {
   posts: [],
-  newPosts: [],
-  
+  newPosts: []
 };
 
-// console.log(initialProps);
 
-export const getPostsReducer = (  state = initialProps, action )=> {
-  let copyState = Object.assign({}, state);
+
+export const PostReducer = (  state = initialProps, action )=> {
   switch (action.type) {
     case types.GET_POSTS:
-      // alert(JSON.stringify(action.payload))
+      alert(JSON.stringify(action.payload))
       return {
         ...state,
-        posts: action.payload, 
+        posts: action.payload,
       };
 
     case types.ADD_POSTS:
-      let tempPost = copyState.newPosts;
-      tempPost.push(action.payload)
-      copyState.newPosts = tempPost;
-      alert(JSON.stringify(action.payload));
-      console.log(action.payload)
-      return copyState;
+      console.log(action.payload)  
+      return {
+        ...state,
+        newPosts: action.payload,
+      };
 
-      // return {
-      //   ...state,
-      //   newPosts: action.payload,
-      // }
-    
- 
     default:
       return state;
   }
 };
+
+
+const initialState: types.NewState = {
+  postsItems: []
+}
+
+export function NewPostReducer (
+  state = initialState,
+  action: types.PostsActionTypes
+): types.NewState {
+  switch(action.type) {
+    case types.ADD_POSTS:
+      console.log(action.payload);
+      return{
+        postsItems: [...state.postsItems, action.payload] 
+      }
+
+    default:
+      return state
+    
+  }
+}
+
+// const reducers = {
+//   posts: PostReducer,
+//   newPosts: NewPostReducer,
+// }
+
+// export default combineReducers(reducers)
+
+
 //for POSTS area END here!
 
 //for COMMENTS area START here!
@@ -135,4 +148,4 @@ export const getPostsReducer = (  state = initialProps, action )=> {
 // 	}
 // };
 
-// export default mainReducer;
+

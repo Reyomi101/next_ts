@@ -25,6 +25,11 @@ const PostsItems = createSelector(
 );
 
 
+const NewPostList = createSelector (
+  (state: any) => state.main,
+  (newPosts) => newPosts
+)
+
 export default function MainPosts(props) {
   //for styles
   const classes = useStyles();

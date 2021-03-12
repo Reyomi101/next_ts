@@ -16,15 +16,16 @@ import { BlogAdd } from '../src/helper/validation/yup';
 import { connect } from 'react-redux';
 import {
   // addPostAction,
-   addPosts,
-  addNewPosts,
+  // AddPosts,
+  // addNewPosts,
+  addNewPost,
 } from '../src/redux/actions/mainAction';
 import { useSelector, useDispatch } from 'react-redux';
 import { createSelector } from 'reselect';
 // import  {newPosts} from '../src/redux/interFaces/interface';
 
 const GetNewPost = createSelector(
-  (state: any) => state.newPosts,
+  (state: any) => state.posts,
   (newPosts) => newPosts
 );
 
@@ -54,7 +55,7 @@ export default function Add() {
   });
 
   useEffect(() => {
-    // dispatch(addPosts);
+    dispatch(addNewPost);
     const timer = setInterval(() => {
       progressRef.current();
     }, 500);
@@ -85,10 +86,11 @@ export default function Add() {
             validationSchema={BlogAdd}
             onSubmit={(values, { setSubmitting, }) => {
               setTimeout(() => {
-                // alert(JSON.stringify(values))
+                console.log(values);
                 // addPostAction(values);
-                addPosts(values);
-                addNewPosts(values);
+                // AddPosts(values);
+                // addNewPosts(values);
+                addNewPost(values);
                 setSubmitting(false);
                 // resetForm();
               }, 400);
@@ -165,7 +167,7 @@ export default function Add() {
           </Formik>
         </div>
         <Typography>for testing area =
-        {/* {JSON.stringify(addPosts)}*/}
+        {JSON.stringify(getNewPostList.newPosts)}
         </Typography> 
         <Toolbar />
         <Toolbar />

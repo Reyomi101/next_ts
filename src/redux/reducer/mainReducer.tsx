@@ -1,58 +1,61 @@
-import * as types from '../interFaces/types';
-import { combineReducers } from 'redux'
-import * as actions from '../actions/mainAction';
-import { type } from 'os';
-
+import * as types from "../interFaces/types";
+import { combineReducers } from "redux";
+import * as actions from "../actions/mainAction";
+import { type } from "os";
 
 const initialProps = {
   posts: [],
-  newPosts: []
+  newPosts: [],
 };
 
-
-
-export const PostReducer = (  state = initialProps, action )=> {
+export const PostReducer = (state = initialProps, action) => {
+  let copyState = Object.assign({}, state);
   switch (action.type) {
     case types.GET_POSTS:
-      alert(JSON.stringify(action.payload))
+      alert(JSON.stringify(action.payload));
       return {
         ...state,
         posts: action.payload,
       };
 
     case types.ADD_POSTS:
-      console.log(action.payload)  
-      return {
-        ...state,
-        newPosts: action.payload,
-      };
+      alert(JSON.stringify(action.payload))
+
+      //with wrapper
+      // return Object.assign({}, state, {
+      //   action //?
+      // });
+
+    // thunk only
+    let tempPost = copyState.newPosts;
+    tempPost.push(action.payload);
+    copyState.newPosts = tempPost;
+    return copyState;
 
     default:
       return state;
   }
 };
 
+// const initialState: types.NewState = {
+//   postsItems: [],
+// };
 
-const initialState: types.NewState = {
-  postsItems: []
-}
+// export function NewPostReducer(
+//   state = initialState,
+//   action: types.PostsActionTypes
+// ): types.NewState {
+//   switch (action.type) {
+//     case types.ADD_POSTS:
+//       console.log(action.payload);
+//       return {
+//         postsItems: [...state.postsItems, action.payload],
+//       };
 
-export function NewPostReducer (
-  state = initialState,
-  action: types.PostsActionTypes
-): types.NewState {
-  switch(action.type) {
-    case types.ADD_POSTS:
-      console.log(action.payload);
-      return{
-        postsItems: [...state.postsItems, action.payload] 
-      }
-
-    default:
-      return state
-    
-  }
-}
+//     default:
+//       return state;
+//   }
+// }
 
 // const reducers = {
 //   posts: PostReducer,
@@ -60,7 +63,6 @@ export function NewPostReducer (
 // }
 
 // export default combineReducers(reducers)
-
 
 //for POSTS area END here!
 
@@ -147,5 +149,3 @@ export function NewPostReducer (
 // 			return { ...state };
 // 	}
 // };
-
-

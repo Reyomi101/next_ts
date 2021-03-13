@@ -1,31 +1,30 @@
-import {createStore, applyMiddleware} from 'redux';
-import { createWrapper } from 'next-redux-wrapper'
-import  rootReducer  from './reducer/rootReducer';
-import thunkMiddleware from 'redux-thunk'
-import { composeWithDevTools } from 'redux-devtools-extension'
-// const bindMiddleware = (middleware) => {
-// 	if(process.env.NODE_ENV !==  'development') {
-// 		const {composeWithDevTools} = require('redux-devtools-extension')
-// 		return composeWithDevTools(applyMiddleware(...middleware))
-// 	}
-// 	return applyMiddleware(...middleware)
-// }
+import { createStore, applyMiddleware } from "redux";
+import { createWrapper } from "next-redux-wrapper";
+import rootReducer from "./reducer/rootReducer";
+import thunkMiddleware from "redux-thunk";
+import { composeWithDevTools } from "redux-devtools-extension";
+import thunk from "redux-thunk";
 
 
-const initStore = (initialState) => {
-	return createStore(rootReducer, initialState,
-		composeWithDevTools(applyMiddleware(thunkMiddleware)))
-}
+const bindMiddleware = (middleware) => {
+	if (process.env.NODE_ENV !== 'production') {
+	  const { composeWithDevTools } = require('redux-devtools-extension')
+	  return composeWithDevTools(applyMiddleware(...middleware))
+	}
+	return applyMiddleware(...middleware)
+  }
 
-export const wrapper = createWrapper(initStore)
+// const store = () => {
+// 	return createStore(rootReducer, bindMiddleware([thunkMiddleware]))
+//   }
 
+// export const wrapper = createWrapper(store)
 
-// const store = createStore(
-// 	rootReducer,
-// 	composeWithDevTools(applyMiddleware(thunkMiddleware))
-// );
+const store = createStore(
+  rootReducer,
+//   composeWithDevTools(applyMiddleware(thunkMiddleware))
+  bindMiddleware([thunk])
+//   composeWithDevTools(applyMiddleware(thunk))
+);
 
-// export type AppState = 	ReturnType<typeof rootReducer>;
-// export default store;
-
-
+export default store;

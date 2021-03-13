@@ -1,6 +1,6 @@
-import useStyles from '../../helper/headStyles';
-import Layout from '../../components/layout';
-import Link from 'next/link';
+import useStyles from "../../helper/headStyles";
+import Layout from "../../components/layout";
+import Link from "next/link";
 import {
   Typography,
   Avatar,
@@ -16,20 +16,22 @@ import {
   ListSubheader,
   Paper,
   Tooltip,
-} from '@material-ui/core';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import SendIcon from '@material-ui/icons/Send';
-import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
-import CloseIcon from '@material-ui/icons/Close';
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import IconButton from '@material-ui/core/IconButton';
-import { Formik } from 'formik';
-import { ForBlogComments } from '../../helper/validation/yup';
-import { useRouter } from 'next/router';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { createSelector } from 'reselect';
+} from "@material-ui/core";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import SendIcon from "@material-ui/icons/Send";
+import DeleteForeverOutlinedIcon from "@material-ui/icons/DeleteForeverOutlined";
+import CloseIcon from "@material-ui/icons/Close";
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+import IconButton from "@material-ui/core/IconButton";
+import { Formik } from "formik";
+import { ForBlogComments } from "../../helper/validation/yup";
+import { useRouter } from "next/router";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { createSelector } from "reselect";
+
+// import { addComments } from "../../redux/actions/commAction";
 // import { getComments } from '../../redux/actions/mainAction';
 // import { Comments } from '../../redux/interFaces/interface';
 // import { AppState } from '../../redux/store';
@@ -44,6 +46,11 @@ import { createSelector } from 'reselect';
 //   (state: AppState) => state.comments,
 //   (comments) => comments
 // );
+
+const ForComment = createSelector(
+  (state: any) => state.comments,
+  (comment) => comment
+);
 
 // const ToRemoveComment = createSelector(
 // 	(state: any) => state.main,
@@ -74,10 +81,10 @@ export default function BlogComment(props) {
   const classes = useStyles();
 
   //State
-  //   const [coms, setComs] = useState();
+  const [comms, setComs] = useState([]);
 
   //for selectors
-  //   const Comments = useSelector(ForComment);
+  const Comments = useSelector(ForComment);
 
   //comments to dispatch
   const router = useRouter();
@@ -86,10 +93,10 @@ export default function BlogComment(props) {
   //   const dispatch = useDispatch();
   // const GetComments = getComments();
 
-  //   useEffect(() => {
-  //     // dispatch(GetComments);
-  //     // setComs(Comments.comments.filter((comment: Comments) => id === comment.postId))
-  //   }, [dispatch]);
+  useEffect(() => {
+    // dispatch(GetComments);
+    setComs(Comments.comment.filter((comments) => id === comments.postId));
+  }, []);
 
   //   const CommentItems = Comments.comments.map((comment: Comments, idx) => {
   //     let str = comment.name;
@@ -158,22 +165,22 @@ export default function BlogComment(props) {
   return (
     <>
       <Formik
-        initialValues={{ commentBody: '' }}
+        initialValues={{ commentBody: "" }}
         validationSchema={ForBlogComments}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           setTimeout(() => {
-            // Create_comment({
-            // 	commentBody: values.commentBody,
-            // 	id: id,
+            alert(JSON.stringify(values))
+            // addComments({
+            //   commentBody: values.commentBody,
+            //   id: id,
             // });
-            // setComlist(
-            // 	mainReducer.comments.filter((comment) => comment.id === id)
-            // );
+            setComs(Comments.comment.filter((comments) => comments.id === id));
 
             setSubmitting(false);
             resetForm();
           }, 100);
-        }}>
+        }}
+      >
         {({
           values,
           errors,
@@ -185,20 +192,20 @@ export default function BlogComment(props) {
         }) => (
           <form onSubmit={handleSubmit}>
             <TextField
-              id='commentBody'
-              name='commentBody'
-              label='Comment:'
-              variant='outlined'
+              id="commentBody"
+              name="commentBody"
+              label="Comment:"
+              variant="outlined"
               fullWidth
               multiline
               InputProps={{
                 endAdornment: (
-                  <IconButton type='submit' color='primary'>
-                    <Tooltip title='Tab + Enter' placement='right' arrow>
+                  <IconButton type="submit" color="primary">
+                    <Tooltip title="Tab + Enter" placement="right" arrow>
                       {isSubmitting ? (
-                        <CircularProgress disableShrink color='secondary' />
+                        <CircularProgress disableShrink color="secondary" />
                       ) : (
-                        <SendIcon fontSize='large' color='secondary' />
+                        <SendIcon fontSize="large" color="secondary" />
                       )}
                     </Tooltip>
                   </IconButton>
@@ -210,7 +217,7 @@ export default function BlogComment(props) {
               error={touched.commentBody && Boolean(errors.commentBody)}
               helperText={Boolean(errors.commentBody) && touched.commentBody}
             />
-            <Typography color='error'>
+            <Typography color="error">
               {errors.commentBody && touched.commentBody && errors.commentBody}
             </Typography>
           </form>
@@ -219,14 +226,15 @@ export default function BlogComment(props) {
 
       <Paper>
         <List
-          component='nav'
-          aria-labelledby='nested-list-subheader'
+          component="nav"
+          aria-labelledby="nested-list-subheader"
           subheader={
-            <ListSubheader component='div' id='nested-list-subheader'>
+            <ListSubheader component="div" id="nested-list-subheader">
               Nested Comments
             </ListSubheader>
           }
-          className={classes.listItem}>
+          className={classes.listItem}
+        >
           <Divider />
 
           {/* { comments.postId === id ?
@@ -235,32 +243,34 @@ export default function BlogComment(props) {
           {/* {CommentItems} */}
 
           <div className={classes.paper}>
-            <Grid container wrap='nowrap' spacing={2}>
+            <Grid container wrap="nowrap" spacing={2}>
               <Grid item>
-                <Tooltip title={<h3>Wonder Pets</h3>} placement='left' arrow>
-                  <Avatar style={{ color: '#19857b', backgroundColor: '#ddd' }}>
+                <Tooltip title={<h3>Wonder Pets</h3>} placement="left" arrow>
+                  <Avatar style={{ color: "#19857b", backgroundColor: "#ddd" }}>
                     W
                   </Avatar>
                 </Tooltip>
               </Grid>
               <Grid item xs zeroMinWidth>
-                <Typography variant='body2'>{message}</Typography>
+                <Typography variant="body2">{message}</Typography>
               </Grid>
               <Grid>
                 <div
                   className={classes.delButton2}
-                  style={{ marginRight: '-20px' }}>
+                  style={{ marginRight: "-20px" }}
+                >
                   <ListItemIcon>
-                    <Tooltip title='UNCOMMENT' placement='right' arrow>
+                    <Tooltip title="UNCOMMENT" placement="right" arrow>
                       <IconButton
-                        aria-label='delete'
-                        size='small'
+                        aria-label="delete"
+                        size="small"
                         className={classes.delicon}
-                        color='secondary'
+                        color="secondary"
                         onClick={() => {
                           //   ForRemove(coms);
-                        }}>
-                        <HighlightOffIcon fontSize='small' />
+                        }}
+                      >
+                        <HighlightOffIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
                   </ListItemIcon>
@@ -271,35 +281,38 @@ export default function BlogComment(props) {
           <Divider />
 
           <div className={classes.paper}>
-            <Grid container wrap='nowrap' spacing={2}>
+            <Grid container wrap="nowrap" spacing={2}>
               <Grid item>
                 <Tooltip
                   title={<h3>Quarantine time</h3>}
-                  placement='left'
-                  arrow>
-                  <Avatar style={{ color: '#19857b', backgroundColor: '#ddd' }}>
+                  placement="left"
+                  arrow
+                >
+                  <Avatar style={{ color: "#19857b", backgroundColor: "#ddd" }}>
                     Q
                   </Avatar>
                 </Tooltip>
               </Grid>
               <Grid item xs zeroMinWidth>
-                <Typography variant='body2'>{message2}</Typography>
+                <Typography variant="body2">{message2}</Typography>
               </Grid>
               <Grid>
                 <div
                   className={classes.delButton2}
-                  style={{ marginRight: '-20px' }}>
+                  style={{ marginRight: "-20px" }}
+                >
                   <ListItemIcon>
-                    <Tooltip title='UNCOMMENT' placement='right' arrow>
+                    <Tooltip title="UNCOMMENT" placement="right" arrow>
                       <IconButton
-                        aria-label='delete'
-                        size='small'
+                        aria-label="delete"
+                        size="small"
                         className={classes.delicon}
-                        color='secondary'
+                        color="secondary"
                         onClick={() => {
                           //   ForRemove(coms);
-                        }}>
-                        <HighlightOffIcon fontSize='small' />
+                        }}
+                      >
+                        <HighlightOffIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
                   </ListItemIcon>
@@ -307,45 +320,47 @@ export default function BlogComment(props) {
               </Grid>
             </Grid>
           </div>
-          {/* {comlist
-							.map((coms) => {
-								return (
-									<>
-										<ListItem style={{ whiteSpace: 'normal' }}>
-											<ListItemIcon>
-												<AccountCircleIcon fontSize='large' color='secondary' />
-											</ListItemIcon>
-											<ListItemText>{coms.commentBody}</ListItemText>
-											<div
-												className={classes.delButton2}
-												style={{ marginRight: '-20px' }}>
-												<ListItemIcon>
-													<Tooltip title='Uncomment' placement='right' arrow>
-														<IconButton
-															aria-label='delete'
-															size='small'
-															className={classes.delicon}
-															color='secondary'
-															onClick={() => {
-																ForRemove(coms);
-															}}>
-															{onclick ? (
-																setTimeout(() => {
-																	<CircularProgress disableShrink />;
-																}, 5000)
-															) : (
-																<DeleteForeverOutlinedIcon />
-															)}
-														</IconButton>
-													</Tooltip>
-												</ListItemIcon>
-											</div>
-										</ListItem>
-										<Divider />
-									</>
-								);
-							})
-							.reverse()} */}
+          {comms 
+            .map((coms) => {
+              return (
+                <>
+                  <ListItem style={{ whiteSpace: "normal" }}>
+                    <ListItemIcon>
+                      <AccountCircleIcon fontSize="large" color="secondary" />
+                    </ListItemIcon>
+                    <ListItemText>{coms.commentBody}</ListItemText>
+                    <div
+                      className={classes.delButton2}
+                      style={{ marginRight: "-20px" }}
+                    >
+                      <ListItemIcon>
+                        <Tooltip title="Uncomment" placement="right" arrow>
+                          <IconButton
+                            aria-label="delete"
+                            size="small"
+                            className={classes.delicon}
+                            color="secondary"
+                            onClick={() => {
+                              // ForRemove(coms);
+                            }}
+                          >
+                            {onclick ? (
+                              setTimeout(() => {
+                                <CircularProgress disableShrink />;
+                              }, 5000)
+                            ) : (
+                              <DeleteForeverOutlinedIcon />
+                            )}
+                          </IconButton>
+                        </Tooltip>
+                      </ListItemIcon>
+                    </div>
+                  </ListItem>
+                  <Divider />
+                </>
+              );
+            })
+            .reverse()}
         </List>
       </Paper>
     </>

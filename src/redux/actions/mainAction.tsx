@@ -1,9 +1,9 @@
-import * as types from '../interFaces/types';
+import * as types from "../interFaces/types";
 // import  {Posts, newPosts} from '../interFaces/interface';
-import { Dispatch } from 'redux';
-import { WebClient } from '../../api/webclient';
-import { dispatch } from 'rxjs/internal/observable/pairs';
-
+import { Dispatch } from "redux";
+import { WebClient } from "../../api/webclient";
+import { dispatch } from "rxjs/internal/observable/pairs";
+import store from '../store'
 
 // interface newPosts {
 //   id: number;
@@ -12,56 +12,31 @@ import { dispatch } from 'rxjs/internal/observable/pairs';
 //   body: string;
 // }
 
-
-
 //For POSTS START here!
-export const getPostAction = (posts) =>  {
-  return ({
+export const getPostAction = (posts) => {
+  return {
     type: types.GET_POSTS,
     payload: posts,
-  });
+  };
 };
-
 
 export const getPosts = () => {
   return function (dispatch: Dispatch) {
-    WebClient.get('/posts').then((res) => {
+    WebClient.get("/posts").then((res) => {
       dispatch(getPostAction(res.data));
       return res.data;
     });
   };
 };
 
-
-
-
 //for add newPosts here!
 
-// export function AddPosts(newPostItem: types.NewPosts ) : types.PostsActionTypes {
-//   console.log(newPostItem);
-//   return{
-//     type: types.ADD_POSTS,
-//     payload: newPostItem
-//   }
-// }
-
-
-export const addNewPost = (newPosts) => (dispatch) =>
-dispatch({
-  type: types.ADD_POSTS,
-  payload: newPosts,
-})
-
-
-// export const addPostAction = (newPosts) => {
-//   console.log(newPosts);
-//   return ({
-//     type: types.ADD_POSTS,
-//     payload: newPosts
-//   })
-  
-// }
-
+export const addPosts = (params) => {
+  store.dispatch({
+    type: types.ADD_POSTS,
+    payload: params,
+  })
+}
 
 // export const addPosts = (newPosts) =>  {
 //     // alert(JSON.stringify(addPostAction(params)))
@@ -72,17 +47,12 @@ dispatch({
 //       return newPosts
 //     )}
 //     // console.log();
-   
+
 //   }
 // }
 
-
-
-
-
-// export const addNewPosts = (params) => (dispatch: Dispatch) => {
-//   alert(JSON.stringify(params))
-//   dispatch({
+// export const addPosts = (params) => (dispatch) => {
+//   return dispatch({
 //     type: types.ADD_POSTS,
 //     payload: params
 //   })

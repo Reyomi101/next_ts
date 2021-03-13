@@ -16,9 +16,9 @@ import { BlogAdd } from '../src/helper/validation/yup';
 import { connect } from 'react-redux';
 import {
   // addPostAction,
-  // AddPosts,
+  addPosts,
   // addNewPosts,
-  addNewPost,
+  // addNewPost,
 } from '../src/redux/actions/mainAction';
 import { useSelector, useDispatch } from 'react-redux';
 import { createSelector } from 'reselect';
@@ -55,7 +55,7 @@ export default function Add() {
   });
 
   useEffect(() => {
-    dispatch(addNewPost);
+    dispatch(addPosts);
     const timer = setInterval(() => {
       progressRef.current();
     }, 500);
@@ -82,17 +82,17 @@ export default function Add() {
 
         <div className={classes.addform}>
           <Formik
-            initialValues={{ title: '', body: '', userId: 11, id: postID }}
+            initialValues={{ title: '', body: '', userId: 11, id: postID  }}
             validationSchema={BlogAdd}
-            onSubmit={(values, { setSubmitting, }) => {
+            onSubmit={(values, { setSubmitting, resetForm }) => {
               setTimeout(() => {
                 console.log(values);
                 // addPostAction(values);
-                // AddPosts(values);
+                addPosts(values);
                 // addNewPosts(values);
-                addNewPost(values);
+                // addNewPost(values);
                 setSubmitting(false);
-                // resetForm();
+                resetForm();
               }, 400);
             }}>
             {({

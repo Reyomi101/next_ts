@@ -15,6 +15,8 @@ export const GET_POSTS = 'GET_POSTS';
 export const ADD_POSTS = 'ADD_POSTS';
 export const REMOVE_POSTS = 'ADD_POSTS';
 
+export const ADD_COMMENT = 'ADD_COMMENT';
+
 
 interface NewPostAction {
     type: typeof ADD_POSTS

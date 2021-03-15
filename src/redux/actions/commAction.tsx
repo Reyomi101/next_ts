@@ -1,16 +1,24 @@
 import { Dispatch } from "redux";
 import { dispatch } from 'rxjs/internal/observable/pairs'
-import * as types from '../interFaces/commTypes'
-// import  store  from '../store';
+import * as types from '../interFaces/types'
+import  store  from '../store';
 
 
 // export const addComments = (params) => {
 //     console.log(params);
 //     return {
-//         type: types.ADD_COMMENTS,
+//         type: types.ADD_COMMENT,
 //         payload: params
 //     }
 // }
+
+export const addComments = (params) => {
+    console.log(params);
+    store.dispatch({
+      type: types.ADD_COMMENT,
+      payload: params,
+    })
+  }
 
 // export const AddCommentAsync = (newdata) => {
 //     console.log(addComments(newdata))

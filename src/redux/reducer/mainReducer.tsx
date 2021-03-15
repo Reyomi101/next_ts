@@ -6,31 +6,43 @@ import { type } from "os";
 const initialProps = {
   posts: [],
   newPosts: [],
+  
 };
 
 export const PostReducer = (state = initialProps, action) => {
   let copyState = Object.assign({}, state);
   switch (action.type) {
     case types.GET_POSTS:
-      alert(JSON.stringify(action.payload));
+      // alert(JSON.stringify(action.payload));
       return {
         ...state,
         posts: action.payload,
       };
 
     case types.ADD_POSTS:
-      alert(JSON.stringify(action.payload))
+      let tempList = copyState.newPosts;
+      tempList.push(action.payload);
+      copyState.newPosts = tempList;
 
-      //with wrapper
-      // return Object.assign({}, state, {
-      //   action //?
-      // });
+      alert('here at mainReducer')
+      console.log(action.payload);
 
-    // thunk only
-    let tempPost = copyState.newPosts;
-    tempPost.push(action.payload);
-    copyState.newPosts = tempPost;
-    return copyState;
+      return copyState;
+
+      // return {
+      //   ...state.newPosts,
+      //   // newPosts: action.payload.push(state.newPosts)
+      //   newPosts: action.payload
+      // }
+
+      // case types.ADD_COMMENT: 
+      // let tempCom = copyState.comments;
+      // tempCom.push(action.payload);
+      // copyState.comments = tempCom;
+      // console.log(action.payload);
+      // return copyState;
+
+
 
     default:
       return state;

@@ -16,6 +16,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { createSelector } from 'reselect';
 import { useRouter } from 'next/router';
 import { getPosts } from '../../redux/actions/mainAction';
+import  {addPosts}  from '../../redux/actions/mainAction';
 // import ImageGrid from '../skeleton'
 import ContentLoader from 'react-content-loader'
 
@@ -26,7 +27,7 @@ const PostsItems = createSelector(
 
 
 const NewPostList = createSelector (
-  (state: any) => state.main,
+  (state: any) => state.posts,
   (newPosts) => newPosts
 )
 
@@ -36,17 +37,25 @@ export default function MainPosts(props) {
 
   //Selectors
   const getPostItems = useSelector(PostsItems);
+  const getNewItems = useSelector(NewPostList);
 
   //For States
   const postList = useRef(null);
   postList.current = getPostItems.posts;
   const listPosts = postList.current;
+  // const [newPostList, setNewPots] = useState([]);
+  // const newPostList = useRef(null);
+  // newPostList.current = getNewItems.newPosts;
+  // const newListPost = newPostList.current; 
+
+  console.log(getNewItems.newPosts);
 
   //post to dispatch & routes
   const router = useRouter();
   const { id, userId, title, body } = router.query;
   const dispatch = useDispatch();
   const GetPost = getPosts();
+  // const NewPost = addPosts([]);
   
 
   //for loader
@@ -73,11 +82,16 @@ export default function MainPosts(props) {
     setLoader(true);
     setTimeout(() => {
       dispatch(GetPost);
+      // dispatch(addPosts);
+      
+      // setNewPots(getNewItems.newPosts)
       setLoader(false);
     }, 2500);
   }, [dispatch]);
 
   // console.log(setPageItems)
+
+  // const allPost = {getNewItems === true ? listPosts : newListPost };
 
   //data from API to state
 
@@ -123,6 +137,51 @@ export default function MainPosts(props) {
       </Grid>
     ));
 
+
+    //New POST items
+
+    // const NewListItems = getNewItems.newPosts
+    // .slice((page - 1) * limit, page * limit)
+    // .map((newItem, idx) => (
+    //   <Grid item lg={4} md={6} xs={12}>
+    //     <Paper className={classes.paper}>
+    //       <Card>
+    //         <CardContent>
+    //           <Typography variant='h5'>{newItem.title}</Typography>
+    //           <Typography variant='body1'>{newItem.body}</Typography>
+    //         </CardContent>
+    //       </Card>
+    //       <div className={classes.bottomcard}>
+    //         <Typography variant='body1' className={classes.pageno}>
+    //           {newItem.userId} , {newItem.id}
+    //         </Typography>
+    //         <div className={classes.linkButton}>
+    //           <Link
+    //             key={idx}
+    //             href={{
+    //               pathname: '/blogpage',
+    //               query: {
+    //                 title: newItem.title,
+    //                 body: newItem.body,
+    //                 id: newItem.id,
+    //                 userId: newItem.userId,
+    //               },
+    //             }}
+    //             passHref>
+    //             <Button
+    //               component='a'
+    //               size='small'
+    //               color='primary'
+    //               variant='contained'>
+    //               Learn More
+    //             </Button>
+    //           </Link>
+    //         </div>
+    //       </div>
+    //     </Paper>
+    //   </Grid>
+    // ));
+
   
 
   return (
@@ -141,23 +200,20 @@ export default function MainPosts(props) {
           viewBox="0 0 900 700"
           backgroundColor="#f3f3f3"
           foregroundColor="#ecebeb"
-          
           {...props}
         >
-         
           <rect x="0" y="38" rx="5" ry="5" width="300" height="328"  />
           <rect x="315" y="37" rx="3" ry="5" width="280" height="328" />
           <rect x="612" y="36" rx="3" ry="5" width="280" height="328" />
-
           <rect x="0" y="383" rx="5" ry="5" width="300" height="320" />
           <rect x="315" y="381" rx="5" ry="5" width="280" height="320" />
           <rect x="611" y="379" rx="5" ry="5" width="280" height="320" />
-
-        
         </ContentLoader>
         ) : (
-          // NewPostItems === undefined ?  StatePostItems : NewPostItems
+          // NewListItems === null ?  StatePostItems :  [NewListItems,StatePostItems]
+          // [NewListItems,StatePostItems]
           StatePostItems
+          // NewListItems
         )}
       </Grid>
 

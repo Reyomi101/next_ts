@@ -34,7 +34,7 @@ export default function Add() {
   const [progress, setProgress] = useState(0);
   const [buffer, setBuffer] = useState(10);
 
-  const [postlist, setPostlist] = useState([]);
+  // const [postlist, setPostlist] = useState([]);
 
   const getNewPostList = useSelector(GetNewPost);
   const dispatch = useDispatch();
@@ -55,7 +55,7 @@ export default function Add() {
   });
 
   useEffect(() => {
-    dispatch(addPosts);
+    
     const timer = setInterval(() => {
       progressRef.current();
     }, 500);
@@ -66,6 +66,7 @@ export default function Add() {
 
   const postId = Math.random() * 110 + 100;
   const postID = Math.round(postId);
+
 
   return (
     <div>
@@ -86,11 +87,7 @@ export default function Add() {
             validationSchema={BlogAdd}
             onSubmit={(values, { setSubmitting, resetForm }) => {
               setTimeout(() => {
-                console.log(values);
-                // addPostAction(values);
                 addPosts(values);
-                // addNewPosts(values);
-                // addNewPost(values);
                 setSubmitting(false);
                 resetForm();
               }, 400);
@@ -167,7 +164,11 @@ export default function Add() {
           </Formik>
         </div>
         <Typography>for testing area =
-        {JSON.stringify(getNewPostList.newPosts)}
+
+         {  JSON.stringify(getNewPostList.newPosts)}
+        {/* {JSON.stringify(sampleData.newpost)} */}
+        
+        {/* {getNewPostList.newPosts} */}
         </Typography> 
         <Toolbar />
         <Toolbar />

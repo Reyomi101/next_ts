@@ -23,7 +23,7 @@ const bindMiddleware = (middleware) => {
 const store = createStore(
   rootReducer,
 //   composeWithDevTools(applyMiddleware(thunkMiddleware))
-  bindMiddleware([thunk])
+  bindMiddleware([thunkMiddleware])
 //   composeWithDevTools(applyMiddleware(thunk))
 );
 

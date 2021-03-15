@@ -1,7 +1,9 @@
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
-	title: {
+	PageTitle: {
 		flexGrow: 1,
+		// display: 'flex',
+		// maxWidth: '6rem',
 	},
 	Grids: {
 		paddingTop: '1rem',
@@ -10,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
 	
 	},
 	appBarBut: {
+		flexGrow: 1,
 		'& :visited': { background: '#42A5F5' },
 		'&:hover': {
             backgroundColor: '#42A5F5',
@@ -157,6 +160,9 @@ const useStyles = makeStyles((theme) => ({
 	smallAvatar: {
 		width: theme.spacing(2),
 		height: theme.spacing(2),
+	},
+	userMeno: {
+
 	},
 }));
 

@@ -5,6 +5,16 @@ export const BlogAdd = yup.object().shape({
 	body: yup.string().required('This field is Required!'),
 });
 
+// export const ForBlogComments = yup.object().shape({
+// 	// commentId: yup.string().required(),
+// 	commentBody: yup.string().required('This field is Required!'),
+// 	postId: yup.string().required('This field is Required!'),
+// 	commentId: yup.string().required('This field is Required!'),
+// 	userName: yup.string().required('This field is Required!'),
+// 	userEmail: yup.string().required('This field is Required!'),
+// });
+
+
 export const ForBlogComments = yup.object().shape({
 	// commentId: yup.string().required(),
 	commentBody: yup.string().required('This field is Required!'),

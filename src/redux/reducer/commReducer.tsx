@@ -1,4 +1,4 @@
-import * as types from '../interFaces/commTypes'
+import * as types from '../interFaces/types'
 
 const initialState = {
     comment: [],
@@ -8,11 +8,14 @@ const CommReducer = (state = initialState, action) => {
 let copyState = Object.assign({}, state);
 // let copyState ;
     switch(action.type) {
-        case types.ADD_COMMENTS:
+        case types.ADD_COMMENT:
         let tempComm = copyState.comment;
         tempComm.push(action.payload);
         copyState.comment = tempComm;
-        alert(JSON.stringify(action.payload))
+
+        // alert('here at commReducer')
+        // console.log(action.payload);
+
         return copyState;
 
         // copyState = {...state};
@@ -20,7 +23,7 @@ let copyState = Object.assign({}, state);
         // console.log(action.payload);
         // return copyState
 
-
+                                                                                                                                                                                          
         default:
             // return {...state};
             return state;

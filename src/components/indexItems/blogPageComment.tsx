@@ -1,26 +1,17 @@
 import useStyles from "../../helper/headStyles";
-import Layout from "../../components/layout";
-import Link from "next/link";
 import {
   Typography,
   Avatar,
   Grid,
   TextField,
-  Toolbar,
-  Button,
   Divider,
   List,
-  ListItem,
   ListItemIcon,
-  ListItemText,
   ListSubheader,
   Paper,
   Tooltip,
 } from "@material-ui/core";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import SendIcon from "@material-ui/icons/Send";
-import DeleteForeverOutlinedIcon from "@material-ui/icons/DeleteForeverOutlined";
-import CloseIcon from "@material-ui/icons/Close";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import IconButton from "@material-ui/core/IconButton";
 import { Formik } from "formik";
@@ -30,9 +21,8 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelector } from "reselect";
-
-// import { addComments } from "../../redux/actions/commAction";
-// import { getComments } from '../../redux/actions/mainAction';
+import { addComments } from "../../redux/actions/commAction";
+// import { AddComment } from '../../redux/actions/mainAction';
 // import { Comments } from '../../redux/interFaces/interface';
 // import { AppState } from '../../redux/store';
 
@@ -62,20 +52,6 @@ const ForComment = createSelector(
 // 	(editPost) => editPost
 // );
 
-const message = `Truncation should be conditionally applicable on this long line of text
- as this is a much longer line than what the container can support. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-  Placeat debitis iste consectetur hic sed neque quia impedit ad corrupti suscipit fuga 
-  dolorem itaque mollitia facere quibusdam, molestiae nisi laborum saepe.;
- `;
-
-const message2 = `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Odit quas quasi repellat omnis harum eum sit 
-voluptas fugiat accusantium cumque, sint nam iusto sed repudiandae, provident soluta reiciendis nobis libero beatae 
-eligendi! Enim deleniti a nam fuga praesentium doloribus est maxime! Asperiores, impedit est sed debitis voluptas
- officia in porro nulla ut, illo mollitia, doloribus rerum labore quos ipsam iure. Unde dignissimos, beatae culpa
-  exercitationem sunt rerum eligendi quas perferendis perspiciatis, eaque itaque doloribus est aspernatur libero iste!
-   Placeat commodi officiis accusantium repudiandae alias deleniti quia ut mollitia quam dolorem error similique cum, 
-   impedit eos velit possimus. A, unde quis?
-`;
 export default function BlogComment(props) {
   // for styles
   const classes = useStyles();
@@ -84,69 +60,89 @@ export default function BlogComment(props) {
   const [comms, setComs] = useState([]);
 
   //for selectors
-  const Comments = useSelector(ForComment);
+  const ThisComments = useSelector(ForComment);
+
+  // console.log(comment.postId);
 
   //comments to dispatch
   const router = useRouter();
   const { id } = router.query;
 
-  //   const dispatch = useDispatch();
+  const dispatch = useDispatch();
   // const GetComments = getComments();
 
   useEffect(() => {
-    // dispatch(GetComments);
-    setComs(Comments.comment.filter((comments) => id === comments.postId));
+    // dispatch(addComments);
+    setComs(ThisComments.comment.filter((comments) => comments.postId === id));
   }, []);
 
-  //   const CommentItems = Comments.comments.map((comment: Comments, idx) => {
-  //     let str = comment.name;
-  //     let firstChar = str.charAt(0).toUpperCase();
-  //     //   comments.comments.filter((comment)=> comment.postId === id)
+  const CommentItems = ThisComments.comment
+    .map((comments, idx) => {
+      let str = comments.userName;
+      let firstChar = str.charAt(0).toUpperCase();
+     
+      return (
+        <>
+          {comments.postId === id ? (
+            <div className={classes.paper}>
+              <Grid container wrap="nowrap" spacing={2}>
+                <Grid item>
+                  <Tooltip
+                    title={<h3>{comments.userName}</h3>}
+                    placement="left"
+                    arrow
+                  >
+                    <Avatar
+                      style={{ color: "#19857b", backgroundColor: "#ddd" }}
+                    >
+                      {firstChar}
+                    </Avatar>
+                  </Tooltip>
+                </Grid>
+                <Grid item xs zeroMinWidth>
+                  <Typography variant="subtitle2">
+                    {comments.userName}
+                  </Typography>
+                  <Typography variant="body1">
+                    {comments.commentBody}
+                  </Typography>
+                  <Typography variant="caption" className={classes.comBodybg}>
+                    {comments.userEmail}
+                  </Typography>
+                </Grid>
+                <Grid>
+                  <div
+                    className={classes.delButton2}
+                    style={{ marginRight: "-20px" }}
+                  >
+                    <ListItemIcon>
+                      <Tooltip title="UNCOMMENT" placement="right" arrow>
+                        <IconButton
+                          aria-label="delete"
+                          size="small"
+                          className={classes.delicon}
+                          color="secondary"
+                          onClick={() => {
+                            //   ForRemove(coms);
+                          }}
+                        >
+                          <HighlightOffIcon fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+                    </ListItemIcon>
+                  </div>
+                </Grid>
+              </Grid>
+              <Divider style={{marginTop: '1em'}} />
+            </div>
+            
+          ) : null}
 
-  //     return (
-  //       <>
-  //         <div className={classes.paper}>
-  //           <Grid container wrap='nowrap' spacing={2}>
-  //             <Grid item>
-  //               <Tooltip title={<h3>{comment.name}</h3>} placement='left' arrow>
-  //                 <Avatar style={{ color: '#19857b', backgroundColor: '#ddd' }}>
-  //                   {firstChar}
-  //                 </Avatar>
-  //               </Tooltip>
-  //             </Grid>
-  //             <Grid item xs zeroMinWidth>
-  //               <Typography variant='subtitle2'>{comment.name}</Typography>
-  //               <Typography variant='body2'>{comment.body}</Typography>
-  //               <Typography variant='caption' className={classes.comBodybg}>
-  //                 {comment.email}
-  //               </Typography>
-  //             </Grid>
-  //             <Grid>
-  //               <div
-  //                 className={classes.delButton2}
-  //                 style={{ marginRight: '-20px' }}>
-  //                 <ListItemIcon>
-  //                   <Tooltip title='UNCOMMENT' placement='right' arrow>
-  //                     <IconButton
-  //                       aria-label='delete'
-  //                       size='small'
-  //                       className={classes.delicon}
-  //                       color='secondary'
-  //                       onClick={() => {
-  //                         //   ForRemove(coms);
-  //                       }}>
-  //                       <HighlightOffIcon fontSize='small' />
-  //                     </IconButton>
-  //                   </Tooltip>
-  //                 </ListItemIcon>
-  //               </div>
-  //             </Grid>
-  //           </Grid>
-  //         </div>
-  //         <Divider />
-  //       </>
-  //     );
-  //   });
+         
+        </>
+      );
+    })
+    .reverse();
 
   //   // const mainReducer = useSelector(ForComment);
   //   // const removeThis = useSelector(ToRemoveComment);
@@ -162,23 +158,32 @@ export default function BlogComment(props) {
   //   // 	setComlist(removeThis.comments.filter((comment) => comment.id === id));
   //   // };
 
+  const commId = Math.random() * 10 + 1;
+  const commID = Math.round(commId);
+
   return (
     <>
       <Formik
         initialValues={{ commentBody: "" }}
         validationSchema={ForBlogComments}
         onSubmit={(values, { setSubmitting, resetForm }) => {
+          alert(JSON.stringify(values));
           setTimeout(() => {
-            alert(JSON.stringify(values))
-            // addComments({
-            //   commentBody: values.commentBody,
-            //   id: id,
-            // });
-            setComs(Comments.comment.filter((comments) => comments.id === id));
+            addComments({
+              commentBody: values.commentBody,
+              postId: id,
+              commentId: commID,
+              userName: "Reyomi",
+              userEmail: "test@test.com",
+            });
+            // addComments(values);
+            setComs(
+              ThisComments.comment.filter((comments) => comments.id === id)
+            );
 
             setSubmitting(false);
             resetForm();
-          }, 100);
+          }, 1000);
         }}
       >
         {({
@@ -237,12 +242,13 @@ export default function BlogComment(props) {
         >
           <Divider />
 
-          {/* { comments.postId === id ?
+          {/* { ThisComments.comment.postId === id ?
           CommentItems : null} */}
           {/* {coms} */}
-          {/* {CommentItems} */}
+          {CommentItems}
+          {/* {JSON.stringify(ThisComments.comment)} */}
 
-          <div className={classes.paper}>
+          {/* <div className={classes.paper}>
             <Grid container wrap="nowrap" spacing={2}>
               <Grid item>
                 <Tooltip title={<h3>Wonder Pets</h3>} placement="left" arrow>
@@ -319,9 +325,8 @@ export default function BlogComment(props) {
                 </div>
               </Grid>
             </Grid>
-          </div>
-          {comms 
-            .map((coms) => {
+          </div> */}
+          {/* {comms.map((coms) => {
               return (
                 <>
                   <ListItem style={{ whiteSpace: "normal" }}>
@@ -360,7 +365,7 @@ export default function BlogComment(props) {
                 </>
               );
             })
-            .reverse()}
+            .reverse()} */}
         </List>
       </Paper>
     </>

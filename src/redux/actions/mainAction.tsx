@@ -38,6 +38,15 @@ export const addPosts = (params) => {
   })
 }
 
+
+export const AddComment = (params) => {
+  console.log(params);
+  store.dispatch({
+    type: types.ADD_COMMENT,
+    payload: params,
+  })
+}
+
 // export const addPosts = (newPosts) =>  {
 //     // alert(JSON.stringify(addPostAction(params)))
 //     // console.log(newPosts);

@@ -12,8 +12,36 @@ import store from '../store'
 //   body: string;
 // }
 
+
+// export const getCommentAction = (comments) => {
+//   console.log(comments);
+//   return {
+//     type: types.GET_COMMENTS,
+//     payload: comments,
+//   }
+// }
+
+// export const getComment = () => {
+//   return function (dispatch: Dispatch) {
+//     const POST_URL = 'https://jsonplaceholder.typicode.com/comments';
+//     fetch(POST_URL, {
+//       method: 'GET'
+//     })
+//     .then(res => res.json()
+//     .then(data => {
+//       alert(JSON.stringify(data))
+//       dispatch(getCommentAction(data));
+//       return data;
+//     }))
+//   }
+// }
+
+
+
 //For POSTS START here!
 export const getPostAction = (posts) => {
+  // alert(JSON.stringify(posts))
+  // console.log(posts);
   return {
     type: types.GET_POSTS,
     payload: posts,
@@ -23,6 +51,7 @@ export const getPostAction = (posts) => {
 export const getPosts = () => {
   return function (dispatch: Dispatch) {
     WebClient.get("/posts").then((res) => {
+      // alert(JSON.stringify(res.data))
       dispatch(getPostAction(res.data));
       return res.data;
     });
@@ -69,22 +98,10 @@ export const AddComment = (params) => {
 
 //For  POSTS END here!
 
-//For get comments START here!
-// export const getCommentAction = (comments: Posts[]): PostActionTypes => {
-//   return {
-//     type: GET_COMMENTS,
-//     payload: comments,
-//   };
-// };
+// For get comments START here!
 
-// export const getComments = () => {
-//   return function (dispatch: Dispatch<PostActionTypes>) {
-//     WebClient.get('/comments').then((res) => {
-//       dispatch(getCommentAction(res.data));
-//       return res.data;
-//     });
-//   };
-// };
+
+
 
 // // export const Create_comment = (params) => {
 // // 	store.dispatch({

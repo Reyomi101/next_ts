@@ -1,4 +1,5 @@
 import React from "react";
+import { useState, useEffect, useRef } from "react";
 import "fontsource-roboto";
 import {
   AppBar,
@@ -9,13 +10,27 @@ import {
   useScrollTrigger,
   CssBaseline,
   Slide,
-  Avatar,
+  Drawer,
+  List,
   Divider,
+  IconButton,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
 } from "@material-ui/core";
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import MenuIcon from '@material-ui/icons/Menu';
+
+import clsx from "clsx";
 import useStyles from "../helper/headStyles";
+import MenuIcon from "@material-ui/icons/Menu";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import AccountBoxIcon from "@material-ui/icons/AccountBox";
+import InboxIcon from "@material-ui/icons/MoveToInbox";
+import MailIcon from "@material-ui/icons/Mail";
 import Link from "next/link";
+import { useTheme } from "@material-ui/core/styles";
+import DrawerItems from '../components/drawers'
 
 interface Props {
   window?: () => Window;
@@ -36,6 +51,17 @@ function HideOnScroll(props: Props) {
 
 export default function Appbar(props: Props) {
   const classes = useStyles();
+  const theme = useTheme();
+
+  const [open, setOpen] = useState(false);
+
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
 
   return (
     <>
@@ -46,34 +72,56 @@ export default function Appbar(props: Props) {
             <Toolbar>
               <Typography variant="h6" className={classes.PageTitle}>
                 {/* REYOMI */}
-				<Link href="/" passHref>
-                <Button color="inherit" className={classes.appBarBut}>
-                  Home
-                </Button>
-              </Link>
-              {/* <Divider className={classes.divider} orientation="vertical" /> */}
-              <Link href="/add" passHref>
-                <Button color="inherit" className={classes.appBarBut}>
-                  +ADD
-                </Button>
-              </Link>
+                <Link href="/" passHref>
+                  <Button color="inherit" className={classes.appBarBut}>
+                    Home
+                  </Button>
+                </Link>
+                {/* <Divider className={classes.divider} orientation="vertical" /> */}
+                <Link href="/add" passHref>
+                  <Button color="inherit" className={classes.appBarBut}>
+                    +ADD
+                  </Button>
+                </Link>
               </Typography>
-			  {/* <div className={classes.PageTitle}>
-			  
-			  </div> */}
-              
-              <Button
-                // ref={anchorRef}
-                // aria-controls={open ? "menu-list-grow" : undefined}
-                // aria-haspopup="true"
-                // onClick={handleToggle}
+
+              <Typography> 
+                REYOMI
+              </Typography>
+
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="end"
+                onClick={handleDrawerOpen}
+                className={clsx(open && classes.hide)}
               >
-                Reyomi <MenuIcon />
-              </Button>
+                <MenuIcon />
+              </IconButton>
             </Toolbar>
           </Container>
         </AppBar>
       </HideOnScroll>
+      <Drawer
+        variant="persistent"
+        anchor="right"
+        open={open}
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+      >
+        <div className={classes.drawerHeader}>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === "rtl" ? (
+              <ChevronLeftIcon />
+            ) : (
+              <ChevronRightIcon />
+            )}
+          </IconButton>
+        </div>
+        <Divider />
+      <DrawerItems/>
+      </Drawer>
     </>
   );
 }

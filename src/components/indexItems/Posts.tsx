@@ -17,6 +17,7 @@ import { createSelector } from 'reselect';
 import { useRouter } from 'next/router';
 import { getPosts } from '../../redux/actions/mainAction';
 import  {addPosts}  from '../../redux/actions/mainAction';
+import  {AddComment}  from '../../redux/actions/mainAction';
 // import ImageGrid from '../skeleton'
 import ContentLoader from 'react-content-loader'
 
@@ -31,6 +32,11 @@ const NewPostList = createSelector (
   (newPosts) => newPosts
 )
 
+const CommentPost = createSelector (
+  (state: any) => state.posts,
+  (comments) => comments
+)
+
 export default function MainPosts(props) {
   //for styles
   const classes = useStyles();
@@ -38,6 +44,7 @@ export default function MainPosts(props) {
   //Selectors
   const getPostItems = useSelector(PostsItems);
   const getNewItems = useSelector(NewPostList);
+  const getCommentItems = useSelector(CommentPost);
 
   //For States
   const postList = useRef(null);
@@ -48,13 +55,14 @@ export default function MainPosts(props) {
   // newPostList.current = getNewItems.newPosts;
   // const newListPost = newPostList.current; 
 
-  console.log(getNewItems.newPosts);
+  console.log(getPostItems);
 
   //post to dispatch & routes
   const router = useRouter();
   const { id, userId, title, body } = router.query;
   const dispatch = useDispatch();
   const GetPost = getPosts();
+  // const GetComment = getComment();
   // const NewPost = addPosts([]);
   
 
@@ -82,7 +90,7 @@ export default function MainPosts(props) {
     setLoader(true);
     setTimeout(() => {
       dispatch(GetPost);
-      // dispatch(addPosts);
+      // dispatch(GetComment);
       
       // setNewPots(getNewItems.newPosts)
       setLoader(false);
@@ -140,47 +148,47 @@ export default function MainPosts(props) {
 
     //New POST items
 
-    // const NewListItems = getNewItems.newPosts
-    // .slice((page - 1) * limit, page * limit)
-    // .map((newItem, idx) => (
-    //   <Grid item lg={4} md={6} xs={12}>
-    //     <Paper className={classes.paper}>
-    //       <Card>
-    //         <CardContent>
-    //           <Typography variant='h5'>{newItem.title}</Typography>
-    //           <Typography variant='body1'>{newItem.body}</Typography>
-    //         </CardContent>
-    //       </Card>
-    //       <div className={classes.bottomcard}>
-    //         <Typography variant='body1' className={classes.pageno}>
-    //           {newItem.userId} , {newItem.id}
-    //         </Typography>
-    //         <div className={classes.linkButton}>
-    //           <Link
-    //             key={idx}
-    //             href={{
-    //               pathname: '/blogpage',
-    //               query: {
-    //                 title: newItem.title,
-    //                 body: newItem.body,
-    //                 id: newItem.id,
-    //                 userId: newItem.userId,
-    //               },
-    //             }}
-    //             passHref>
-    //             <Button
-    //               component='a'
-    //               size='small'
-    //               color='primary'
-    //               variant='contained'>
-    //               Learn More
-    //             </Button>
-    //           </Link>
-    //         </div>
-    //       </div>
-    //     </Paper>
-    //   </Grid>
-    // ));
+    const NewListItems = getNewItems.newPosts
+    .slice((page - 1) * limit, page * limit)
+    .map((newItem, idx) => (
+      <Grid item lg={4} md={6} xs={12}>
+        <Paper className={classes.paper}>
+          <Card>
+            <CardContent>
+              <Typography variant='h5'>{newItem.title}</Typography>
+              <Typography variant='body1'>{newItem.body}</Typography>
+            </CardContent>
+          </Card>
+          <div className={classes.bottomcard}>
+            <Typography variant='body1' className={classes.pageno}>
+              {newItem.userId} , {newItem.id}
+            </Typography>
+            <div className={classes.linkButton}>
+              <Link
+                key={idx}
+                href={{
+                  pathname: '/blogpage',
+                  query: {
+                    title: newItem.title,
+                    body: newItem.body,
+                    id: newItem.id,
+                    userId: newItem.userId,
+                  },
+                }}
+                passHref>
+                <Button
+                  component='a'
+                  size='small'
+                  color='primary'
+                  variant='contained'>
+                  Learn More
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </Paper>
+      </Grid>
+    ));
 
   
 
@@ -211,8 +219,8 @@ export default function MainPosts(props) {
         </ContentLoader>
         ) : (
           // NewListItems === null ?  StatePostItems :  [NewListItems,StatePostItems]
-          // [NewListItems,StatePostItems]
-          StatePostItems
+          [NewListItems,StatePostItems]
+          // StatePostItems
           // NewListItems
         )}
       </Grid>

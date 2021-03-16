@@ -6,7 +6,7 @@ import { type } from "os";
 const initialProps = {
   posts: [],
   newPosts: [],
-  
+  comments: [],
 };
 
 export const PostReducer = (state = initialProps, action) => {
@@ -19,30 +19,21 @@ export const PostReducer = (state = initialProps, action) => {
         posts: action.payload,
       };
 
+    // case types.GET_COMMENTS:
+    //   return {
+    //     ...state,
+    //     comments: action.payload,
+    //   };
+
     case types.ADD_POSTS:
       let tempList = copyState.newPosts;
       tempList.push(action.payload);
       copyState.newPosts = tempList;
 
-      alert('here at mainReducer')
+      alert("here at mainReducer");
       console.log(action.payload);
 
       return copyState;
-
-      // return {
-      //   ...state.newPosts,
-      //   // newPosts: action.payload.push(state.newPosts)
-      //   newPosts: action.payload
-      // }
-
-      // case types.ADD_COMMENT: 
-      // let tempCom = copyState.comments;
-      // tempCom.push(action.payload);
-      // copyState.comments = tempCom;
-      // console.log(action.payload);
-      // return copyState;
-
-
 
     default:
       return state;

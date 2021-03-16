@@ -18,11 +18,13 @@ import { Formik } from "formik";
 import { ForBlogComments } from "../../helper/validation/yup";
 import { useRouter } from "next/router";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelector } from "reselect";
 import { addComments } from "../../redux/actions/commAction";
-// import { AddComment } from '../../redux/actions/mainAction';
+// import { getComments } from "../../redux/actions/mainAction";
+
+import { getComment } from "../../redux/actions/commAction";
 // import { Comments } from '../../redux/interFaces/interface';
 // import { AppState } from '../../redux/store';
 
@@ -36,6 +38,11 @@ import { addComments } from "../../redux/actions/commAction";
 //   (state: AppState) => state.comments,
 //   (comments) => comments
 // );
+
+const GetComments = createSelector(
+  (state: any) => state.comments,
+  (comments) => comments
+);
 
 const ForComment = createSelector(
   (state: any) => state.comments,
@@ -56,31 +63,97 @@ export default function BlogComment(props) {
   // for styles
   const classes = useStyles();
 
-  //State
-  const [comms, setComs] = useState([]);
-
   //for selectors
   const ThisComments = useSelector(ForComment);
+  const PostComments = useSelector(GetComments);
 
-  // console.log(comment.postId);
+  //State
+  const [comms, setComs] = useState([]);
+  const comList = useRef(null);
+  comList.current = PostComments.comments;
+  const ListComments = comList.current;
 
   //comments to dispatch
   const router = useRouter();
   const { id } = router.query;
 
+  const thisId = id;
+
+  //   // const ForRemove = (props) => {
+  //   // 	// Remove_Comment(props);
+  //   // 	setComlist(removeThis.comments.filter((comment) => comment.id === id));
+  //   // };
+
   const dispatch = useDispatch();
-  // const GetComments = getComments();
+  const GetComment = getComment();
 
   useEffect(() => {
-    // dispatch(addComments);
-    setComs(ThisComments.comment.filter((comments) => comments.postId === id));
-  }, []);
+    dispatch(GetComment);
+    setComs(PostComments.comments.filter((comm) => comm.postId === id));
+  }, [dispatch]);
 
+  //API comments list
+  const APIComments = ListComments.map((tryThis) => {
+    const list = tryThis.postId == id;
+    let str = tryThis.name;
+    let firstChar = str.charAt(0).toUpperCase();
+
+    return list === true ? (
+      <div className={classes.paper}>
+        <Grid container wrap="nowrap" spacing={2}>
+          <Grid item>
+            <Tooltip title={<h3>{tryThis.name}</h3>} placement="left" arrow>
+              <Avatar style={{ color: "#19857b", backgroundColor: "#ddd" }}>
+                {firstChar}
+              </Avatar>
+            </Tooltip>
+          </Grid>
+          <Grid item xs zeroMinWidth>
+            <Typography variant="subtitle2">{tryThis.name}</Typography>
+            <Typography variant="body1">{tryThis.body}</Typography>
+            <Typography variant="caption" className={classes.comBodybg}>
+              {tryThis.email}
+            </Typography>
+          </Grid>
+          <Grid>
+            <div
+              className={classes.delButton2}
+              style={{ marginRight: "-20px" }}
+            >
+              <ListItemIcon>
+                <Tooltip title="UNCOMMENT" placement="right" arrow>
+                  <IconButton
+                    aria-label="delete"
+                    size="small"
+                    className={classes.delicon}
+                    color="secondary"
+                    onClick={() => {
+                      //   ForRemove(coms);
+                    }}
+                  >
+                    <HighlightOffIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </ListItemIcon>
+            </div>
+            <Typography variant="caption" className={classes.delButton2}>
+              {tryThis.id}
+            </Typography>
+          </Grid>
+        </Grid>
+        <Divider style={{ marginTop: "1em" }} />
+      </div>
+    ) : null;
+  }).reverse();
+
+  // console.log(APIComments);
+
+  //add Comments
   const CommentItems = ThisComments.comment
     .map((comments, idx) => {
       let str = comments.userName;
       let firstChar = str.charAt(0).toUpperCase();
-     
+
       return (
         <>
           {comments.postId === id ? (
@@ -131,32 +204,18 @@ export default function BlogComment(props) {
                       </Tooltip>
                     </ListItemIcon>
                   </div>
+                  <Typography variant="caption" className={classes.delButton2}>
+                    {comments.commentId}
+                  </Typography>
                 </Grid>
               </Grid>
-              <Divider style={{marginTop: '1em'}} />
+              <Divider style={{ marginTop: "1em" }} />
             </div>
-            
           ) : null}
-
-         
         </>
       );
     })
     .reverse();
-
-  //   // const mainReducer = useSelector(ForComment);
-  //   // const removeThis = useSelector(ToRemoveComment);
-  //   // const updatePost = useSelector(UpdatedPost);
-  //   // const [comlist, setComlist] = useState([]);
-
-  //   // useEffect(() => {
-  //   // 	setComlist(mainReducer.comments.filter((comment) => comment.id === id));
-  //   // }, []);
-
-  //   // const ForRemove = (props) => {
-  //   // 	// Remove_Comment(props);
-  //   // 	setComlist(removeThis.comments.filter((comment) => comment.id === id));
-  //   // };
 
   const commId = Math.random() * 10 + 1;
   const commID = Math.round(commId);
@@ -167,7 +226,7 @@ export default function BlogComment(props) {
         initialValues={{ commentBody: "" }}
         validationSchema={ForBlogComments}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          alert(JSON.stringify(values));
+          // alert(JSON.stringify(values));
           setTimeout(() => {
             addComments({
               commentBody: values.commentBody,
@@ -242,130 +301,9 @@ export default function BlogComment(props) {
         >
           <Divider />
 
-          {/* { ThisComments.comment.postId === id ?
-          CommentItems : null} */}
-          {/* {coms} */}
-          {CommentItems}
-          {/* {JSON.stringify(ThisComments.comment)} */}
+          {/* {CommentItems} */}
 
-          {/* <div className={classes.paper}>
-            <Grid container wrap="nowrap" spacing={2}>
-              <Grid item>
-                <Tooltip title={<h3>Wonder Pets</h3>} placement="left" arrow>
-                  <Avatar style={{ color: "#19857b", backgroundColor: "#ddd" }}>
-                    W
-                  </Avatar>
-                </Tooltip>
-              </Grid>
-              <Grid item xs zeroMinWidth>
-                <Typography variant="body2">{message}</Typography>
-              </Grid>
-              <Grid>
-                <div
-                  className={classes.delButton2}
-                  style={{ marginRight: "-20px" }}
-                >
-                  <ListItemIcon>
-                    <Tooltip title="UNCOMMENT" placement="right" arrow>
-                      <IconButton
-                        aria-label="delete"
-                        size="small"
-                        className={classes.delicon}
-                        color="secondary"
-                        onClick={() => {
-                          //   ForRemove(coms);
-                        }}
-                      >
-                        <HighlightOffIcon fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-                  </ListItemIcon>
-                </div>
-              </Grid>
-            </Grid>
-          </div>
-          <Divider />
-
-          <div className={classes.paper}>
-            <Grid container wrap="nowrap" spacing={2}>
-              <Grid item>
-                <Tooltip
-                  title={<h3>Quarantine time</h3>}
-                  placement="left"
-                  arrow
-                >
-                  <Avatar style={{ color: "#19857b", backgroundColor: "#ddd" }}>
-                    Q
-                  </Avatar>
-                </Tooltip>
-              </Grid>
-              <Grid item xs zeroMinWidth>
-                <Typography variant="body2">{message2}</Typography>
-              </Grid>
-              <Grid>
-                <div
-                  className={classes.delButton2}
-                  style={{ marginRight: "-20px" }}
-                >
-                  <ListItemIcon>
-                    <Tooltip title="UNCOMMENT" placement="right" arrow>
-                      <IconButton
-                        aria-label="delete"
-                        size="small"
-                        className={classes.delicon}
-                        color="secondary"
-                        onClick={() => {
-                          //   ForRemove(coms);
-                        }}
-                      >
-                        <HighlightOffIcon fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-                  </ListItemIcon>
-                </div>
-              </Grid>
-            </Grid>
-          </div> */}
-          {/* {comms.map((coms) => {
-              return (
-                <>
-                  <ListItem style={{ whiteSpace: "normal" }}>
-                    <ListItemIcon>
-                      <AccountCircleIcon fontSize="large" color="secondary" />
-                    </ListItemIcon>
-                    <ListItemText>{coms.commentBody}</ListItemText>
-                    <div
-                      className={classes.delButton2}
-                      style={{ marginRight: "-20px" }}
-                    >
-                      <ListItemIcon>
-                        <Tooltip title="Uncomment" placement="right" arrow>
-                          <IconButton
-                            aria-label="delete"
-                            size="small"
-                            className={classes.delicon}
-                            color="secondary"
-                            onClick={() => {
-                              // ForRemove(coms);
-                            }}
-                          >
-                            {onclick ? (
-                              setTimeout(() => {
-                                <CircularProgress disableShrink />;
-                              }, 5000)
-                            ) : (
-                              <DeleteForeverOutlinedIcon />
-                            )}
-                          </IconButton>
-                        </Tooltip>
-                      </ListItemIcon>
-                    </div>
-                  </ListItem>
-                  <Divider />
-                </>
-              );
-            })
-            .reverse()} */}
+          {[CommentItems, APIComments]}
         </List>
       </Paper>
     </>

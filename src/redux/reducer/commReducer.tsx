@@ -1,34 +1,41 @@
-import * as types from '../interFaces/types'
+import { type } from "node:os";
+import * as types from "../interFaces/types";
 
 const initialState = {
-    comment: [],
-}
+    comments: [],
+  comment: [],
+};
 
 const CommReducer = (state = initialState, action) => {
-let copyState = Object.assign({}, state);
-// let copyState ;
-    switch(action.type) {
-        case types.ADD_COMMENT:
-        let tempComm = copyState.comment;
-        tempComm.push(action.payload);
-        copyState.comment = tempComm;
+  let copyState = Object.assign({}, state);
+  // let copyState ;
+  switch (action.type) {
+    case types.GET_COMMENTS:
+    //   alert(JSON.stringify(action.payload));
+      return {
+        ...state,
+        comments: action.payload,
+      };
 
-        // alert('here at commReducer')
-        // console.log(action.payload);
+    case types.ADD_COMMENT:
+      let tempComm = copyState.comment;
+      tempComm.push(action.payload);
+      copyState.comment = tempComm;
 
-        return copyState;
+      // alert('here at commReducer')
+      // console.log(action.payload);
 
-        // copyState = {...state};
-        // copyState.comment = copyState.comment + action.payload;
-        // console.log(action.payload);
-        // return copyState
+      return copyState;
 
-                                                                                                                                                                                          
-        default:
-            // return {...state};
-            return state;
-    }
-}
+    // copyState = {...state};
+    // copyState.comment = copyState.comment + action.payload;
+    // console.log(action.payload);
+    // return copyState
 
+    default:
+      // return {...state};
+      return state;
+  }
+};
 
 export default CommReducer;

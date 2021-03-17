@@ -76,6 +76,8 @@ export default function BlogComment(props) {
   //comments to dispatch
   const router = useRouter();
   const { id } = router.query;
+  const dispatch = useDispatch();
+  const GetComment = getComment();
 
   const thisId = id;
 
@@ -84,8 +86,6 @@ export default function BlogComment(props) {
   //   // 	setComlist(removeThis.comments.filter((comment) => comment.id === id));
   //   // };
 
-  const dispatch = useDispatch();
-  const GetComment = getComment();
 
   useEffect(() => {
     dispatch(GetComment);

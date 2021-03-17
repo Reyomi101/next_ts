@@ -55,7 +55,7 @@ export default function MainPosts(props) {
   // newPostList.current = getNewItems.newPosts;
   // const newListPost = newPostList.current; 
 
-  console.log(getPostItems);
+  // console.log(getPostItems);
 
   //post to dispatch & routes
   const router = useRouter();

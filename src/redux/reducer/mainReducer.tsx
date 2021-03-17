@@ -1,7 +1,4 @@
 import * as types from "../interFaces/types";
-import { combineReducers } from "redux";
-import * as actions from "../actions/mainAction";
-import { type } from "os";
 
 const initialProps = {
   posts: [],

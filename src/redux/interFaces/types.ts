@@ -9,14 +9,17 @@ export interface NewState {
   postsItems: NewPosts[];
 }
 
-export const GET_COMMENTS = "GET_COMMENT";
-export const GET_POSTS = "GET_POSTS";
-export const ADD_POSTS = "ADD_POSTS";
-export const REMOVE_POSTS = "ADD_POSTS";
+export const GET_POSTS = 'GET_POSTS';
+export const ADD_POSTS = 'ADD_POSTS';
+export const REMOVE_POSTS = 'ADD_POSTS';
 
-export const ADD_COMMENT = "ADD_COMMENT";
-export const REMOVE_COMMENT = "REMOVE_COMMENT";
+export const GET_COMMENTS = 'GET_COMMENT';
+export const ADD_COMMENT = 'ADD_COMMENT';
+export const REMOVE_COMMENT = 'REMOVE_COMMENT';
 
+export const GET_USERS = 'GET_USERS';
+export const GET_UserID = 'GET_UserID';
+export const SET_DEFAULT_USER = 'SET_DEFAULT_USER';
 interface NewPostAction {
   type: typeof ADD_POSTS;
   payload: NewPosts;

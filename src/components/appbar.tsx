@@ -1,6 +1,6 @@
-import React from "react";
-import { useState, useEffect, useRef } from "react";
-import "fontsource-roboto";
+import React from 'react';
+import { useState, useEffect, useRef } from 'react';
+import 'fontsource-roboto';
 import {
   AppBar,
   Toolbar,
@@ -17,20 +17,31 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-} from "@material-ui/core";
+} from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux';
+import { createSelector } from 'reselect';
+import clsx from 'clsx';
+import useStyles from '../helper/headStyles';
+import MenuIcon from '@material-ui/icons/Menu';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import MailIcon from '@material-ui/icons/Mail';
+import Link from 'next/link';
+import { useTheme } from '@material-ui/core/styles';
+import DrawerItems from '../components/drawers';
 
-import clsx from "clsx";
-import useStyles from "../helper/headStyles";
-import MenuIcon from "@material-ui/icons/Menu";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import AccountBoxIcon from "@material-ui/icons/AccountBox";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
-import Link from "next/link";
-import { useTheme } from "@material-ui/core/styles";
-import DrawerItems from '../components/drawers'
+const userState = createSelector(
+  (state: any) => state.users,
+  (users) => users
+);
+
+const GetUserID = createSelector(
+  (state: any) => state.users,
+  (userId) => userId
+);
 
 interface Props {
   window?: () => Window;
@@ -43,7 +54,7 @@ function HideOnScroll(props: Props) {
   const trigger = useScrollTrigger({ target: window ? window() : undefined });
 
   return (
-    <Slide appear={false} direction="down" in={!trigger}>
+    <Slide appear={false} direction='down' in={!trigger}>
       {children}
     </Slide>
   );
@@ -53,6 +64,13 @@ export default function Appbar(props: Props) {
   const classes = useStyles();
   const theme = useTheme();
 
+  //for selectors
+  const ToGetUsers = useSelector(userState);
+  const ToGetUsersId = useSelector(GetUserID);
+
+  // console.log(ToGetUsersId.userId);
+
+  //state
   const [open, setOpen] = useState(false);
 
   const handleDrawerOpen = () => {
@@ -63,39 +81,50 @@ export default function Appbar(props: Props) {
     setOpen(false);
   };
 
+  const SessionName = ToGetUsers.users.map((user) => {
+    const setUser = user.id == ToGetUsersId.userId;
+    return setUser == true ? (
+      <>
+        <Typography>{user.name}</Typography>
+      </>
+    ) : null;
+  });
+
+  const thisId = ToGetUsersId.userId == [];
+  console.log(ToGetUsersId.userId);
+
   return (
     <>
       <CssBaseline />
       <HideOnScroll {...props}>
         <AppBar>
-          <Container maxWidth="md" style={{ padding: 0 }}>
+          <Container maxWidth='md' style={{ padding: 0 }}>
             <Toolbar>
-              <Typography variant="h6" className={classes.PageTitle}>
+              <Typography variant='h6' className={classes.PageTitle}>
                 {/* REYOMI */}
-                <Link href="/" passHref>
-                  <Button color="inherit" className={classes.appBarBut}>
+                <Link href='/' passHref>
+                  <Button color='inherit' className={classes.appBarBut}>
                     Home
                   </Button>
                 </Link>
                 {/* <Divider className={classes.divider} orientation="vertical" /> */}
-                <Link href="/add" passHref>
-                  <Button color="inherit" className={classes.appBarBut}>
+                <Link href='/add' passHref>
+                  <Button color='inherit' className={classes.appBarBut}>
                     +ADD
                   </Button>
                 </Link>
               </Typography>
 
-              <Typography> 
-                REYOMI
-              </Typography>
+              
+              {thisId ?  <Typography>Jame Bond</Typography> :
+              SessionName}
 
               <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                edge="end"
+                color='inherit'
+                aria-label='open drawer'
+                edge='end'
                 onClick={handleDrawerOpen}
-                className={clsx(open && classes.hide)}
-              >
+                className={clsx(open && classes.hide)}>
                 <MenuIcon />
               </IconButton>
             </Toolbar>
@@ -103,16 +132,15 @@ export default function Appbar(props: Props) {
         </AppBar>
       </HideOnScroll>
       <Drawer
-        variant="persistent"
-        anchor="right"
+        variant='persistent'
+        anchor='right'
         open={open}
         classes={{
           paper: classes.drawerPaper,
-        }}
-      >
+        }}>
         <div className={classes.drawerHeader}>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "rtl" ? (
+            {theme.direction === 'rtl' ? (
               <ChevronLeftIcon />
             ) : (
               <ChevronRightIcon />
@@ -120,7 +148,7 @@ export default function Appbar(props: Props) {
           </IconButton>
         </div>
         <Divider />
-      <DrawerItems/>
+        <DrawerItems />
       </Drawer>
     </>
   );

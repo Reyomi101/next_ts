@@ -232,7 +232,7 @@ export default function MainPosts(props) {
           page={page}
           onChange={handleChange}
           color='primary'
-          size='large'
+          size="small"
           shape='rounded'
           showFirstButton
           showLastButton

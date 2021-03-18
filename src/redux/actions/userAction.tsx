@@ -37,6 +37,6 @@ export const getUserId = (userId) => {
 export const setUser = () => (
   store.dispatch({
     type: types.SET_DEFAULT_USER,
-   
+    // payload: props
   })
 )

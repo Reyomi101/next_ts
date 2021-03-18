@@ -3,6 +3,8 @@ import * as yup from 'yup';
 export const BlogAdd = yup.object().shape({
 	title: yup.string().required('This field is Required!'),
 	body: yup.string().required('This field is Required!'),
+	// userId: yup.number().required('Select User to Add Post'),
+	userId: yup.number().required('Please Select User first!').integer()
 });
 
 // export const ForBlogComments = yup.object().shape({

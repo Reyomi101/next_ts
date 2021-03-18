@@ -1,5 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
+
 const drawerWidth = 400;
+
 const useStyles = makeStyles((theme) => ({
   PageTitle: {
     flexGrow: 1,
@@ -167,10 +169,12 @@ const useStyles = makeStyles((theme) => ({
   },
   drawer: {
     width: drawerWidth,
+    // maxWidth: '25%',
     flexShrink: 0,
   },
   drawerPaper: {
     width: drawerWidth,
+    // maxWidth: '25%',
   },
   drawerHeader: {
     display: "flex",

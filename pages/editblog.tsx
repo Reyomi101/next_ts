@@ -58,7 +58,7 @@ export default function EditBlog(props) {
 
 	return (
 		<div>
-			<Layout title='Edit BLOG Post' fixed={true}>
+			<Layout title='Edit BLOG Post' fixed={false}>
 				<Typography variant='h3'>This is EDIT Blog</Typography>
 				<Typography variant='body1'>
 					Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corrupti,
@@ -167,10 +167,7 @@ export default function EditBlog(props) {
 					for testing area = {JSON.stringify(forUpdatePost.editPost)}
 				</Typography> */}
 
-				<Toolbar />
-				<Toolbar />
-				<Toolbar />
-				<Toolbar />
+				
 			</Layout>
 		</div>
 	);

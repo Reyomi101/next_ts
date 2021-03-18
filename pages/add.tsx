@@ -29,6 +29,11 @@ const GetNewPost = createSelector(
   (newPosts) => newPosts
 );
 
+const GetUserID = createSelector(
+  (state: any) => state.users,
+  (userId) => userId
+)
+
 export default function Add() {
   const classes = useStyles();
   const [progress, setProgress] = useState(0);
@@ -37,6 +42,15 @@ export default function Add() {
   // const [postlist, setPostlist] = useState([]);
 
   const getNewPostList = useSelector(GetNewPost);
+  const ToGetUserId = useSelector(GetUserID);
+
+  const UserID = ToGetUserId.userId;
+  // const forUserId = UserID.length == 0;
+
+  
+
+  // console.log(UserID,1);
+
   const dispatch = useDispatch();
 
   const progressRef = useRef(() => {});
@@ -70,7 +84,7 @@ export default function Add() {
 
   return (
     <div>
-      <Layout title='Add BLOG' fixed={true}>
+      <Layout title='Add BLOG' fixed={false}>
         <Typography variant='h3'>This is ADD page</Typography>
         <Typography variant='body1' style={{ margin: '1rem' }}>
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corrupti,
@@ -83,7 +97,7 @@ export default function Add() {
 
         <div className={classes.addform}>
           <Formik
-            initialValues={{ title: '', body: '', userId: 11, id: postID  }}
+            initialValues={{ title: '', body: '', userId: UserID, id: postID  }}
             validationSchema={BlogAdd}
             onSubmit={(values, { setSubmitting, resetForm }) => {
               setTimeout(() => {
@@ -147,6 +161,9 @@ export default function Add() {
                       disabled={isSubmitting}>
                       Submit
                     </Button>
+                    <Typography color='error'>
+                      { errors.userId}
+                    </Typography>
                   </Grid>
                   <Grid item className={classes.loader} xs={9}>
                     {isSubmitting === false ? null : (
@@ -165,16 +182,12 @@ export default function Add() {
         </div>
         <Typography>for testing area =
 
-         {  JSON.stringify(getNewPostList.newPosts)}
+         {  JSON.stringify(getNewPostList.newPosts,UserID)}
         {/* {JSON.stringify(sampleData.newpost)} */}
         
         {/* {getNewPostList.newPosts} */}
         </Typography> 
-        <Toolbar />
-        <Toolbar />
-        <Toolbar />
-        <Toolbar />
-        <Toolbar />
+      
       </Layout>
     </div>
   );

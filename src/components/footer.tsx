@@ -9,7 +9,7 @@ export default function Footer(props) {
       <AppBar
         position={props.fixed === true ? 'fixed' : 'static'}
         color='secondary'
-        
+        // disable={props.disable === true ? }
         className={classes.footer}>
         <Container maxWidth='md' style={{ padding: 0 }}>
           <Toolbar >

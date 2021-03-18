@@ -16,6 +16,7 @@ import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import useStyles from '../helper/headStyles';
 import { getUserId, getUser } from '../redux/actions/userAction';
+import { useRouter } from 'next/router';
 import { dispatch } from 'rxjs/internal/observable/pairs';
 
 const GetUser = createSelector(
@@ -46,7 +47,7 @@ export default function DrawerItems() {
 
   //state
   const [userId, setUserId] = useState(IdUser);
-
+  const [defUser, setDefUser] = useState([])
  
 
   //for dispatch
@@ -55,19 +56,16 @@ export default function DrawerItems() {
 
   // to get userID
    const toGetUserId = (props) => {
-    // getUserId(props)
-    // if(props == 0 ){
-    //   getUserId(0)
-    // } else(
       getUserId(props)
-    // )
-    console.log(props);
   }
+
+  // console.log(defUser);
 
   useEffect(() => {
     setTimeout(() => {
       dispatch(GetUsers);
       // setUsers(ToGetUsers.users);
+      setDefUser(ToGetDefaultUsers.defaultUser.filter((def)=> def.id === 11))
     }, 1000);
   }, [dispatch]);
 
@@ -84,42 +82,23 @@ export default function DrawerItems() {
         <ListItem>Username : {thisUser.username}</ListItem>
         <ListItem>Email : {thisUser.email}</ListItem>
         <ListItem>
-          Address : {thisUser.address.street},{thisUser.address.suite},
-          {thisUser.address.city},{thisUser.address.zipcode},
-          {thisUser.address.geo.lat},{thisUser.address.geo.lng}
+          Address : {thisUser.address.street}, {thisUser.address.suite}, 
+          {thisUser.address.city}, {thisUser.address.zipcode}, 
+          {thisUser.address.geo.lat}, {thisUser.address.geo.lng}
         </ListItem>
         <ListItem>Phone : {thisUser.phone}</ListItem>
         <ListItem>Website : {thisUser.website}</ListItem>
         <ListItem>
-          Company : {thisUser.company.name},{thisUser.company.catchPhrase},
+          Company : {thisUser.company.name}, {thisUser.company.catchPhrase}, 
           {thisUser.company.bs}
         </ListItem>
       </>
     ) : null;
   });
 
-  const userDefData = ToGetDefaultUsers.defaultUser.map((defUser) => {
-    const userInfo = defUser.id == userId;
-    // console.log(userInfo);
-    return userInfo == true ? (
-      <>
-        <ListItem>
-          <ListItemIcon>
-            <AccountCircleIcon />
-          </ListItemIcon>
-          <ListItemText>{defUser.name}</ListItemText>
-        </ListItem>
-        <ListItem>Username : {defUser.name}</ListItem>
-        <ListItem>Email : {defUser.name}</ListItem>
-        <ListItem>Address : {defUser.name}</ListItem>
-        <ListItem>Phone : {defUser.name}</ListItem>
-        <ListItem>Website : {defUser.name}</ListItem>
-        <ListItem>Company :{defUser.name}</ListItem>
-      </>
-    ) : (
-      'bad'
-    );
-  });
+  // const userDefData = 
+
+
 
   const userDef = ToGetDefaultUsers.defaultUser.map((defUser) => (
     <ListItem button>
@@ -151,17 +130,36 @@ export default function DrawerItems() {
     </ListItem>
   ));
 
-  // console.log(userDefData);
-  // console.log(IdUser);        
-  // console.log(userData);
-
-  const forDefault = userId;
-  // console.log(forDefault);
 
   return (
     <>
-      {/* <List>{forDefault === IdUser ? userDefData : userData}</List> */}
-      <List>{forDefault === IdUser ? userDefData : userData}</List>
+        <List>
+          {defUser.map((defUser, index) => {
+        // console.log(defUser.name)
+        const difId = defUser.id == userId;
+            return difId == true ? (
+          <>
+            <ListItem>
+              <ListItemIcon>
+                <AccountCircleIcon />
+              </ListItemIcon>
+              <ListItemText>{defUser.name}</ListItemText>
+            </ListItem>
+            <ListItem>Username : {defUser.username}</ListItem>
+            <ListItem>Email : {defUser.email}</ListItem>
+            <ListItem>Address : {defUser.address.street}, {defUser.address.suite}, 
+          {defUser.address.city}, {defUser.address.zipcode}, 
+          {defUser.address.geo.lat}, {defUser.address.geo.lng}</ListItem>
+            <ListItem>Phone : {defUser.phone}</ListItem>
+            <ListItem>Website : {defUser.website}</ListItem>
+            <ListItem>Company :{defUser.company.name}, 
+          {defUser.company.bs}</ListItem>
+          </>
+            ) : userData
+         
+      }
+      )}
+      </List>
 
       <Divider />
 

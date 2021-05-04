@@ -101,7 +101,7 @@ export default function DrawerItems() {
 
 
   const userDef = ToGetDefaultUsers.defaultUser.map((defUser) => (
-    <ListItem button>
+    <ListItem >
       <ListItemIcon>
         <PermIdentityIcon />
       </ListItemIcon>
@@ -116,7 +116,7 @@ export default function DrawerItems() {
   ));
 
   const userList = ToGetUsers.users.map((user, index) => (
-    <ListItem button>
+    <ListItem >
       <ListItemIcon>
         {index % 2 === 0 ? <PermIdentityIcon /> : <AccountCircleIcon />}
       </ListItemIcon>
@@ -129,6 +129,7 @@ export default function DrawerItems() {
       </ListItemText>
     </ListItem>
   ));
+
 
 
   return (

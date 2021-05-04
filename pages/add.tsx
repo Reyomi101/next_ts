@@ -49,7 +49,7 @@ export default function Add() {
 
   
 
-  // console.log(UserID,1);
+  // console.log(UserID);
 
   const dispatch = useDispatch();
 
@@ -84,7 +84,7 @@ export default function Add() {
 
   return (
     <div>
-      <Layout title='Add BLOG' fixed={false}>
+      <Layout title='Add BLOG' fixed={true}>
         <Typography variant='h3'>This is ADD page</Typography>
         <Typography variant='body1' style={{ margin: '1rem' }}>
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corrupti,
@@ -96,97 +96,100 @@ export default function Add() {
         </Typography>
 
         <div className={classes.addform}>
-          <Formik
-            initialValues={{ title: '', body: '', userId: UserID, id: postID  }}
-            validationSchema={BlogAdd}
-            onSubmit={(values, { setSubmitting, resetForm }) => {
-              setTimeout(() => {
-                addPosts(values);
-                setSubmitting(false);
-                resetForm();
-              }, 400);
-            }}>
-            {({
-              values,
-              errors,
-              touched,
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              isSubmitting,
-            }) => (
-              <form onSubmit={handleSubmit}>
-                <Grid container spacing={3}>
-                  <Grid item xs={12}>
-                    <TextField
-                      id='title'
-                      name='title'
-                      label='Subject Tilte'
-                      fullWidth
-                      margin='normal'
-                      value={values.title}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      variant='outlined'
-                      error={touched.title && Boolean(errors.title)}
-                      helperText={Boolean(errors.title) && touched.title}
-                    />
-                    <Typography color='error'>
-                      {errors.title && touched.title && errors.title}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      id='body'
-                      name='body'
-                      label='Descriptions'
-                      fullWidth
-                      multiline
-                      value={values.body}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      variant='outlined'
-                      error={touched.body && Boolean(errors.body)}
-                      helperText={Boolean(errors.body) && touched.body}
-                    />
-                    <Typography color='error'>
-                      {errors.body && touched.body && errors.body}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={3}>
-                    <Button
-                      type='submit'
-                      color='primary'
-                      variant='contained'
-                      disabled={isSubmitting}>
-                      Submit
-                    </Button>
-                    <Typography color='error'>
-                      { errors.userId}
-                    </Typography>
-                  </Grid>
-                  <Grid item className={classes.loader} xs={9}>
-                    {isSubmitting === false ? null : (
-                      <LinearProgress
-                        variant='buffer'
-                        style={{ marginTop: '1rem' }}
-                        value={progress}
-                        valueBuffer={buffer}
-                      />
-                    )}
-                  </Grid>
-                </Grid>
-              </form>
-            )}
-          </Formik>
-        </div>
-        <Typography>for testing area =
+        { UserID == 0 ?  <Typography variant='h5' >
+            {/* @ts-ignore */}
+            <center>To add post, Please select user first!</center> 
+          </Typography> : 
 
-         {  JSON.stringify(getNewPostList.newPosts,UserID)}
-        {/* {JSON.stringify(sampleData.newpost)} */}
+        <Formik
+          initialValues={{ title: '', body: '', userId: UserID, id: postID  }}
+          validationSchema={BlogAdd}
+          onSubmit={(values, { setSubmitting, resetForm }) => {
+            setTimeout(() => {
+              addPosts(values);
+              setSubmitting(false);
+              resetForm();
+            }, 400);
+          }}>
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            isSubmitting,
+          }) => (
+            <form onSubmit={handleSubmit}>
+              <Grid container spacing={3}>
+                <Grid item xs={12}>
+                  <TextField
+                    id='title'
+                    name='title'
+                    label='Subject Tilte'
+                    fullWidth
+                    margin='normal'
+                    value={values.title}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    variant='outlined'
+                    error={touched.title && Boolean(errors.title)}
+                    helperText={Boolean(errors.title) && touched.title}
+                  />
+                  <Typography color='error'>
+                    {errors.title && touched.title && errors.title}
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    id='body'
+                    name='body'
+                    label='Descriptions'
+                    fullWidth
+                    multiline
+                    value={values.body}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    variant='outlined'
+                    error={touched.body && Boolean(errors.body)}
+                    helperText={Boolean(errors.body) && touched.body}
+                  />
+                  <Typography color='error'>
+                    {errors.body && touched.body && errors.body}
+                  </Typography>
+                </Grid>
+                <Grid item xs={3}>
+                  <Button
+                    type='submit'
+                    color='primary'
+                    variant='contained'
+                    disabled={isSubmitting}>
+                    Submit
+                  </Button>
+                  {/* <Typography color='error'>
+                    { errors.userId}
+                  </Typography> */}
+                </Grid>
+                <Grid item className={classes.loader} xs={9}>
+                  {isSubmitting === false ? null : (
+                    <LinearProgress
+                      variant='buffer'
+                      style={{ marginTop: '1rem' }}
+                      value={progress}
+                      valueBuffer={buffer}
+                    />
+                  )}
+                </Grid>
+              </Grid>
+            </form>
+          )}
+        </Formik>
+        }
+        </div>
         
-        {/* {getNewPostList.newPosts} */}
-        </Typography> 
+        {/* <Typography>for testing area =
+         {  JSON.stringify(getNewPostList.newPosts,UserID)}
+        </Typography>  */}
       
       </Layout>
     </div>

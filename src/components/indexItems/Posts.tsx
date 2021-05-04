@@ -115,9 +115,9 @@ export default function MainPosts(props) {
             </CardContent>
           </Card>
           <div className={classes.bottomcard}>
-            <Typography variant='body1' className={classes.pageno}>
+            {/* <Typography variant='body1' className={classes.pageno}>
               {itemList.userId} , {itemList.id}
-            </Typography>
+            </Typography> */}
             <div className={classes.linkButton}>
               <Link
                 key={idx}
@@ -160,9 +160,9 @@ export default function MainPosts(props) {
             </CardContent>
           </Card>
           <div className={classes.bottomcard}>
-            <Typography variant='body1' className={classes.pageno}>
+            {/* <Typography variant='body1' className={classes.pageno}>
               {newItem.userId} , {newItem.id}
-            </Typography>
+            </Typography> */}
             <div className={classes.linkButton}>
               <Link
                 key={idx}

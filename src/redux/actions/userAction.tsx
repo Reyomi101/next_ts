@@ -19,11 +19,6 @@ export const getUser = () => {
   };
 };
 
-
-
-
-
-
 // const userId = setDefaultUser.id;
 
 export const getUserId = (userId) => {
@@ -40,3 +35,5 @@ export const setUser = () => (
     // payload: props
   })
 )
+
+

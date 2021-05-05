@@ -1,4 +1,3 @@
-import { Action } from 'rxjs/internal/scheduler/Action';
 import * as types from '../interFaces/types';
 
 const initialProps = {

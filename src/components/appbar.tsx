@@ -118,7 +118,7 @@ export default function Appbar(props: Props) {
   )
 
   const trying = thisId.length == 0;
-  // console.log(trying);
+  // console.log(thisUser);
   
 
   return (

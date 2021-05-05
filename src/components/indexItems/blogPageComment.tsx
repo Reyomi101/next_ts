@@ -49,6 +49,21 @@ const ForComment = createSelector(
   (comment) => comment
 );
 
+// const userState = createSelector(
+//   (state: any) => state.users,
+//   (users) => users
+// );
+
+// const GetUserID = createSelector(
+//   (state: any) => state.users,
+//   (userId) => userId
+// );
+
+// const GetDefUser = createSelector(
+//   (state: any) => state.users,
+//   (defaultUser) => defaultUser
+// )
+
 // const ToRemoveComment = createSelector(
 // 	(state: any) => state.main,
 // 	(comments) => comments
@@ -66,6 +81,39 @@ export default function BlogComment(props) {
   //for selectors
   const ThisComments = useSelector(ForComment);
   const PostComments = useSelector(GetComments);
+  // const ToGetUsers = useSelector(userState);
+  // const ToGetUsersId = useSelector(GetUserID);
+  // const ToGetDefUser = useSelector(GetDefUser);
+
+  // const UserName = ToGetUsers.users.name;
+
+  // const SessionName = ToGetUsers.users.map((user) => {
+  //   const setUser = user.id == ToGetUsersId.userId;
+  //   // console.log(user.name);
+  //   return setUser == true ? (
+  //     <>
+  //       <Typography>{user.name}</Typography>
+  //     </>
+  //   ) : null;
+  // });
+
+  // const thisUser = ToGetDefUser.defaultUser.map((defuser, index) => {
+  //   const difId = defuser.id == thisId;
+  //   // console.log(thisId);
+  //   return difId == true ? 
+  //   (<Typography> {defuser.name}</Typography>) 
+  //   : SessionName 
+  // }
+  // )
+
+// console.log(ToGetUsersId.userId);
+// const GetUserId = ToGetUsersId.userId;
+
+// const CommentName = GetUserId.length == 0;
+
+// console.log(SessionName);
+
+// const ComName = {CommentName == false ? SessionName : "Reyomi"}
 
   //State
   const [comms, setComs] = useState([]);
@@ -220,6 +268,7 @@ export default function BlogComment(props) {
   const commId = Math.random() * 10 + 1;
   const commID = Math.round(commId);
 
+
   return (
     <>
       <Formik
@@ -233,6 +282,7 @@ export default function BlogComment(props) {
               postId: id,
               commentId: commID,
               userName: "Reyomi",
+              // userName: "Reyomi",
               userEmail: "test@test.com",
             });
             // addComments(values);

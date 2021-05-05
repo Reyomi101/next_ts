@@ -69,7 +69,6 @@ export default function Add() {
   });
 
   useEffect(() => {
-    
     const timer = setInterval(() => {
       progressRef.current();
     }, 500);

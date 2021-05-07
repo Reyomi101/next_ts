@@ -28,11 +28,12 @@ import { getComment } from "../../redux/actions/commAction";
 // import { Comments } from '../../redux/interFaces/interface';
 // import { AppState } from '../../redux/store';
 
-// import {
-// 	Create_comment,
-// 	Remove_Comment,
-// 	Update_post,
-// } from '../src/redux/actions/mainAction';
+import {
+	// Create_comment,
+	Remove_Comment,
+	Remove_Comment_s,
+	// Update_post,
+} from '../../redux/actions/commAction';
 
 // const ForComment = createSelector(
 //   (state: AppState) => state.comments,
@@ -49,20 +50,21 @@ const ForComment = createSelector(
   (comment) => comment
 );
 
-// const userState = createSelector(
-//   (state: any) => state.users,
-//   (users) => users
-// );
+const userState = createSelector(
+  (state: any) => state.users,
+  (users) => users
+);
 
-// const GetUserID = createSelector(
-//   (state: any) => state.users,
-//   (userId) => userId
-// );
+const GetUserID = createSelector(
+  (state: any) => state.users,
+  (userId) => userId
+);
 
-// const GetDefUser = createSelector(
-//   (state: any) => state.users,
-//   (defaultUser) => defaultUser
-// )
+const GetDefUser = createSelector(
+  (state: any) => state.users,
+  (defaultUser) => defaultUser
+)
+
 
 // const ToRemoveComment = createSelector(
 // 	(state: any) => state.main,
@@ -81,39 +83,21 @@ export default function BlogComment(props) {
   //for selectors
   const ThisComments = useSelector(ForComment);
   const PostComments = useSelector(GetComments);
-  // const ToGetUsers = useSelector(userState);
-  // const ToGetUsersId = useSelector(GetUserID);
-  // const ToGetDefUser = useSelector(GetDefUser);
+  
+  //for select user
+  const ToGetUsers = useSelector(userState);
+  const ToGetUsersId = useSelector(GetUserID);
+  const ToGetDefUser = useSelector(GetDefUser);
+  
 
-  // const UserName = ToGetUsers.users.name;
+  const UserID = ToGetUsersId.userId;
 
-  // const SessionName = ToGetUsers.users.map((user) => {
-  //   const setUser = user.id == ToGetUsersId.userId;
-  //   // console.log(user.name);
-  //   return setUser == true ? (
-  //     <>
-  //       <Typography>{user.name}</Typography>
-  //     </>
-  //   ) : null;
-  // });
 
-  // const thisUser = ToGetDefUser.defaultUser.map((defuser, index) => {
-  //   const difId = defuser.id == thisId;
-  //   // console.log(thisId);
-  //   return difId == true ? 
-  //   (<Typography> {defuser.name}</Typography>) 
-  //   : SessionName 
-  // }
-  // )
+  
+  
 
-// console.log(ToGetUsersId.userId);
-// const GetUserId = ToGetUsersId.userId;
 
-// const CommentName = GetUserId.length == 0;
-
-// console.log(SessionName);
-
-// const ComName = {CommentName == false ? SessionName : "Reyomi"}
+  // const trying = thisId.length == 0;
 
   //State
   const [comms, setComs] = useState([]);
@@ -127,12 +111,17 @@ export default function BlogComment(props) {
   const dispatch = useDispatch();
   const GetComment = getComment();
 
-  const thisId = id;
 
-  //   // const ForRemove = (props) => {
-  //   // 	// Remove_Comment(props);
-  //   // 	setComlist(removeThis.comments.filter((comment) => comment.id === id));
-  //   // };
+    const ForRemove = (props) => {
+    	Remove_Comment(props);
+    	// setComlist(removeThis.comments.filter((comment) => comment.id === id));
+    };
+
+    const ComsRemove = (props) => {
+      console.log('onPage',props);
+    	Remove_Comment_s(props);
+    	// setComlist(removeThis.comments.filter((comment) => comment.id === id));
+    };
 
 
   useEffect(() => {
@@ -176,7 +165,7 @@ export default function BlogComment(props) {
                     className={classes.delicon}
                     color="secondary"
                     onClick={() => {
-                      //   ForRemove(coms);
+                      ComsRemove(tryThis);
                     }}
                   >
                     <HighlightOffIcon fontSize="small" />
@@ -244,7 +233,7 @@ export default function BlogComment(props) {
                           className={classes.delicon}
                           color="secondary"
                           onClick={() => {
-                            //   ForRemove(coms);
+                              ForRemove(comments);
                           }}
                         >
                           <HighlightOffIcon fontSize="small" />
@@ -269,6 +258,9 @@ export default function BlogComment(props) {
   const commID = Math.round(commId);
 
 
+  const thistUser = ToGetUsers.users.find((Uname) => Uname.id === UserID); //to get user info
+
+
   return (
     <>
       <Formik
@@ -278,12 +270,12 @@ export default function BlogComment(props) {
           // alert(JSON.stringify(values));
           setTimeout(() => {
             addComments({
-              commentBody: values.commentBody,
               postId: id,
               commentId: commID,
-              userName: "Reyomi",
+              userName: UserID === thistUser.id ?  thistUser.name  : 'reyomi'  ,
               // userName: "Reyomi",
-              userEmail: "test@test.com",
+              userEmail: thistUser.email,
+              commentBody: values.commentBody,
             });
             // addComments(values);
             setComs(
@@ -305,32 +297,43 @@ export default function BlogComment(props) {
           isSubmitting,
         }) => (
           <form onSubmit={handleSubmit}>
+            {UserID == 0 ?  
+            <TextField disabled id="standard-disabled" 
+            label="Disabled" 
+            variant="outlined"
+            fullWidth
+            multiline
+            defaultValue="To post Comment, Please select user first!" /> 
+            :
             <TextField
-              id="commentBody"
-              name="commentBody"
-              label="Comment:"
-              variant="outlined"
-              fullWidth
-              multiline
-              InputProps={{
-                endAdornment: (
-                  <IconButton type="submit" color="primary">
-                    <Tooltip title="Tab + Enter" placement="right" arrow>
-                      {isSubmitting ? (
-                        <CircularProgress disableShrink color="secondary" />
-                      ) : (
-                        <SendIcon fontSize="large" color="secondary" />
-                      )}
-                    </Tooltip>
-                  </IconButton>
-                ),
-              }}
-              value={values.commentBody}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={touched.commentBody && Boolean(errors.commentBody)}
-              helperText={Boolean(errors.commentBody) && touched.commentBody}
-            />
+            id="commentBody"
+            name="commentBody"
+            label="Comment:"
+            variant="outlined"
+            fullWidth
+            multiline
+            InputProps={{
+              endAdornment: (
+                <IconButton type="submit" color="primary">
+                  <Tooltip title="Tab + Enter" placement="right" arrow>
+                    {isSubmitting ? (
+                      <CircularProgress disableShrink color="secondary" />
+                    ) : (
+                      <SendIcon fontSize="large" color="secondary" />
+                    )}
+                  </Tooltip>
+                </IconButton>
+              ),
+            }}
+            value={values.commentBody}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.commentBody && Boolean(errors.commentBody)}
+            helperText={Boolean(errors.commentBody) && touched.commentBody}
+          />
+            }
+
+           
             <Typography color="error">
               {errors.commentBody && touched.commentBody && errors.commentBody}
             </Typography>

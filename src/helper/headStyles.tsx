@@ -44,8 +44,8 @@ const useStyles = makeStyles((theme) => ({
   pagenator: {
     marginTop: theme.spacing(2),
     display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: "flex-end",
+    // alignItems: "left",
   },
 
   cardBody: {

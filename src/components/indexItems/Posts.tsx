@@ -37,6 +37,11 @@ const CommentPost = createSelector (
   (comments) => comments
 )
 
+const ForUpdate = createSelector(
+	(state: any) => state.posts,
+	(editPost) => editPost
+);
+
 export default function MainPosts(props) {
   //for styles
   const classes = useStyles();
@@ -45,6 +50,7 @@ export default function MainPosts(props) {
   const getPostItems = useSelector(PostsItems);
   const getNewItems = useSelector(NewPostList);
   const getCommentItems = useSelector(CommentPost);
+  const forUpdatePost = useSelector(ForUpdate);
 
   //For States
   const postList = useRef(null);
@@ -110,8 +116,14 @@ export default function MainPosts(props) {
         <Paper className={classes.paper}>
           <Card>
             <CardContent>
-              <Typography variant='h5'>{itemList.title}</Typography>
-              <Typography variant='body1'>{itemList.body}</Typography>
+              <Typography variant='h5'>
+                {/* {itemList.title} */}
+                {itemList.title === undefined ? forUpdatePost.editPost.subject : itemList.title}
+              </Typography>
+              <Typography variant='body1'>
+                {/* {itemList.body} */}
+                {itemList.body === undefined ? forUpdatePost.editPost.content : itemList.body}
+                </Typography>
             </CardContent>
           </Card>
           <div className={classes.bottomcard}>
@@ -155,8 +167,14 @@ export default function MainPosts(props) {
         <Paper className={classes.paper}>
           <Card>
             <CardContent>
-              <Typography variant='h5'>{newItem.title}</Typography>
-              <Typography variant='body1'>{newItem.body}</Typography>
+              <Typography variant='h5'>
+                {/* {newItem.title} */}
+                {newItem.title === undefined ? forUpdatePost.editPost.subject : newItem.title}
+                </Typography>
+              <Typography variant='body1'>
+                {/* {newItem.body} */}
+                {newItem.body === undefined ? forUpdatePost.editPost.content : newItem.body}
+                </Typography>
             </CardContent>
           </Card>
           <div className={classes.bottomcard}>

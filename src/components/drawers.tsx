@@ -24,10 +24,6 @@ const GetUser = createSelector(
   (users) => users
 );
 
-const GetDefaultUser = createSelector(
-  (state: any) => state.users,
-  (defaultUser) => defaultUser
-);
 
 const GetUserID = createSelector(
   (state: any) => state.users,
@@ -40,14 +36,12 @@ export default function DrawerItems() {
   //for selectors
   const ToGetUsers = useSelector(GetUser);
   const ToGetUsersId = useSelector(GetUserID);
-  const ToGetDefaultUsers = useSelector(GetDefaultUser);
 
   // console.log(ToGetDefaultUsers.defaultUser);
   const IdUser = ToGetUsersId.userId;
 
   //state
   const [userId, setUserId] = useState(IdUser);
-  const [defUser, setDefUser] = useState([])
  
 
   //for dispatch
@@ -65,7 +59,6 @@ export default function DrawerItems() {
     setTimeout(() => {
       dispatch(GetUsers);
       // setUsers(ToGetUsers.users);
-      setDefUser(ToGetDefaultUsers.defaultUser.filter((def)=> def.id === 11))
     }, 1000);
   }, [dispatch]);
 
@@ -96,24 +89,6 @@ export default function DrawerItems() {
     ) : null;
   });
 
-  // const userDefData = 
-
-
-
-  const userDef = ToGetDefaultUsers.defaultUser.map((defUser) => (
-    <ListItem >
-      <ListItemIcon>
-        <PermIdentityIcon />
-      </ListItemIcon>
-      <ListItemText>
-        <Button
-          /* @ts-ignore */
-          onClick={() => {setUserId(`${defUser.id}`),toGetUserId(defUser.id) }}>
-          {defUser.name}
-        </Button>
-      </ListItemText>
-    </ListItem>
-  ));
 
   const userList = ToGetUsers.users.map((user, index) => (
     <ListItem >
@@ -135,31 +110,7 @@ export default function DrawerItems() {
   return (
     <>
         <List>
-          {defUser.map((defUser, index) => {
-        // console.log(defUser.name)
-        const difId = defUser.id == userId;
-            return difId == true ? (
-          <>
-            <ListItem>
-              <ListItemIcon>
-                <AccountCircleIcon />
-              </ListItemIcon>
-              <ListItemText>{defUser.name}</ListItemText>
-            </ListItem>
-            <ListItem>Username : {defUser.username}</ListItem>
-            <ListItem>Email : {defUser.email}</ListItem>
-            <ListItem>Address : {defUser.address.street}, {defUser.address.suite}, 
-          {defUser.address.city}, {defUser.address.zipcode}, 
-          {defUser.address.geo.lat}, {defUser.address.geo.lng}</ListItem>
-            <ListItem>Phone : {defUser.phone}</ListItem>
-            <ListItem>Website : {defUser.website}</ListItem>
-            <ListItem>Company :{defUser.company.name}, 
-          {defUser.company.bs}</ListItem>
-          </>
-            ) : userData
-         
-      }
-      )}
+         {userData}
       </List>
 
       <Divider />
@@ -171,7 +122,7 @@ export default function DrawerItems() {
             Nested Users
           </ListSubheader>
         }>
-        {[userList, userDef]}
+        {[userList]}
       </List>
     </>
   );

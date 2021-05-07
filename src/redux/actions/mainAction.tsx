@@ -5,36 +5,6 @@ import { WebClient } from "../../api/webclient";
 import { dispatch } from "rxjs/internal/observable/pairs";
 import store from '../store'
 
-// interface newPosts {
-//   id: number;
-//   userId: number;
-//   title: string;
-//   body: string;
-// }
-
-
-// export const getCommentAction = (comments) => {
-//   console.log(comments);
-//   return {
-//     type: types.GET_COMMENTS,
-//     payload: comments,
-//   }
-// }
-
-// export const getComment = () => {
-//   return function (dispatch: Dispatch) {
-//     const POST_URL = 'https://jsonplaceholder.typicode.com/comments';
-//     fetch(POST_URL, {
-//       method: 'GET'
-//     })
-//     .then(res => res.json()
-//     .then(data => {
-//       alert(JSON.stringify(data))
-//       dispatch(getCommentAction(data));
-//       return data;
-//     }))
-//   }
-// }
 
 
 
@@ -75,6 +45,49 @@ export const AddComment = (params) => {
     payload: params,
   })
 }
+
+export const Update_post = (params) => {
+	// alert(JSON.stringify(params));
+	store.dispatch({
+		type: types.UPDATE_POSTS,
+		payload: params,
+	});
+};
+
+
+
+
+// interface newPosts {
+//   id: number;
+//   userId: number;
+//   title: string;
+//   body: string;
+// }
+
+
+// export const getCommentAction = (comments) => {
+//   console.log(comments);
+//   return {
+//     type: types.GET_COMMENTS,
+//     payload: comments,
+//   }
+// }
+
+// export const getComment = () => {
+//   return function (dispatch: Dispatch) {
+//     const POST_URL = 'https://jsonplaceholder.typicode.com/comments';
+//     fetch(POST_URL, {
+//       method: 'GET'
+//     })
+//     .then(res => res.json()
+//     .then(data => {
+//       alert(JSON.stringify(data))
+//       dispatch(getCommentAction(data));
+//       return data;
+//     }))
+//   }
+// }
+
 
 // export const addPosts = (newPosts) =>  {
 //     // alert(JSON.stringify(addPostAction(params)))

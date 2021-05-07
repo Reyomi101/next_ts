@@ -25,11 +25,17 @@ const GetUserID = createSelector(
 )
 
 
+const ForUpdate = createSelector(
+	(state: any) => state.posts,
+	(editPost) => editPost
+);
+
 export default function BlogPageContent(props) {
   const classes = useStyles();
   const router = useRouter();
   const { userId, id, title, body } = router.query;
   const ToGetUserId = useSelector(GetUserID);
+  const forUpdatePost = useSelector(ForUpdate);
 
   const UserID = ToGetUserId.userId;
 
@@ -37,7 +43,10 @@ export default function BlogPageContent(props) {
     <>
       <Grid container spacing={2} className={classes.Grids}>
         <Grid item md={9} sm={9} xs={8}>
-          <Typography variant='h4'>{title}</Typography>
+          <Typography variant='h4'>
+            {/* {title} */}
+            {title === undefined ? forUpdatePost.editPost.subject : title}
+          </Typography>
         </Grid>
 
         { UserID == userId ?
@@ -72,8 +81,10 @@ export default function BlogPageContent(props) {
       {/* {forButtons} */}
 
       <Typography variant='body1'>
-        {body}
-        {/* {body === undefined ? updatePost.editPost.content : body} */}
+        {/* {body} */}
+        {body === undefined ? forUpdatePost.editPost.content : body}
+        {/* user id = {JSON.stringify(ToGetUserId.userId)}
+        test id = {userId} */}
       </Typography>
     </>
   );

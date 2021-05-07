@@ -15,6 +15,8 @@ import BlogPageContent from '../src/components/indexItems/blogPageContent'
 import BlogComment from '../src/components/indexItems/blogPageComment'
 
 
+
+
 export default function BlogPage(props) {
 	const classes = useStyles();
 	const router = useRouter();

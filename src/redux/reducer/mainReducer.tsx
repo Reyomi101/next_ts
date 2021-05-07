@@ -4,6 +4,7 @@ const initialProps = {
   posts: [],
   newPosts: [],
   comments: [],
+  editPost: [],
 };
 
 export const PostReducer = (state = initialProps, action) => {
@@ -31,6 +32,11 @@ export const PostReducer = (state = initialProps, action) => {
       console.log(action.payload);
 
       return copyState;
+
+
+      case types.UPDATE_POSTS:
+			copyState.editPost = action.payload;
+			return copyState;
 
     default:
       return state;

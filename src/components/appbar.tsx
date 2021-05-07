@@ -43,10 +43,6 @@ const GetUserID = createSelector(
   (userId) => userId
 );
 
-const GetDefUser = createSelector(
-  (state: any) => state.users,
-  (defaultUser) => defaultUser
-)
 
 interface Props {
   window?: () => Window;
@@ -72,14 +68,13 @@ export default function Appbar(props: Props) {
   //for selectors
   const ToGetUsers = useSelector(userState);
   const ToGetUsersId = useSelector(GetUserID);
-  const ToGetDefUser = useSelector(GetDefUser);
+
 
   // console.log(ToGetUsersId.userId);
   const thisId = ToGetUsersId.userId;
 
   //state
   const [open, setOpen] = useState(false);
-  // const [select, setSelect] = useState(thisId.length == 0);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -88,12 +83,6 @@ export default function Appbar(props: Props) {
     setOpen(false);
   };
 
-  // useEffect(()=>{
-  //   setSelect(true)
-  //   // setTimeout(()=> {
-  //   //   setSelect(false)
-  //   // })
-  // },[])
 
 
 
@@ -108,17 +97,9 @@ export default function Appbar(props: Props) {
 
 
 
-  const thisUser = ToGetDefUser.defaultUser.map((defuser, index) => {
-    const difId = defuser.id == thisId;
-    // console.log(thisId);
-    return difId == true ? 
-    (<Typography> {defuser.name}</Typography>) 
-    : SessionName 
-  }
-  )
 
   const trying = thisId.length == 0;
-  // console.log(thisUser);
+
   
 
   return (
@@ -144,7 +125,7 @@ export default function Appbar(props: Props) {
               </Typography>
 
               <Typography>
-              {trying == false ? thisUser  : 'Select User' }
+              {trying == false ? SessionName  : 'Select User' }
               </Typography>
 
               <IconButton

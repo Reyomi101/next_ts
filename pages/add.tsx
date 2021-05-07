@@ -47,13 +47,12 @@ export default function Add() {
   const UserID = ToGetUserId.userId;
   // const forUserId = UserID.length == 0;
 
-  
-
   // console.log(UserID);
 
   const dispatch = useDispatch();
 
   const progressRef = useRef(() => {});
+
   useEffect(() => {
     progressRef.current = () => {
       if (progress > 100) {
@@ -98,7 +97,9 @@ export default function Add() {
         { UserID == 0 ?  <Typography variant='h5' >
             {/* @ts-ignore */}
             <center>To add post, Please select user first!</center> 
-          </Typography> : 
+          </Typography> 
+          
+          : 
 
         <Formik
           initialValues={{ title: '', body: '', userId: UserID, id: postID  }}
@@ -186,9 +187,9 @@ export default function Add() {
         }
         </div>
         
-        {/* <Typography>for testing area =
-         {  JSON.stringify(getNewPostList.newPosts,UserID)}
-        </Typography>  */}
+        <Typography>for testing area =
+         {  JSON.stringify(getNewPostList.newPosts)}
+        </Typography> 
       
       </Layout>
     </div>

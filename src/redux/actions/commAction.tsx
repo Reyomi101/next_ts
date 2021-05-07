@@ -12,21 +12,6 @@ export const getCommentAction = (comments) => {
   }
 }
 
-// export const getComment = () => {
-//   return function (dispatch: Dispatch) {
-//     const POST_URL = 'https://jsonplaceholder.typicode.com/comments';
-//     fetch(POST_URL, {
-//       method: 'GET'
-//     })
-//     .then(res => res.json()
-//     .then(data => {
-//       alert(JSON.stringify(data))
-//       dispatch(getCommentAction(data));
-//       return data;
-//     }))
-//   }
-// }
-
 
 export const getComment = () => {
   return function (dispatch: Dispatch) {
@@ -38,16 +23,6 @@ export const getComment = () => {
   }
 }
 
-// export const getComment = () => {
-//   return function (dispatch: Dispatch) {
-//     WebClient.get("/posts").then((res) => {
-//       alert(JSON.stringify(res.data))
-//       dispatch(getCommentAction(res.data));
-//       return res.data;
-//     });
-//   };
-// };
-
 
 export const addComments = (params) => {
     console.log(params);
@@ -57,34 +32,19 @@ export const addComments = (params) => {
     })
   }
 
-// export const AddCommentAsync = (newdata) => {
-//     console.log(addComments(newdata))
-//    return (dispatch) => {
-    
-//        setTimeout(()=> {
-//            dispatch(addComments(newdata))
-//        }, 1000)
-//    };
-// } 
 
+  export const Remove_Comment = (params) => {
+    console.log(params);
+	store.dispatch({
+		type: types.REMOVE_COMMENT,
+		payload: params,
+	});
+};
 
-// export function addComments(params) {
-//     console.log(params)
-//    store.dispatch({
-//        type: types.ADD_COMMENTS,
-//        payload: params,
-//    })
-// }
-
-
-
-// setInterval(()=>{
-//     // console.log(params);
-//     // dispatch({
-//     //     type: types.ADD_COMMENTS,
-//     //     payload: params //?
-//     // })
-// },1000)
-   
-
-// console.log(params);
+export const Remove_Comment_s = (params) => {
+  console.log('test remove',params);
+store.dispatch({
+  type: types._REMOVE_COMMENT_s,
+  payload: params,
+});
+};

@@ -11,11 +11,14 @@ export interface NewState {
 
 export const GET_POSTS = 'GET_POSTS';
 export const ADD_POSTS = 'ADD_POSTS';
-export const REMOVE_POSTS = 'ADD_POSTS';
+export const REMOVE_POSTS = 'REMOVE_POSTS';
+export const UPDATE_POSTS = 'UPDATE_POSTS';
+
 
 export const GET_COMMENTS = 'GET_COMMENT';
 export const ADD_COMMENT = 'ADD_COMMENT';
 export const REMOVE_COMMENT = 'REMOVE_COMMENT';
+export const _REMOVE_COMMENT_s = '_REMOVE_COMMENT_s';
 
 export const GET_USERS = 'GET_USERS';
 export const GET_UserID = 'GET_UserID';

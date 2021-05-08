@@ -25,7 +25,7 @@ export const getComment = () => {
 
 
 export const addComments = (params) => {
-    console.log(params);
+    // console.log(params);
     store.dispatch({
       type: types.ADD_COMMENT,
       payload: params,
@@ -34,7 +34,7 @@ export const addComments = (params) => {
 
 
   export const Remove_Comment = (params) => {
-    console.log(params);
+    // console.log(params);
 	store.dispatch({
 		type: types.REMOVE_COMMENT,
 		payload: params,
@@ -42,7 +42,7 @@ export const addComments = (params) => {
 };
 
 export const Remove_Comment_s = (params) => {
-  console.log('test remove',params);
+  // console.log('test remove',params);
 store.dispatch({
   type: types._REMOVE_COMMENT_s,
   payload: params,

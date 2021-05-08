@@ -118,11 +118,11 @@ export default function MainPosts(props) {
             <CardContent>
               <Typography variant='h5'>
                 {/* {itemList.title} */}
-                {itemList.title === undefined ? forUpdatePost.editPost.subject : itemList.title}
+                {itemList.title === undefined ? forUpdatePost.editPost.title : itemList.title}
               </Typography>
               <Typography variant='body1'>
                 {/* {itemList.body} */}
-                {itemList.body === undefined ? forUpdatePost.editPost.content : itemList.body}
+                {itemList.body === undefined ? forUpdatePost.editPost.body : itemList.body}
                 </Typography>
             </CardContent>
           </Card>
@@ -169,11 +169,11 @@ export default function MainPosts(props) {
             <CardContent>
               <Typography variant='h5'>
                 {/* {newItem.title} */}
-                {newItem.title === undefined ? forUpdatePost.editPost.subject : newItem.title}
+                {newItem.title === undefined ? forUpdatePost.editPost.title : newItem.title}
                 </Typography>
               <Typography variant='body1'>
                 {/* {newItem.body} */}
-                {newItem.body === undefined ? forUpdatePost.editPost.content : newItem.body}
+                {newItem.body === undefined ? forUpdatePost.editPost.body : newItem.body}
                 </Typography>
             </CardContent>
           </Card>

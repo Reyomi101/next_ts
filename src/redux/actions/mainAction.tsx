@@ -39,7 +39,7 @@ export const addPosts = (params) => {
 
 
 export const AddComment = (params) => {
-  console.log(params);
+  // console.log(params);
   store.dispatch({
     type: types.ADD_COMMENT,
     payload: params,

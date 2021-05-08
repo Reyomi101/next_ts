@@ -23,6 +23,8 @@ export const ForBlogComments = yup.object().shape({
 });
 
 export const BlogEdit = yup.object().shape({
-	subject: yup.string().required(),
-	content: yup.string().required(),
+	// subject: yup.string().required(),
+	// content: yup.string().required(),
+	title: yup.string().required(),
+	body: yup.string().required(),
 });

@@ -93,10 +93,6 @@ export default function BlogComment(props) {
   const UserID = ToGetUsersId.userId;
 
 
-  
-  
-
-
   // const trying = thisId.length == 0;
 
   //State

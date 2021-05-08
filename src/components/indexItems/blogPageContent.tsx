@@ -38,14 +38,14 @@ export default function BlogPageContent(props) {
   const forUpdatePost = useSelector(ForUpdate);
 
   const UserID = ToGetUserId.userId;
-
+  
   return (
     <>
       <Grid container spacing={2} className={classes.Grids}>
         <Grid item md={9} sm={9} xs={8}>
           <Typography variant='h4'>
             {/* {title} */}
-            {title === undefined ? forUpdatePost.editPost.subject : title}
+            {title === undefined ? forUpdatePost.editPost.title : title}
           </Typography>
         </Grid>
 
@@ -82,10 +82,14 @@ export default function BlogPageContent(props) {
 
       <Typography variant='body1'>
         {/* {body} */}
-        {body === undefined ? forUpdatePost.editPost.content : body}
+        {body === undefined ? forUpdatePost.editPost.body : body}
         {/* user id = {JSON.stringify(ToGetUserId.userId)}
         test id = {userId} */}
       </Typography>
+
+      {/* <Typography>
+					 for testing area = {JSON.stringify(forUpdatePost.editPost)}
+				</Typography> */}
     </>
   );
 }

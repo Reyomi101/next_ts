@@ -37,8 +37,8 @@ const CommReducer = (state = initialState, action) => {
 			var index = tempList.indexOf(action.payload);
 			delete tempList[index];
 			copyState.comment = tempList;
-			alert(JSON.stringify(copyState.comment));
-      console.log('here at commReducer');
+			// alert(JSON.stringify(copyState.comment));
+      // console.log('here at commReducer');
 			return copyState;
 
     case types._REMOVE_COMMENT_s:
@@ -46,8 +46,8 @@ const CommReducer = (state = initialState, action) => {
       var index2 = tempList2.indexOf(action.payload);
       delete tempList2[index2];
       copyState.comments = tempList2;
-      alert(JSON.stringify(copyState.comments));
-      console.log('here at commReducer s');
+      // alert(JSON.stringify(copyState.comments));
+      // console.log('here at commReducer s');
       return copyState;
 
 

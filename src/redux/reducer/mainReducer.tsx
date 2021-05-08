@@ -28,8 +28,8 @@ export const PostReducer = (state = initialProps, action) => {
       tempList.push(action.payload);
       copyState.newPosts = tempList;
 
-      alert("here at mainReducer");
-      console.log(action.payload);
+      // alert("here at mainReducer");
+      // console.log(action.payload);
 
       return copyState;
 

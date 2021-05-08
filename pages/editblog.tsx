@@ -71,13 +71,13 @@ export default function EditBlog(props) {
 
 				<div className={classes.addform}>
 					<Formik
-						initialValues={{ subject: title, content: body }}
+						initialValues={{ title: title, body: body }}
 						validationSchema={BlogEdit}
 						onSubmit={(values, { setSubmitting }) => {
 							setTimeout(() => {
 								Update_post({
-									subject: values.subject,
-									content: values.content,
+									title: values.title,
+									body: values.body,
 									id: id,
 									userId: userId,
 								});
@@ -85,8 +85,8 @@ export default function EditBlog(props) {
 								Router.push({
 									pathname: '/blogpage',
 									query: {
-										subject: values.subject,
-										content: values.content,
+										title: values.title,
+										body: values.body,
 										id: id,
 										userId: userId,
 									},
@@ -107,38 +107,38 @@ export default function EditBlog(props) {
 								<Grid container spacing={3}>
 									<Grid item xs={12}>
 										<TextField
-											id='subject'
-											name='subject'
+											id='title'
+											name='title'
 											label='Subject Tilte'
 											fullWidth
 											margin='normal'
-											value={values.subject}
+											value={values.title}
 											onChange={handleChange}
 											onBlur={handleBlur}
 											variant='outlined'
-											error={touched.subject && Boolean(errors.subject)}
-											helperText={Boolean(errors.subject) && touched.subject}
+											error={touched.title && Boolean(errors.title)}
+											helperText={Boolean(errors.title) && touched.title}
 										/>
 										<Typography color='error'>
-											{errors.subject && touched.subject && errors.subject}
+											{errors.title && touched.title && errors.title}
 										</Typography>
 									</Grid>
 									<Grid item xs={12}>
 										<TextField
-											id='content'
-											name='content'
+											id='body'
+											name='body'
 											label='Descriptions'
 											fullWidth
 											multiline
-											value={values.content}
+											value={values.body}
 											onChange={handleChange}
 											onBlur={handleBlur}
 											variant='outlined'
-											error={touched.content && Boolean(errors.content)}
-											helperText={Boolean(errors.content) && touched.content}
+											error={touched.body && Boolean(errors.body)}
+											helperText={Boolean(errors.body) && touched.body}
 										/>
 										<Typography color='error'>
-											{errors.content && touched.content && errors.content}
+											{errors.body && touched.body && errors.body}
 										</Typography>
 									</Grid>
 									<Grid item xs={3}>
@@ -166,7 +166,7 @@ export default function EditBlog(props) {
 					</Formik>
 				</div>
 				<Typography>
-					 {/* for testing area = {JSON.stringify(forUpdatePost.editPost)} */}
+					 for testing area = {JSON.stringify(forUpdatePost.editPost)}
 				</Typography>
 
 				

@@ -53,7 +53,7 @@ export default function BlogPageContent(props) {
         <Grid item md={3} sm={3} xs={4}>
           <div className={classes.editButton}>
           <ButtonGroup disableElevation variant='contained' size='small'>
-                <Tooltip title='EDIT POST' placement='top' arrow>
+          <Tooltip title='DISCARD POST' placement='top' arrow>
             <Link
               //   href=''
               href={{
@@ -66,7 +66,7 @@ export default function BlogPageContent(props) {
                   </Button>
             </Link>
             </Tooltip>
-            <Tooltip title='DISCARD POST' placement='top' arrow>
+              <Tooltip title='DISCARD POST' placement='top' arrow>
                   <Button color='inherit' className={classes.delicon}>
                     <DeleteForeverOutlinedIcon  color='secondary'/>
                   </Button>

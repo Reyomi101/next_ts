@@ -13,8 +13,7 @@ import {
 import { useRouter } from 'next/router';
 import BlogPageContent from '../src/components/indexItems/blogPageContent'
 import BlogComment from '../src/components/indexItems/blogPageComment'
-
-
+import BlogUserInfo from '../src/components/indexItems/blogPageUser'
 
 
 export default function BlogPage(props) {
@@ -28,36 +27,7 @@ export default function BlogPage(props) {
 			<Layout title='Blog PAGE' fixed={false}>
 				<Typography variant='h3'>Blog PAGE</Typography>
 
-				<Grid container spacing={2}>
-					<Grid item lg={3} md={3} sm={4} xs={12}>
-						<div className={classes.avatars}>
-							<Avatar
-								alt='Reyomi'
-								style={{
-									width: '10rem',
-									height: '10rem',
-									color: '#fff',
-									backgroundColor: '#19857b',
-								}}
-							/>
-						</div>
-					</Grid>
-
-					<Grid item lg={9} md={9} sm={8} xs={12}>
-						<div className={classes.editButton}>
-							<Avatar
-								variant='rounded'
-								style={{
-									width: '100%',
-									height: '20rem',
-									color: '#fff',
-									backgroundColor: '#eee',
-								}}>
-								Sample IMAGE
-							</Avatar>
-						</div>
-					</Grid>
-				</Grid>
+				<BlogUserInfo /> {/* Blog User Avatar here*/}
 
 
 				<BlogPageContent />	 {/* Blog Content here*/}				

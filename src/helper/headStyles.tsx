@@ -78,8 +78,17 @@ const useStyles = makeStyles((theme) => ({
   },
   avatars: {
     display: "flex",
-    justifyContent: "center",
-    margin: "2rem",
+    justifyContent: "star",
+    margin: "1rem",
+  },
+  avatarsInfo: {
+    // display: "flex",
+    // justifyContent: "star",
+    marginLeft: "0.3rem",
+  },
+  avatarIcon: {
+    paddingTop: "5px",
+    marginBottom: "-3px",
   },
   gridList: {
     width: 500,

@@ -157,7 +157,6 @@ export default function MainPosts(props) {
       </Grid>
     ));
 
-
     //New POST items
 
     const NewListItems = getNewItems.newPosts

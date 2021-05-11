@@ -84,8 +84,6 @@ export default function Appbar(props: Props) {
   };
 
 
-
-
   const SessionName = ToGetUsers.users.map((user) => {
     const setUser = user.id == ToGetUsersId.userId;
     return setUser == true ? (
@@ -95,12 +93,8 @@ export default function Appbar(props: Props) {
     ) : null;
   });
 
-
-
-
   const trying = thisId.length == 0;
 
-  
 
   return (
     <>

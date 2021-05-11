@@ -18,6 +18,8 @@ import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
 import { Title } from '@material-ui/icons';
+import { Remove_Post } from "../../redux/actions/mainAction";
+
 
 const GetUserID = createSelector(
   (state: any) => state.users,
@@ -39,6 +41,11 @@ export default function BlogPageContent(props) {
 
   const UserID = ToGetUserId.userId;
   
+  const ForRemovePost = (props) => {
+    Remove_Post(props);
+  }
+
+
   return (
     <>
       <Grid container spacing={2} className={classes.Grids}>
@@ -53,7 +60,7 @@ export default function BlogPageContent(props) {
         <Grid item md={3} sm={3} xs={4}>
           <div className={classes.editButton}>
           <ButtonGroup disableElevation variant='contained' size='small'>
-          <Tooltip title='DISCARD POST' placement='top' arrow>
+          
             <Link
               //   href=''
               href={{
@@ -61,17 +68,23 @@ export default function BlogPageContent(props) {
                 query: { userId, id, title, body },
               }}
               passHref>
+                <Tooltip title='EDIT POST' placement='top' arrow>
                   <Button component='a' color='secondary'>
                     <EditIcon color='inherit' />
                   </Button>
+                </Tooltip>
             </Link>
-            </Tooltip>
+            <Link href={{pathname: '/'}}>
               <Tooltip title='DISCARD POST' placement='top' arrow>
                   <Button color='inherit' className={classes.delicon}>
-                    <DeleteForeverOutlinedIcon  color='secondary'/>
+                    <DeleteForeverOutlinedIcon  color='secondary'
+                    onClick={()=> {ForRemovePost(router.query)}}
+                    />
                   </Button>
                 </Tooltip>
-              </ButtonGroup>
+            </Link>
+          </ButtonGroup>
+             
           </div>
         </Grid>
         : null

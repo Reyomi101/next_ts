@@ -24,15 +24,14 @@ export default function BlogPage(props) {
 
 	return (
 		<>
+		<Toolbar />
 			<Layout title='Blog PAGE' fixed={false}>
 				<Typography variant='h3'>Blog PAGE</Typography>
-
+				<Toolbar />
 				<BlogUserInfo /> {/* Blog User Avatar here*/}
-
 
 				<BlogPageContent />	 {/* Blog Content here*/}				
 				
-
 				<Toolbar />
 				<Typography variant='body2'>
 					{/* test area {JSON.stringify(updatePost.editPost)} */}
@@ -40,7 +39,6 @@ export default function BlogPage(props) {
 				<Toolbar />
 
 				<BlogComment />  {/* Comments area here */}
-
 				
 			</Layout>
 		</>

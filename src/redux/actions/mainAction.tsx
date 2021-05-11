@@ -54,6 +54,15 @@ export const Update_post = (params) => {
 	});
 };
 
+export const Remove_Post = (params) => {
+  	// alert(JSON.stringify(params));
+    console.log('here at mainAction');
+	store.dispatch({
+		type: types.REMOVE_POSTS,
+		payload: params,
+	});
+};
+
 
 
 

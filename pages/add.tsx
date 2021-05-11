@@ -83,7 +83,9 @@ export default function Add() {
   return (
     <div>
       <Layout title='Add BLOG' fixed={true}>
+      <Toolbar />
         <Typography variant='h3'>This is ADD page</Typography>
+        <Toolbar />
         <Typography variant='body1' style={{ margin: '1rem' }}>
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corrupti,
           culpa? A odit dolorem illo delectus fuga labore fugiat culpa libero et

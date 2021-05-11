@@ -89,7 +89,6 @@ export default function BlogComment(props) {
   const ToGetUsersId = useSelector(GetUserID);
   const ToGetDefUser = useSelector(GetDefUser);
   
-
   const UserID = ToGetUsersId.userId;
 
 

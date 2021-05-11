@@ -59,7 +59,9 @@ export default function EditBlog(props) {
 	return (
 		<div>
 			<Layout title='Edit BLOG Post' fixed={true}>
+			<Toolbar />
 				<Typography variant='h3'>This is EDIT Blog</Typography>
+				<Toolbar />
 				<Typography variant='body1'>
 					Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corrupti,
 					culpa? A odit dolorem illo delectus fuga labore fugiat culpa libero et

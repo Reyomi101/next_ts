@@ -17,6 +17,7 @@ const CommReducer = (state = initialState, action) => {
         comments: action.payload,
       };
 
+
     case types.ADD_COMMENT:
       let tempComm = copyState.comment;
       tempComm.push(action.payload);
@@ -26,6 +27,7 @@ const CommReducer = (state = initialState, action) => {
       // console.log(action.payload);
 
       return copyState;
+
 
     // copyState = {...state};
     // copyState.comment = copyState.comment + action.payload;
@@ -40,6 +42,7 @@ const CommReducer = (state = initialState, action) => {
 			// alert(JSON.stringify(copyState.comment));
       // console.log('here at commReducer');
 			return copyState;
+      
 
     case types._REMOVE_COMMENT_s:
       let tempList2 = copyState.comments;

@@ -18,7 +18,7 @@ import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
 import { Title } from '@material-ui/icons';
-import { Remove_Post } from "../../redux/actions/mainAction";
+import { Remove_Post,Remove_New_Post } from "../../redux/actions/mainAction";
 
 
 const GetUserID = createSelector(
@@ -42,6 +42,10 @@ export default function BlogPageContent(props) {
   const UserID = ToGetUserId.userId;
   
   const ForRemovePost = (props) => {
+    Remove_New_Post(props);
+  }
+
+  const ForRemoveNewPost = (props) => {
     Remove_Post(props);
   }
 
@@ -75,7 +79,7 @@ export default function BlogPageContent(props) {
                 </Tooltip>
             </Link>
             <Link href={{pathname: '/'}}>
-              <Tooltip title='DISCARD POST' placement='top' arrow>
+              <Tooltip title='REMOVE POST' placement='top' arrow>
                   <Button color='inherit' className={classes.delicon}>
                     <DeleteForeverOutlinedIcon  color='secondary'
                     onClick={()=> {ForRemovePost(router.query)}}

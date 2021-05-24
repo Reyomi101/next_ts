@@ -1,3 +1,4 @@
+import { type } from "node:os";
 import { Dispatch } from "redux";
 import { dispatch } from 'rxjs/internal/observable/pairs'
 import { WebClient } from "../../api/webclient";
@@ -48,3 +49,21 @@ store.dispatch({
   payload: params,
 });
 };
+
+
+export const Get_Comment_ID = (params) => {
+  // alert(JSON.stringify(params));
+  console.log('here at action ',params);
+store.dispatch({
+  type: types.GET_COMMENT_ID,
+  payload: params,
+});
+};
+
+export const Update_Comment = (params) => {
+  // console.log('update comment data',params);
+  store.dispatch({
+    type: types.UPDATE_COMMENT,
+    payload: params,
+  })
+}

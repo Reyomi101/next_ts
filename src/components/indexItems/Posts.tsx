@@ -10,7 +10,11 @@ import {
   Button,
   Grid,
   Toolbar,
+  IconButton,
+  Tooltip,
 } from '@material-ui/core';
+import CancelIcon from '@material-ui/icons/Cancel';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { createSelector } from 'reselect';
@@ -18,6 +22,8 @@ import { useRouter } from 'next/router';
 import { getPosts } from '../../redux/actions/mainAction';
 import  {addPosts}  from '../../redux/actions/mainAction';
 import  {AddComment}  from '../../redux/actions/mainAction';
+import { Remove_Post,Remove_New_Post } from "../../redux/actions/mainAction";
+
 // import ImageGrid from '../skeleton'
 import ContentLoader from 'react-content-loader'
 
@@ -62,6 +68,15 @@ export default function MainPosts(props) {
   // const newListPost = newPostList.current; 
 
   // console.log(getPostItems);
+
+  // remove post
+  const ForRemovePost = (props) => {
+    Remove_Post(props);
+  }
+
+  const RemoveNewPost = (props) => {
+    Remove_New_Post(props);
+  }
 
   //post to dispatch & routes
   const router = useRouter();
@@ -108,14 +123,28 @@ export default function MainPosts(props) {
   // const allPost = {getNewItems === true ? listPosts : newListPost };
 
   //data from API to state
-
   const StatePostItems = listPosts
     .slice((page - 1) * limit, page * limit)
     .map((itemList, idx) => (
       <Grid item lg={4} md={6} xs={12}>
         <Paper className={classes.paper}>
           <Card>
-            <CardContent>
+            <CardContent >
+            <div className={classes.delButton3} 
+            style={{ margin: "-10px -10px 0 0" }}>
+               <Tooltip title="REMOVE POST" placement="right" arrow>
+              <IconButton  aria-label="delete"
+                    size="small"
+                    className={classes.delicon2}
+                    color="secondary"
+                    onClick={() => {
+                      ForRemovePost(itemList);
+                    }}>
+              <HighlightOffIcon  fontSize="small"/>
+              </IconButton>
+              </Tooltip>
+            </div>
+            
               <Typography variant='h5'>
                 {/* {itemList.title} */}
                 {itemList.title === undefined ? forUpdatePost.editPost.title : itemList.title}
@@ -157,8 +186,8 @@ export default function MainPosts(props) {
       </Grid>
     ));
 
-    //New POST items
 
+    //New POST items
     const NewListItems = getNewItems.newPosts
     .slice((page - 1) * limit, page * limit)
     .map((newItem, idx) => (
@@ -166,6 +195,20 @@ export default function MainPosts(props) {
         <Paper className={classes.paper}>
           <Card>
             <CardContent>
+            <div className={classes.delButton3} 
+            style={{ margin: "-10px -10px 0 0" }}>
+               <Tooltip title="REMOVE POST" placement="right" arrow>
+              <IconButton  aria-label="delete"
+                    size="small"
+                    className={classes.delicon2}
+                    color="secondary"
+                    onClick={() => {
+                      Remove_New_Post(newItem);
+                    }}>
+              <HighlightOffIcon  fontSize="small"/>
+              </IconButton>
+              </Tooltip>
+            </div>
               <Typography variant='h5'>
                 {/* {newItem.title} */}
                 {newItem.title === undefined ? forUpdatePost.editPost.title : newItem.title}

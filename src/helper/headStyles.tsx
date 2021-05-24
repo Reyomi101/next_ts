@@ -138,6 +138,12 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "5px",
     color: "rgba(225,200,200, 0.3)",
   },
+  delButton3: {
+    display: "flex",
+    justifyContent: "flex-end",
+    color: "rgba(225,200,200, 1)",
+    
+  },
   pageno: {
     display: "flex",
     justifyContent: "flex-start",
@@ -154,9 +160,9 @@ const useStyles = makeStyles((theme) => ({
     "& :active": { color: "red" },
   },
   delicon2: {
-    "& :visited": { color: "red" },
-    "& :hover": { color: "red" },
-    "& :active": { color: "red" },
+    "& :visited": { color: "green" },
+    "& :hover": { color: "green" },
+    "& :active": { color: "green" },
   },
   divider: {
     height: 28,
@@ -191,6 +197,18 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0, 1),
     ...theme.mixins.toolbar,
     justifyContent: "flex-start",
+  },
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  modalPaper: {
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(5, 6, 5),
+    borderRadius: '5px',
   },
 }));
 

@@ -36,16 +36,26 @@ export const PostReducer = (state = initialProps, action) => {
 			copyState.editPost = action.payload;
 			return copyState;
 
-    case types.REMOVE_POSTS:
+    case types.REMOVE_NEW_POSTS:
 			let tempData = copyState.newPosts;
-			var index = tempData.indexOf[action.payload];
+			var index = tempData.indexOf(action.payload);
 			delete tempData[index];
 			copyState.newPosts = tempData;
 			// alert(JSON.stringify(copyState.posts));
-      console.log(action.payload);
-      console.log(index);
-      console.log(copyState.newPosts);
+      // console.log(action.payload);
+      // console.log(index);
+      // console.log(copyState.newPosts);
 			return copyState;
+
+
+    		case types.REMOVE_POSTS:
+			let tempData1 = copyState.posts;
+			var index1 = tempData1.indexOf(action.payload);
+			delete tempData1[index1];
+
+			copyState.posts = tempData1;
+			// alert(JSON.stringify(copyState.comments));
+			return copyState;  
 
     default:
       return state;

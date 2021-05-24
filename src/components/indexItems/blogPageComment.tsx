@@ -10,6 +10,9 @@ import {
   ListSubheader,
   Paper,
   Tooltip,
+  Modal,
+  Fade,
+  Backdrop,
 } from "@material-ui/core";
 import SendIcon from "@material-ui/icons/Send";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
@@ -23,8 +26,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { createSelector } from "reselect";
 import { addComments } from "../../redux/actions/commAction";
 // import { getComments } from "../../redux/actions/mainAction";
-
-import { getComment } from "../../redux/actions/commAction";
+import EditIcon from '@material-ui/icons/Edit';
+import { getComment, Get_Comment_ID, Update_Comment } from "../../redux/actions/commAction";
 // import { Comments } from '../../redux/interFaces/interface';
 // import { AppState } from '../../redux/store';
 
@@ -60,9 +63,9 @@ const GetUserID = createSelector(
   (userId) => userId
 );
 
-const GetDefUser = createSelector(
-  (state: any) => state.users,
-  (defaultUser) => defaultUser
+const GetCommentID = createSelector(
+  (state: any) => state.comments,
+  (editComment) => editComment
 )
 
 
@@ -87,12 +90,32 @@ export default function BlogComment(props) {
   //for select user
   const ToGetUsers = useSelector(userState);
   const ToGetUsersId = useSelector(GetUserID);
-  const ToGetDefUser = useSelector(GetDefUser);
+  // const ToGetDefUser = useSelector(GetDefUser);
   
   const UserID = ToGetUsersId.userId;
 
+  // for modal
+  const [open, setOpen] = useState(false);
 
-  // const trying = thisId.length == 0;
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  
+
+
+  // to get CommentID
+  const ToGetCommentID = useSelector(GetCommentID);
+
+  const CommID = ToGetCommentID.editComment;
+
+
+  const toGeCommentID = (props) => {
+    Get_Comment_ID(props)
+}
 
   //State
   const [comms, setComs] = useState([]);
@@ -168,9 +191,15 @@ export default function BlogComment(props) {
                 </Tooltip>
               </ListItemIcon>
             </div>
-            <Typography variant="caption" className={classes.delButton2}>
+            <Tooltip title="EDIT COMMENT" placement="right" arrow>
+              <IconButton  size="small" onClick={handleOpen}
+                    className={classes.delicon2}  color="secondary">
+              <EditIcon fontSize="small" onClick={()=>{toGeCommentID(tryThis.id)}}/>
+              </IconButton>
+            </Tooltip>
+            {/* <Typography variant="caption" className={classes.delButton2}>
               {tryThis.id}
-            </Typography>
+            </Typography> */}
           </Grid>
         </Grid>
         <Divider style={{ marginTop: "1em" }} />
@@ -236,9 +265,11 @@ export default function BlogComment(props) {
                       </Tooltip>
                     </ListItemIcon>
                   </div>
-                  <Typography variant="caption" className={classes.delButton2}>
-                    {comments.commentId}
-                  </Typography>
+                  <IconButton  size="small" onClick={handleOpen}
+                        className={classes.delicon2}>
+                  <EditIcon fontSize="small"/>
+                  </IconButton>
+           
                 </Grid>
               </Grid>
               <Divider style={{ marginTop: "1em" }} />
@@ -253,8 +284,12 @@ export default function BlogComment(props) {
   const commID = Math.round(commId);
 
 
-  const thistUser = ToGetUsers.users.find((Uname) => Uname.id === UserID); //to get user info
+  const thisUser = ToGetUsers.users.find((Uname) => Uname.id === UserID); //to get user info
 
+
+  const thisComment = ToGetCommentID.comments.find((me)=> me.id === CommID ) // to get comment info
+
+  // console.log(thisComment[0]);
 
   return (
     <>
@@ -267,9 +302,9 @@ export default function BlogComment(props) {
             addComments({
               postId: id,
               commentId: commID,
-              userName: UserID === thistUser.id ?  thistUser.name  : 'reyomi'  ,
+              userName: UserID === thisUser.id ?  thisUser.name  : 'reyomi'  ,
               // userName: "Reyomi",
-              userEmail: thistUser.email,
+              userEmail: thisUser.email,
               commentBody: values.commentBody,
             });
             // addComments(values);
@@ -354,6 +389,105 @@ export default function BlogComment(props) {
           {[CommentItems, APIComments]}
         </List>
       </Paper>
+      
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        className={classes.modal}
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+      
+        <Fade in={open}>
+          <div className={classes.modalPaper}>
+            <Typography variant='h4' id="transition-modal-title">Edit Comment</Typography>
+
+            <Formik
+              initialValues={{ commentBody: ([`${thisComment}`])}}
+              validationSchema={ForBlogComments}
+              onSubmit={(values, { setSubmitting, resetForm }) => {
+                // alert(JSON.stringify(values));
+                setTimeout(() => {
+                  Update_Comment({
+                    postId: thisComment.postId,
+                    commentId: thisComment.id,
+                    userName: thisComment.name,
+                    userEmail: thisComment.email,
+                    commentBody: values.commentBody,
+                  });
+                  // Update_Comment(values);
+                  setComs(
+                    ThisComments.comment.filter((comments) => comments.id === id)
+                  );
+
+                  setSubmitting(false);
+                  resetForm();
+                }, 1000);
+              }}
+            >
+        {({
+          values,
+          errors,
+          touched,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          isSubmitting,
+        }) => (
+          <form onSubmit={handleSubmit}>
+            {/* {UserID == 0 ?  
+            <TextField disabled id="standard-disabled" 
+            label="Disabled" 
+            variant="outlined"
+            fullWidth
+            multiline
+            defaultValue="To post Comment, Please select user first!" /> 
+            : */}
+            <TextField
+            id="commentBody"
+            name="commentBody"
+            label="Comment:"
+            variant="outlined"
+            fullWidth
+            multiline
+            InputProps={{
+              endAdornment: (
+                <IconButton type="submit" color="primary">
+                  <Tooltip title="Tab + Enter" placement="right" arrow>
+                    {isSubmitting ? (
+                      <CircularProgress disableShrink color="secondary" />
+                    ) : (
+                      <SendIcon fontSize="large" color="secondary" />
+                    )}
+                  </Tooltip>
+                </IconButton>
+              ),
+            }}
+            value={values.commentBody}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.commentBody && Boolean(errors.commentBody)}
+            helperText={Boolean(errors.commentBody) && touched.commentBody}
+          />
+            {/* } */}
+
+           
+            <Typography color="error">
+              {errors.commentBody && touched.commentBody && errors.commentBody}
+            </Typography>
+          </form>
+        )}
+      </Formik>
+            <Typography variant="body1" id="transition-modal-description">
+              _____________________________________________________________________________ </Typography>  
+          </div>
+        </Fade>
+      </Modal>
     </>
   );
 }

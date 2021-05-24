@@ -189,9 +189,9 @@ export default function Add() {
         }
         </div>
         
-        <Typography>for testing area =
+        {/* <Typography>for testing area =
          {  JSON.stringify(getNewPostList.newPosts)}
-        </Typography> 
+        </Typography>  */}
       
       </Layout>
     </div>

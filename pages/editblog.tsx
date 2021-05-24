@@ -167,9 +167,9 @@ export default function EditBlog(props) {
 						)}
 					</Formik>
 				</div>
-				<Typography>
+				{/* <Typography>
 					 for testing area = {JSON.stringify(forUpdatePost.editPost)}
-				</Typography>
+				</Typography> */}
 
 				
 			</Layout>

@@ -2,9 +2,9 @@ import { type } from "node:os";
 import * as types from "../interFaces/types";
 
 const initialState = {
-  comments: [],
-  comment: [],
-  editComment: []
+  comments: [],// from api
+  comment: [],// new comment
+  editComment: [],
 };
 
 const CommReducer = (state = initialState, action) => {
@@ -55,13 +55,13 @@ const CommReducer = (state = initialState, action) => {
       return copyState;
 
 
-      case types.GET_COMMENT_ID:
-          alert(JSON.stringify(action.payload));
-          console.log(copyState);
-          return {
-            ...state,
-            editComment: action.payload,
-          };
+    case types.GET_COMMENT_ID:
+        return {
+          ...state,
+          editComment: action.payload,
+        };
+
+      
 
     case types.UPDATE_COMMENT:
         copyState.editComment = action.payload;

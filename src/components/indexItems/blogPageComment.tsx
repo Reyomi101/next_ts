@@ -13,6 +13,7 @@ import {
   Modal,
   Fade,
   Backdrop,
+  Toolbar,
 } from "@material-ui/core";
 import SendIcon from "@material-ui/icons/Send";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
@@ -27,7 +28,7 @@ import { createSelector } from "reselect";
 import { addComments } from "../../redux/actions/commAction";
 // import { getComments } from "../../redux/actions/mainAction";
 import EditIcon from '@material-ui/icons/Edit';
-import { getComment, Get_Comment_ID, Update_Comment } from "../../redux/actions/commAction";
+import { getComment, Get_Comment_info, Update_Comment } from "../../redux/actions/commAction";
 // import { Comments } from '../../redux/interFaces/interface';
 // import { AppState } from '../../redux/store';
 
@@ -85,6 +86,9 @@ export default function BlogComment(props) {
 
   //for selectors
   const ThisComments = useSelector(ForComment);
+
+  console.log(ThisComments.editComment);
+
   const PostComments = useSelector(GetComments);
   
   //for select user
@@ -109,13 +113,15 @@ export default function BlogComment(props) {
 
   // to get CommentID
   const ToGetCommentID = useSelector(GetCommentID);
-
+  
   const CommID = ToGetCommentID.editComment;
 
 
   const toGeCommentID = (props) => {
-    Get_Comment_ID(props)
+    Get_Comment_info(props)
+    
 }
+
 
   //State
   const [comms, setComs] = useState([]);
@@ -131,13 +137,13 @@ export default function BlogComment(props) {
 
 
     const ForRemove = (props) => {
-    	Remove_Comment(props);
+    	Remove_Comment(props); // remove comment for API
     	// setComlist(removeThis.comments.filter((comment) => comment.id === id));
     };
 
     const ComsRemove = (props) => {
       console.log('onPage',props);
-    	Remove_Comment_s(props);
+    	Remove_Comment_s(props);// remove new comment
     	// setComlist(removeThis.comments.filter((comment) => comment.id === id));
     };
 
@@ -194,7 +200,7 @@ export default function BlogComment(props) {
             <Tooltip title="EDIT COMMENT" placement="right" arrow>
               <IconButton  size="small" onClick={handleOpen}
                     className={classes.delicon2}  color="secondary">
-              <EditIcon fontSize="small" onClick={()=>{toGeCommentID(tryThis.id)}}/>
+              <EditIcon fontSize="small" onClick={()=>{toGeCommentID(tryThis)}}/>
               </IconButton>
             </Tooltip>
             {/* <Typography variant="caption" className={classes.delButton2}>
@@ -209,11 +215,31 @@ export default function BlogComment(props) {
 
   // console.log(APIComments);
 
+  const ECBody = ToGetCommentID.editComment.body;
+  const ECPostId = ToGetCommentID.editComment.postId;
+  const ECId = ToGetCommentID.editComment.id;
+  const ECName = ToGetCommentID.editComment.name;
+  const ECEmail = ToGetCommentID.editComment.email;
+
+
+
+
   //add Comments
   const CommentItems = ThisComments.comment
     .map((comments, idx) => {
-      let str = comments.userName;
+      let str = comments.name;
       let firstChar = str.charAt(0).toUpperCase();
+
+      // function getInfo() {
+      //   if( ECBody != 0){
+      //       return ECBody
+      //   }
+
+      //   else {
+      //     return comments.body
+      //   }
+
+      // }
 
       return (
         <>
@@ -222,7 +248,7 @@ export default function BlogComment(props) {
               <Grid container wrap="nowrap" spacing={2}>
                 <Grid item>
                   <Tooltip
-                    title={<h3>{comments.userName}</h3>}
+                    title={<h3>{comments.name}</h3>}
                     placement="left"
                     arrow
                   >
@@ -235,13 +261,14 @@ export default function BlogComment(props) {
                 </Grid>
                 <Grid item xs zeroMinWidth>
                   <Typography variant="subtitle2">
-                    {comments.userName}
+                    {comments.name}
                   </Typography>
                   <Typography variant="body1">
-                    {comments.commentBody}
+                    {/* {getInfo()}  */}
+                    {comments.body === undefined ? ECBody : comments.body }
                   </Typography>
                   <Typography variant="caption" className={classes.comBodybg}>
-                    {comments.userEmail}
+                    {comments.email}
                   </Typography>
                 </Grid>
                 <Grid>
@@ -265,10 +292,12 @@ export default function BlogComment(props) {
                       </Tooltip>
                     </ListItemIcon>
                   </div>
-                  <IconButton  size="small" onClick={handleOpen}
-                        className={classes.delicon2}>
-                  <EditIcon fontSize="small"/>
-                  </IconButton>
+                  <Tooltip title="EDIT COMMENT" placement="right" arrow>
+                    <IconButton  size="small" onClick={handleOpen}
+                          className={classes.delicon2}  color="secondary">
+                    <EditIcon fontSize="small" onClick={()=>{toGeCommentID(comments)}}/>
+                    </IconButton>
+                  </Tooltip>
            
                 </Grid>
               </Grid>
@@ -280,38 +309,40 @@ export default function BlogComment(props) {
     })
     .reverse();
 
-  const commId = Math.random() * 10 + 1;
+    
+
+  const commId = Math.random() * 100 + 1;
   const commID = Math.round(commId);
 
 
   const thisUser = ToGetUsers.users.find((Uname) => Uname.id === UserID); //to get user info
 
-
-  const thisComment = ToGetCommentID.comments.find((me)=> me.id === CommID ) // to get comment info
+  // const thisComment = ToGetCommentID.comments.find((me)=> me.id === CommID.id ) // to get comment info
 
   // console.log(thisComment[0]);
+
 
   return (
     <>
       <Formik
-        initialValues={{ commentBody: "" }}
+        initialValues={{ body: "" }}
         validationSchema={ForBlogComments}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           // alert(JSON.stringify(values));
           setTimeout(() => {
             addComments({
               postId: id,
-              commentId: commID,
-              userName: UserID === thisUser.id ?  thisUser.name  : 'reyomi'  ,
+              id: commID,
+              name: UserID === thisUser.id ?  thisUser.name  : 'reyomi'  ,
               // userName: "Reyomi",
-              userEmail: thisUser.email,
-              commentBody: values.commentBody,
+              email: thisUser.email,
+              body: values.body,
             });
             // addComments(values);
             setComs(
               ThisComments.comment.filter((comments) => comments.id === id)
             );
-
+           
             setSubmitting(false);
             resetForm();
           }, 1000);
@@ -336,8 +367,8 @@ export default function BlogComment(props) {
             defaultValue="To post Comment, Please select user first!" /> 
             :
             <TextField
-            id="commentBody"
-            name="commentBody"
+            id="body"
+            name="body"
             label="Comment:"
             variant="outlined"
             fullWidth
@@ -355,17 +386,17 @@ export default function BlogComment(props) {
                 </IconButton>
               ),
             }}
-            value={values.commentBody}
+            value={values.body}
             onChange={handleChange}
             onBlur={handleBlur}
-            error={touched.commentBody && Boolean(errors.commentBody)}
-            helperText={Boolean(errors.commentBody) && touched.commentBody}
+            error={touched.body && Boolean(errors.body)}
+            helperText={Boolean(errors.body) && touched.body}
           />
             }
 
            
             <Typography color="error">
-              {errors.commentBody && touched.commentBody && errors.commentBody}
+              {errors.body && touched.body && errors.body}
             </Typography>
           </form>
         )}
@@ -406,27 +437,28 @@ export default function BlogComment(props) {
         <Fade in={open}>
           <div className={classes.modalPaper}>
             <Typography variant='h4' id="transition-modal-title">Edit Comment</Typography>
-
+            <Toolbar />
             <Formik
-              initialValues={{ commentBody: ([`${thisComment}`])}}
+              initialValues={{ body: CommID.body }} 
               validationSchema={ForBlogComments}
               onSubmit={(values, { setSubmitting, resetForm }) => {
                 // alert(JSON.stringify(values));
                 setTimeout(() => {
                   Update_Comment({
-                    postId: thisComment.postId,
-                    commentId: thisComment.id,
-                    userName: thisComment.name,
-                    userEmail: thisComment.email,
-                    commentBody: values.commentBody,
+                    postId: id,
+                    id:  CommID.id,
+                    name: CommID.name,
+                    email: CommID.email,
+                    body: values.body,
                   });
                   // Update_Comment(values);
                   setComs(
-                    ThisComments.comment.filter((comments) => comments.id === id)
+                    ToGetCommentID.comment.filter((comms) => comms.postId === id)
                   );
 
                   setSubmitting(false);
                   resetForm();
+                  handleClose();
                 }, 1000);
               }}
             >
@@ -449,8 +481,8 @@ export default function BlogComment(props) {
             defaultValue="To post Comment, Please select user first!" /> 
             : */}
             <TextField
-            id="commentBody"
-            name="commentBody"
+            id="body"
+            name="body"
             label="Comment:"
             variant="outlined"
             fullWidth
@@ -468,23 +500,23 @@ export default function BlogComment(props) {
                 </IconButton>
               ),
             }}
-            value={values.commentBody}
+            value={values.body}
             onChange={handleChange}
             onBlur={handleBlur}
-            error={touched.commentBody && Boolean(errors.commentBody)}
-            helperText={Boolean(errors.commentBody) && touched.commentBody}
+            error={touched.body && Boolean(errors.body)}
+            helperText={Boolean(errors.body) && touched.body}
           />
             {/* } */}
 
            
             <Typography color="error">
-              {errors.commentBody && touched.commentBody && errors.commentBody}
+              {errors.body && touched.body && errors.body}
             </Typography>
           </form>
         )}
       </Formik>
             <Typography variant="body1" id="transition-modal-description">
-              _____________________________________________________________________________ </Typography>  
+              _______________________________________________________________________________________________ </Typography>  
           </div>
         </Fade>
       </Modal>

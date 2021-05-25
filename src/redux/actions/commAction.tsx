@@ -51,14 +51,17 @@ store.dispatch({
 };
 
 
-export const Get_Comment_ID = (params) => {
+export const Get_Comment_info = (params) => {
   // alert(JSON.stringify(params));
-  console.log('here at action ',params);
+  console.log('here at action geting info ',params);
 store.dispatch({
   type: types.GET_COMMENT_ID,
   payload: params,
 });
 };
+
+
+
 
 export const Update_Comment = (params) => {
   // console.log('update comment data',params);
